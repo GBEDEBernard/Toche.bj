@@ -1,9 +1,19 @@
-@extends('bloglayout')
-
-@section('contenu')
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Se connecter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
 <div class="flex min-h-screen items-center justify-center bg-gray-100">
     <div class="w-full max-w-md bg-white shadow-md rounded-lg p-6">
-        <h2 class="text-center text-2xl font-bold text-gray-700 mb-6">Login</h2>
+       
+        <h2 class="text-center text-2xl font-bold text-gray-700 mb-6"> 
+            <img src="/image/logo3.jpg" alt="AdminLTE Logo" class="rounded-full w-16 ml-40" />
+            Login
+        </h2>
 
         <form method="POST" action="{{ route('login') }}">
             @csrf
@@ -43,4 +53,6 @@
         </form>
     </div>
 </div>
-@endsection
+</body>
+</html>
+

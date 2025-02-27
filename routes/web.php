@@ -47,9 +47,9 @@ Auth::routes();
 Route::middleware(['auth'])->group(function () {
     
     // 🔹 Dashboard après connexion
-    Route::get('/dashboard', function () {
+    Route::get('/welcome', function () {
         return view('welcome');
-    })->name('dashboard');
+    })->name('welcome');
 
     // 🔹 Profil utilisateur
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');

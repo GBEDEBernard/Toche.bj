@@ -1,9 +1,19 @@
-@extends('bloglayout')
-
-@section('contenu')
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S'inscrire</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
 <div class="flex min-h-screen items-center justify-center bg-gray-100 dark:bg-gray-900">
     <div class="w-full max-w-md bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
-        <h2 class="text-center text-2xl font-bold text-gray-700 dark:text-gray-200 mb-6">Register</h2>
+        <h2 class="text-center text-2xl font-bold text-gray-700 dark:text-gray-200 mb-6">
+
+            <img src="/image/logo3.jpg" alt="AdminLTE Logo" class="rounded-full w-16 ml-40" />
+            Register
+      </h2>
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
@@ -71,4 +81,6 @@
         }
     });
 </script>
-@endsection
+</body>
+</html>
+

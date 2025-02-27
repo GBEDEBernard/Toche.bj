@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -28,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/login';
+    protected $redirectTo = '/login'; // Page où l'utilisateur est redirigé après l'enregistrement.
 
     /**
      * Create a new controller instance.
@@ -37,7 +38,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('guest'); // Assurer que seul un invité peut accéder à la page d'enregistrement.
     }
 
     /**
@@ -48,10 +49,11 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        // Validation des données du formulaire d'inscription.
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'], // Vérifie la confirmation du mot de passe.
         ]);
     }
 
@@ -63,10 +65,24 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        // Création d'un nouvel utilisateur dans la base de données.
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password' => Hash::make($data['password']), // Hachage du mot de passe.
         ]);
+    }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function registered(Request $request, $user)
+    {
+        // Redirige explicitement l'utilisateur vers la page de login après l'enregistrement.
+        return redirect()->route('login');
     }
 }
