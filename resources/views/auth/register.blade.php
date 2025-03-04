@@ -1,9 +1,19 @@
-@extends('bloglayout')
-
-@section('contenu')
-<div class="flex min-h-screen items-center justify-center bg-gray-100 dark:bg-gray-900">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-600">
+<div class="flex min-h-screen items-center justify-center bg-indigo-900 dark:bg-gray-900">
     <div class="w-full max-w-md bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
-        <h2 class="text-center text-2xl font-bold text-gray-700 dark:text-gray-200 mb-6">Register</h2>
+        <h2 class="text-center text-2xl font-bold text-gray-700 dark:text-gray-200 mb-6">
+        <img class="w-24 h-24 p-2 ml-[150px] rounded-full" src="{{ asset('image/logo3.jpg')}}" alt="Toché">
+          Register
+    
+         </h2>
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
@@ -71,4 +81,4 @@
         }
     });
 </script>
-@endsection
+</body>

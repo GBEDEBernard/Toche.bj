@@ -46,7 +46,7 @@ class VisitesController extends Controller
  public function modifiervisite($id){
     $data= Visite::findOrFail($id);
     
-    return view('Admin/Visites/update',compact('data'));
+    return view('Admin/modification/editvisite',compact('data'));
  }
  //la fonction de traitement de la page modification 
  public function modificationvisite(Request $request ,$id ){

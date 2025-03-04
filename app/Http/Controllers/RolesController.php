@@ -38,7 +38,7 @@ class RolesController extends Controller
  public function modifierroles($id){
   
     $data= Role::findOrFail($id);
-    return view('Admin/Roles/update',compact('data'));
+    return view('Role/editRoles',compact('data'));
  }
  //la fonction de traitement de la page modification  roles
  public function modificationroles(Request $request ,$id ){

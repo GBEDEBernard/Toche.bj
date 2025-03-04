@@ -6,11 +6,9 @@ use Illuminate\Http\Request;
 
 class FormulaireController extends Controller
 {
-    public function submit(Request $request)
+    public function show()
     {
-        // Logique de traitement des données du formulaire
-        // Par exemple, valider et enregistrer les données
-
-        return redirect()->route('formulaire')->with('success', 'Formulaire soumis avec succès!');
+        return view('formulaire'); // Assure-toi que la vue existe dans resources/views/formulaire.blade.php
     }
 }
+

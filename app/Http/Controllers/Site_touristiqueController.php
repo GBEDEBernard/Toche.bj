@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Categorie;
 use App\Models\Site_touristique;
+use Illuminate\Support\Facades\Storage;
+
 
 class Site_touristiqueController extends Controller
 {
@@ -23,47 +25,9 @@ class Site_touristiqueController extends Controller
         return view('Admin/Site_touristique/create', compact('categories'));
     }
 
-    // Fonction de traitement de la création d'un site touristique
     public function traitement_create_sites(Request $request)
     {
         // Validation des données
-        $request->validate([
-            'categorie_id' => 'required|exists:categories,id', // Validation de l'existence de la catégorie
-            'nom' => 'required|string|max:255',
-            'pays' => 'required|string|max:255',
-            'departement' => 'required|string|max:255',
-            'commune' => 'required|string|max:255',
-            'email' => 'required|email',
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validation de l'image
-            'contact' => 'required|numeric',
-            'description' => 'required|string',
-        ]);
-
-        // Créer un nouveau site touristique avec les données validées
-        Site_touristique::create($request->all());
-
-        // Redirection vers la liste des sites touristiques avec un message de succès
-        return redirect()->route('index')->with('success', 'Site touristique créé avec succès.');
-    }
-
-    // Afficher la liste des sites touristiques
-    public function site_touristiques()
-    {
-        $datas = Site_touristique::all();
-        return view('Admin/Site_touristique/index', compact('datas'));
-    }
-
-    // Controller pour modifier un site touristique
-    public function modifiersites($id)
-    {
-        $data = Site_touristique::findOrFail($id);
-        return view('Admin/Site_touristique/update', compact('data'));
-    }
-
-    // Fonction de traitement de la page de modification d'un site touristique
-    public function modificationsites(Request $request, $id)
-    {
-        // Validation des données pour la modification
         $request->validate([
             'categorie_id' => 'required|exists:categories,id',
             'nom' => 'required|string|max:255',
@@ -71,19 +35,93 @@ class Site_touristiqueController extends Controller
             'departement' => 'required|string|max:255',
             'commune' => 'required|string|max:255',
             'email' => 'required|email',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Photo peut être vide
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2200', // Validation de l'image
             'contact' => 'required|numeric',
             'description' => 'required|string',
         ]);
+    
+        // Récupérer le fichier photo
+        if ($request->hasFile('photo')) {
+            $photoPath = $request->file('photo')->storeAs(
+                'photos', // Dossier dans storage/app/public/photos/
+                time() . '_' . $request->file('photo')->getClientOriginalName(), // Nom unique avec timestamp
+                'public' // Sauvegarde dans storage/app/public
+            );
 
-        // Récupérer le site touristique et le mettre à jour
-        $data = Site_touristique::findOrFail($id);
-        $data->update($request->all());
+            
+        }
+    
+        // Créer un nouveau site touristique avec les données validées
+        $siteTouristique = Site_touristique::create([
+            'categorie_id' => $request->categorie_id,
+            'nom' => $request->nom,
+            'pays' => $request->pays,
+            'departement' => $request->departement,
+            'commune' => $request->commune,
+            'email' => $request->email,
+            'photo' => 'storage/' . $photoPath, // Stocker le chemin de la photo
+            'contact' => $request->contact,
+            'description' => $request->description,
+        ]);
+    
+        // Redirection avec message de succès
+        return redirect()->route('welcome')->with('success', 'Site touristique créé avec succès.');
+    }
+    
+    // Afficher la liste des sites touristiques
+  
 
-        // Redirection vers la liste des sites avec un message de succès
-        return redirect()->route('index')->with('success', 'Site touristique mis à jour avec succès.');
+    public function Site_touristiques()
+    {
+        $datas = Site_touristique::all();
+
+        return view('Admin/Site_touristique/index', compact('datas'));
     }
 
+     // Afficher la page de modification
+     public function modifiersites($id)
+     {
+         $data = Site_touristique::findOrFail($id);
+         $categories = Categorie::all(); // Récupère toutes les catégories
+     
+         return view('Admin.modification.editSite', compact('data', 'categories'));
+     }
+     
+     // Traitement de la modification
+     public function modificationsites(Request $request, $id)
+     {
+         // Trouver le site à modifier
+         $data = Site_touristique::findOrFail($id);
+ 
+         // Validation des données
+         $request->validate([
+             'categorie_id' => 'required|exists:categories,id',
+             'nom' => 'required|string|max:255',
+             'pays' => 'required|string|max:255',
+             'departement' => 'required|string|max:255',
+             'commune' => 'required|string|max:255',
+             'email' => 'required|email',
+             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048', // Facultatif
+             'contact' => 'required|numeric',
+             'description' => 'required|string',
+         ]);
+ 
+         // Gestion de l'image si une nouvelle est envoyée
+         if ($request->hasFile('photo')) {
+             // Suppression de l'ancienne image si elle existe
+             if ($data->photo) {
+                Storage::disk('public')->delete(str_replace('storage/', '', $data->photo));
+            }
+
+            $photoPath = $request->file('photo')->store('photos', 'public');
+            $data->photo = 'storage/' . $photoPath;
+         }
+ 
+         // Mise à jour des autres champs
+         $data->update($request->except('photo'));
+         return redirect()->route('index')->with('success', 'Site touristique modifié avec succès.');
+     }
+ 
     // Fonction pour supprimer un site touristique
     public function Suprimer($id)
     {

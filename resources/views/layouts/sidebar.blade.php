@@ -28,181 +28,354 @@
               role="menu"
               data-accordion="false"
             >
-              <li class="nav-item menu-open">
-                <a href="#" class="nav-link active">
-                  <i class="nav-icon bi bi-speedometer"></i>
+             <!-- début des tableaux -->
+             
+
+             <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon bi bi-table text-primary : Bleu"></i>
                   <p>
-                    Dashboard
+                    Les tableaux
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ route('contact.liste') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-warning"></i>
+                      <p>Tableau des Contacts</p>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ route('indexcategorie') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-warning"></i>
+                      <p>Tableaux des Catégoies</p>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ route('indexreservations') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-warning"></i>
+                      <p>Tableau Reservations</p>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ route('indexvisites') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-warning"></i>
+                      <p>Tableau des Visites</p>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ route('indexevenements') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-warning"></i>
+                      <p>Tableaux des Evenements</p>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ route('stores') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-warning"></i>
+                      <p>Tableau des Galeries</p>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ route('indexroles') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-warning"></i>
+                      <p>Tableau des Roles</p>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ route('indextickets') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-warning"></i>
+                      <p>Tableau des Tickets</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+                        <!-- Début des formulaire -->
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon bi bi-pencil-square text-success"></i>
+                  <p>
+                    Les Formulaires
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="./index.html" class="nav-link active">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Dashboard 1</p>
+                    <a  href="{{ route('formulaire') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-warning"></i>
+                      <p>formulaire</p>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a  href="{{ route('createcategorie') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-warning"></i>
+                      <p>Ajouter une Carégorie</p>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a  href="{{ route('create') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-warning"></i>
+                      <p>Ajouter un Sites</p>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a  href="{{ route('evenement.create') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-warning"></i>
+                      <p>Ajouter une Evenements</p>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a  href="{{ route('reservations') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-warning"></i>
+                      <p>Ajouter une Reservations</p>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a  href="{{ route('visites') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-warning"></i>
+                      <p>Ajouter une Visites</p>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a  href="{{ route('tickets') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-warning"></i>
+                      <p>Ajouter une Tickets</p>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a  href="{{ route('roles') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-warning"></i>
+                      <p>Ajouter une Roles</p>
                     </a>
                   </li>
                 </ul>
               </li>
-              <li class="nav-item">
-                <a href="./generate/theme.html" class="nav-link">
-                  <i class="nav-icon bi bi-palette"></i>
-                  <p>Theme Generate</p>
-                </a>
-              </li>
+              <!-- fin des formulaire -->
+
+             
+            <!-- LES sites touristiques -->
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-box-seam-fill"></i>
+                  <i class="nav-icon bi bi-tree-fill text-danger"></i>
                   <p>
-                    Widgets
+                   Sites touristiques
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="./widgets/small-box.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Small Box</p>
+                    <a href="{{ route('create') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-warning"></i>
+                      <p>Creer un Site</p>
                     </a>
+                  
                   </li>
+                </ul>
+                <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="./widgets/info-box.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>info Box</p>
+                    <a href="{{ route('index') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-success"></i>
+                      <p class="text-indigo-500">Tableaux des sites</p>
                     </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./widgets/cards.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Cards</p>
-                    </a>
+                  
                   </li>
                 </ul>
               </li>
-              <li class="nav-item">
+                <!--  fin des sites touristiques -->
+
+                <!-- Reservation -->
+                <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-clipboard-fill"></i>
+                  <i class="nav-icon bi bi-tree-fill text-danger"></i>
                   <p>
-                    Layout Options
-                    <span class="nav-badge badge text-bg-secondary me-3">6</span>
+                    Reservation
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="./layout/unfixed-sidebar.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Default Sidebar</p>
+                    <a  href="{{ route('reservations') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-warning"></i>
+                      <p>Ajouter une Reservations</p>
                     </a>
                   </li>
+                </ul>
+                <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="./layout/fixed-sidebar.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Fixed Sidebar</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./layout/layout-custom-area.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Layout <small>+ Custom Area </small></p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./layout/sidebar-mini.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Sidebar Mini</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./layout/collapsed-sidebar.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Sidebar Mini <small>+ Collapsed</small></p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./layout/logo-switch.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Sidebar Mini <small>+ Logo Switch</small></p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./layout/layout-rtl.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Layout RTL</p>
+                    <a href="{{ route('indexreservations') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-success"></i>
+                      <p>Tableau Reservations</p>
                     </a>
                   </li>
                 </ul>
               </li>
-              <li class="nav-item">
+              <!-- fin reservation -->
+                <!-- Visites -->
+                <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-tree-fill"></i>
+                  <i class="nav-icon bi bi-tree-fill text-danger"></i>
                   <p>
-                    UI Elements
+                  Visites
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="./UI/general.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>General</p>
+                    <a  href="{{ route('visites') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-warning"></i>
+                      <p>Ajouter une Visites</p>
                     </a>
                   </li>
+                </ul>
+                <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="./UI/icons.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Icons</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./UI/timeline.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Timeline</p>
+                    <a href="{{ route('indexvisites') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-success"></i>
+                      <p>Tableau des Visites</p>
                     </a>
                   </li>
                 </ul>
               </li>
-              <li class="nav-item">
+              <!-- fin Visites -->
+                <!-- Evenements -->
+                <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-pencil-square"></i>
+                  <i class="nav-icon bi bi-tree-fill text-danger"></i>
                   <p>
-                    Forms
+                  Evenements
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="./forms/general.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>General Elements</p>
+                    <a  href="{{ route('evenement.create') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-warning"></i>
+                      <p>Ajouter un Evenements</p>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ route('indexevenements') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-success"></i>
+                      <p>Tableaux des Evenements</p>
                     </a>
                   </li>
                 </ul>
               </li>
-              <li class="nav-item">
+              <!-- fin Evenements -->
+                <!-- Galeries -->
+                <li class="nav-item">
+                <a href="#" class="nav-link"> 
+                  <i class="nav-icon bi bi-tree-fill text-danger"></i>
+                  <p>
+                  Galeries
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ route('stores') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-success"></i>
+                      <p>Tableau des Galeries</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <!-- fin Galeries -->
+                <!-- Roles -->
+                <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-table"></i>
+                  <i class="nav-icon bi bi-tree-fill text-danger"></i>
                   <p>
-                    Tables
+                  Roles
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="./tables/simple.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Simple Tables</p>
+                    <a  href="{{ route('roles') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-warning"></i>
+                      <p>Ajouter une Roles</p>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ route('indexroles') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-success"></i>
+                      <p>Tableau des Roles</p>
                     </a>
                   </li>
                 </ul>
               </li>
-              <li class="nav-header">EXAMPLES</li>
+              <!-- fin Roles -->
+                 <!-- Tickets -->
+                 <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon bi bi-tree-fill text-danger"></i>
+                  <p>
+                      Tickets
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a  href="{{ route('tickets') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-warning"></i>
+                      <p>Ajouter une Tickets</p>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ route('indextickets') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-success"></i>
+                      <p>Tableau des Tickets</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <!-- fin Tickets -->
+                
+              <!-- fin Utilisateurs -->
+
+              <!-- les pages d'authentifications -->
+              <li class="nav-header">les Authentification</li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-box-arrow-in-right"></i>
                   <p>
-                    Auth
+                    Authentification
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
@@ -230,82 +403,17 @@
                       </li>
                     </ul>
                   </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="nav-icon bi bi-box-arrow-in-right"></i>
-                      <p>
-                        Version 2
-                        <i class="nav-arrow bi bi-chevron-right"></i>
-                      </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                      <li class="nav-item">
-                        <a href="./examples/login-v2.html" class="nav-link">
-                          <i class="nav-icon bi bi-circle"></i>
-                          <p>Login</p>
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a href="./examples/register-v2.html" class="nav-link">
-                          <i class="nav-icon bi bi-circle"></i>
-                          <p>Register</p>
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./examples/lockscreen.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Lockscreen</p>
-                    </a>
-                  </li>
                 </ul>
               </li>
-             
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-filetype-js"></i>
-                  <p>
-                    Javascript
-                    <i class="nav-arrow bi bi-chevron-right"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="./docs/javascript/treeview.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Treeview</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a href="./docs/browser-support.html" class="nav-link">
-                  <i class="nav-icon bi bi-browser-edge"></i>
-                  <p>Browser Support</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./docs/how-to-contribute.html" class="nav-link">
-                  <i class="nav-icon bi bi-hand-thumbs-up-fill"></i>
-                  <p>How To Contribute</p>
-                </a>
-              </li>
+           <!-- fin d'authentification -->
+          
               <li class="nav-item">
                 <a href="./docs/faq.html" class="nav-link">
                   <i class="nav-icon bi bi-question-circle-fill"></i>
                   <p>FAQ</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="./docs/license.html" class="nav-link">
-                  <i class="nav-icon bi bi-patch-check-fill"></i>
-                  <p>License</p>
-                </a>
-              </li>
-              <li class="nav-header">MULTI LEVEL EXAMPLE</li>
-             
+              <li class="nav-header">Abonnements à Newsletter</li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-circle-fill"></i>
@@ -314,23 +422,6 @@
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Level 2</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>
-                        Level 2
-                        <i class="nav-arrow bi bi-chevron-right"></i>
-                      </p>
-                    </a>
-                    
-                </ul>
               </li>
               
               <li class="nav-header">LABELS</li>
@@ -340,18 +431,7 @@
                   <p class="text">Important</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-circle text-warning"></i>
-                  <p>Warning</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-circle text-info"></i>
-                  <p>Informational</p>
-                </a>
-              </li>
+            
             </ul>
             <!--end::Sidebar Menu-->
           </nav>

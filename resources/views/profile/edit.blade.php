@@ -4,7 +4,8 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <!-- Ajout de mt-4 pour espacer le formulaire -->
+            <div class="card mt-4"> 
                 <div class="card-header">{{ __('Modifier le Profil') }}</div>
 
                 <div class="card-body">

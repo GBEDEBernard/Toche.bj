@@ -9,7 +9,7 @@
                     <i class="bi bi-list"></i>
                 </a>
             </li>
-            <li class="nav-item d-none d-md-block"><a href="{{route('dashboard')}}" class="nav-link">Home</a></li>
+            <li class="nav-item d-none d-md-block"><a href="{{route('welcome')}}" class="nav-link">Home</a></li>
             <li class="nav-item d-none d-md-block"><a href="{{ route('contact.liste') }}" class="nav-link">Contact</a></li>
         </ul>
         <!--end::Start Navbar Links-->

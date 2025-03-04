@@ -16,7 +16,7 @@ class ReservationsController extends Controller
    
 
     // Affiche le formulaire de création d'une réservation
-    public function createReservation()
+    public function create_reservation()
     {
         // Récupère les événements et utilisateurs pour remplir le formulaire
         $evenements = Evenement::all();
@@ -26,7 +26,7 @@ class ReservationsController extends Controller
     }
 
     // Traite la création de la réservation
-    public function storeReservation(Request $request)
+    public function traitement_create_reservation(Request $request)
     {
         // Validation des données du formulaire
         $request->validate([
@@ -55,17 +55,17 @@ class ReservationsController extends Controller
     }
 
     // Affiche le formulaire de modification d'une réservation
-    public function editReservation($id)
+    public function modifierreservation($id)
     {
         // Récupère la réservation à modifier
         $data = Reservation::findOrFail($id);
 
         // Renvoie la vue avec les données de la réservation
-        return view('Admin/Reservations/update', compact('data'));
+        return view('Admin/modification/editreservation', compact('data'));
     }
 
     // Traite la modification d'une réservation
-    public function updateReservation(Request $request, $id)
+    public function modificationreservation(Request $request, $id)
     {
         // Récupère la réservation existante
         $data = Reservation::findOrFail($id);

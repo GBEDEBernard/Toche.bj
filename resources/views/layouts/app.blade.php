@@ -29,6 +29,8 @@
         @endif
         <!--end::Primary Meta Tags-->
     <!--begin::Fonts-->
+
+    
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
@@ -82,7 +84,7 @@
             @yield('content')  <!-- Contenu principal -->
         </main>
 
-        @include('layouts.footer')  <!-- Pied de page -->
+     
     </div>
   
     <footer class="app-footer">
