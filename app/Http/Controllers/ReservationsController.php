@@ -21,8 +21,7 @@ class ReservationsController extends Controller
         // Récupère les événements et utilisateurs pour remplir le formulaire
         $evenements = Evenement::all();
         $users = User::all();
-        
-        return view('Admin/Reservations/create', compact('evenements', 'users'));
+        return view('Admin.Reservations.create', compact('evenements', 'users'));
     }
 
     // Traite la création de la réservation
@@ -33,7 +32,7 @@ class ReservationsController extends Controller
             'evenement_id' => 'required|exists:evenements,id', // Vérifie que l'événement existe
             'users_id' => 'required|exists:users,id',           // Vérifie que l'utilisateur existe
             'nombre' => 'required|integer|min:1',               // Validation de nombre positif
-            'prix' => 'required|numeric|min:0',                  // Validation du prix
+            'prix' => 'required|numeric|',                  // Validation du prix
             'date' => 'required|date',                           // Validation de la date
         ]);
 
@@ -51,7 +50,7 @@ class ReservationsController extends Controller
         $datas = Reservation::all();
 
         // Renvoie la vue avec les données des réservations
-        return view('Admin/Reservations/index', compact('datas'));
+        return view('Admin.Reservations.index', compact('datas'));
     }
 
     // Affiche le formulaire de modification d'une réservation
@@ -59,10 +58,15 @@ class ReservationsController extends Controller
     {
         // Récupère la réservation à modifier
         $data = Reservation::findOrFail($id);
-
-        // Renvoie la vue avec les données de la réservation
-        return view('Admin/modification/editreservation', compact('data'));
+    
+        // Récupère tous les événements et utilisateurs pour les passer à la vue
+        $evenements = Evenement::all();
+        $users = User::all();
+    
+        // Renvoie la vue avec les données de la réservation, les événements et les utilisateurs
+        return view('editreservation', compact('data', 'evenements', 'users'));
     }
+    
 
     // Traite la modification d'une réservation
     public function modificationreservation(Request $request, $id)
@@ -78,15 +82,16 @@ class ReservationsController extends Controller
     }
 
     // Supprime une réservation
-    public function destroyReservation($id)
+    public function destroy($id)
     {
-        // Recherche la réservation à supprimer
-        $reservation = Reservation::findOrFail($id);
-
-        // Supprime la réservation
+        $reservation = Reservation::find($id);
+        if (!$reservation) {
+            return back()->with('error', 'Réservation introuvable.');
+        }
+    
         $reservation->delete();
-
-        // Redirige vers la liste des réservations avec un message de succès
-        return redirect()->route('indexreservations')->with('success', 'Réservation supprimée avec succès!');
+        return redirect()->route('indexreservations')->with('success', 'Réservation supprimée.');
     }
+    
+    
 }

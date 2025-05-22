@@ -3,7 +3,7 @@
         <!--begin::Sidebar Brand-->
         <div class="sidebar-brand">
           <!--begin::Brand Link-->
-          <a href="welcome" class="brand-link  ">
+          <a href="{{ route('welcome') }}" class="brand-link  ">
             <!--begin::Brand Image-->
             <img
               src="/image/logo3.jpg"
@@ -82,11 +82,13 @@
                 </ul>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="{{ route('stores') }}" class="nav-link">
-                      <i class="nav-icon bi bi-circle text-warning"></i>
-                      <p>Tableau des Galeries</p>
+                    <a href="{{ route('galeries.index') }}" class="nav-link">
+                        <i class="nav-icon bi bi-circle text-warning"></i>
+                        <p>Tableau des Galeries</p>
                     </a>
-                  </li>
+                </li>
+                
+                
                 </ul>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
@@ -146,14 +148,7 @@
                     </a>
                   </li>
                 </ul>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a  href="{{ route('reservations') }}" class="nav-link">
-                      <i class="nav-icon bi bi-circle text-warning"></i>
-                      <p>Ajouter une Reservations</p>
-                    </a>
-                  </li>
-                </ul>
+               
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a  href="{{ route('visites') }}" class="nav-link">
@@ -162,14 +157,7 @@
                     </a>
                   </li>
                 </ul>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a  href="{{ route('tickets') }}" class="nav-link">
-                      <i class="nav-icon bi bi-circle text-warning"></i>
-                      <p>Ajouter une Tickets</p>
-                    </a>
-                  </li>
-                </ul>
+              
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a  href="{{ route('roles') }}" class="nav-link">
@@ -191,15 +179,7 @@
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="{{ route('create') }}" class="nav-link">
-                      <i class="nav-icon bi bi-circle text-warning"></i>
-                      <p>Creer un Site</p>
-                    </a>
-                  
-                  </li>
-                </ul>
+               
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="{{ route('index') }}" class="nav-link">
@@ -221,14 +201,7 @@
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a  href="{{ route('reservations') }}" class="nav-link">
-                      <i class="nav-icon bi bi-circle text-warning"></i>
-                      <p>Ajouter une Reservations</p>
-                    </a>
-                  </li>
-                </ul>
+               
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="{{ route('indexreservations') }}" class="nav-link">
@@ -248,14 +221,7 @@
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a  href="{{ route('visites') }}" class="nav-link">
-                      <i class="nav-icon bi bi-circle text-warning"></i>
-                      <p>Ajouter une Visites</p>
-                    </a>
-                  </li>
-                </ul>
+               
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="{{ route('indexvisites') }}" class="nav-link">
@@ -275,14 +241,7 @@
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a  href="{{ route('evenement.create') }}" class="nav-link">
-                      <i class="nav-icon bi bi-circle text-warning"></i>
-                      <p>Ajouter un Evenements</p>
-                    </a>
-                  </li>
-                </ul>
+               
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="{{ route('indexevenements') }}" class="nav-link">
@@ -304,11 +263,12 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="{{ route('stores') }}" class="nav-link">
-                      <i class="nav-icon bi bi-circle text-success"></i>
-                      <p>Tableau des Galeries</p>
+                    <a href="{{ route('galeries.index') }}" class="nav-link">
+                        <i class="nav-icon bi bi-circle text-warning"></i>
+                        <p>Tableau des Galeries</p>
                     </a>
-                  </li>
+                </li>
+                
                 </ul>
               </li>
               <!-- fin Galeries -->
@@ -321,14 +281,7 @@
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a  href="{{ route('roles') }}" class="nav-link">
-                      <i class="nav-icon bi bi-circle text-warning"></i>
-                      <p>Ajouter une Roles</p>
-                    </a>
-                  </li>
-                </ul>
+                
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="{{ route('indexroles') }}" class="nav-link">
@@ -339,6 +292,26 @@
                 </ul>
               </li>
               <!-- fin Roles -->
+                <!-- Roles -->
+                <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon bi bi-tree-fill text-danger"></i>
+                  <p>
+                  Utilisateurs
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+               
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ route('indexusers') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-success"></i>
+                      <p>Tableau des utilisateurs</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <!-- fin users -->
                  <!-- Tickets -->
                  <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -349,12 +322,7 @@
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a  href="{{ route('tickets') }}" class="nav-link">
-                      <i class="nav-icon bi bi-circle text-warning"></i>
-                      <p>Ajouter une Tickets</p>
-                    </a>
-                  </li>
+                 
                 </ul>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">

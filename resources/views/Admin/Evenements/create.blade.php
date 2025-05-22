@@ -5,7 +5,7 @@
 @section('content')
 <!-- Page Content -->
 <div class="content-wrapper">
-    <div class="annonce mb-4">
+    <div class="annonce mb-4 ml-4">
         <h1>Evenements</h1>
     </div>
     
@@ -16,7 +16,7 @@
                     <h3 class="card-title">Formulaire d'Evenement</h3>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body p-4">
                     <p>
                         Le siège de la plateforme de gestion des touristiques & évènements du Bénin est situé en face de l'église des
                         Assemblées de Dieu d'Alègléta, en quittant le Carrefour TOGOUDO(GODOMEY), juste après l'école primaire EPP TOGOUDO.
@@ -28,16 +28,16 @@
                     <form action="{{ route('evenements.traitement') }}" method="post" class="forma" enctype="multipart/form-data">
                         @csrf
 
-                        <div class="form-group">
-                            <label for="nom">Nom d'Evenement <strong class="text-danger">*</strong></label>
+                        <div class="form-group mt-3">
+                            <label for="nom" class="font-bold">Nom d'Evenement <strong class="text-danger">*</strong></label>
                             <input type="text" name="nom" id="nom" class="form-control" value="{{ old('nom') }}">
                             @error('nom')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="form-group">
-                            <label for="site_touristique_id">Choisissez le site</label>
+                        <div class="form-group mt-3">
+                            <label for="site_touristique_id" class="font-bold">Choisissez le site</label>
                             <select name="site_touristique_id" id="site_touristique_id" class="form-control">
                                 @foreach($site_touristiques as $site_touristique)
                                     <option value="{{ $site_touristique->id }}" 
@@ -48,16 +48,16 @@
                             </select>
                         </div>
 
-                        <div class="form-group">
-                            <label for="lieu">Lieu <strong class="text-danger">*</strong></label>
+                        <div class="form-group mt-3">
+                            <label for="lieu" class="font-bold">Lieu <strong class="text-danger">*</strong></label>
                             <input type="text" name="lieu" id="lieu" class="form-control" value="{{ old('lieu') }}">
                             @error('lieu')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="form-group">
-                            <label for="date">Date <strong class="text-danger">*</strong></label>
+                        <div class="form-group mt-3">
+                            <label for="date" class="font-bold">Date <strong class="text-danger">*</strong></label>
                             <input type="date" name="date" id="date" class="form-control" value="{{ old('date') }}">
                             @error('date')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -65,24 +65,24 @@
                         </div>
 
                         <!-- Correction de l'upload d'image -->
-                        <div class="form-group">
-                            <label for="photo">Photo <strong class="text-danger">*</strong></label>
+                        <div class="form-group mt-3">
+                            <label for="photo" class="font-bold">Photo <strong class="text-danger">*</strong></label>
                             <input type="file" name="photo" id="photo" class="form-control" accept="image/*">
                             @error('photo')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="form-group">
-                            <label for="sponsor">Sponsors <strong class="text-danger">*</strong></label>
+                        <div class="form-group mt-3">
+                            <label for="sponsor" class="font-bold">Sponsors <strong class="text-danger">*</strong></label>
                             <input type="text" name="sponsor" id="sponsor" class="form-control" value="{{ old('sponsor') }}">
                             @error('sponsor')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="form-group">
-                            <label for="description">Description <strong class="text-danger">*</strong></label>
+                        <div class="form-group mt-3">
+                            <label for="description" class="font-bold">Description <strong class="text-danger">*</strong></label>
                             <textarea name="description" id="description" class="form-control">{{ old('description') }}</textarea>
                             @error('description')
                                 <div class="alert alert-danger">{{ $message }}</div>

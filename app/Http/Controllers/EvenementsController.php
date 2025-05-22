@@ -7,16 +7,37 @@ use App\Models\Evenement;
 use App\Models\Site_touristique;
 use Illuminate\Support\Facades\Storage;
 
+
 class EvenementsController extends Controller
 {
     /**
      * Affiche la page principale des événements.
      */
-    public function index()
+    public function index(Request $request) // il manquait $request aussi ici !
     {
-        return view('Evenements');
+        $query = $request->input('query');
+        $siteId = $request->input('site');
+    
+        $evenements = Evenement::with('site_touristique');
+    
+        if ($query) {
+            $evenements->where(function ($q) use ($query) {
+                $q->where('nom', 'like', "%{$query}%")
+                  ->orWhere('lieu', 'like', "%{$query}%")
+                  ->orWhere('description', 'like', "%{$query}%");
+            });
+        }
+    
+        if ($siteId && $siteId !== 'all') {
+            $evenements->where('site_touristique_id', $siteId);
+        }
+    
+        $evenements = $evenements->get();
+        $sites = Site_touristique::all();
+    
+        return view('Evenements', compact('evenements', 'query', 'siteId', 'sites'));
     }
-
+    
     /**
      * Affiche le formulaire de création d'un événement.
      */
@@ -24,7 +45,7 @@ class EvenementsController extends Controller
     {
         // Récupère tous les sites touristiques pour les afficher dans le formulaire
         $site_touristiques = Site_touristique::all();
-        return view('Admin/Evenements/create', compact('site_touristiques'));
+        return view('Admin.Evenements.create', compact('site_touristiques'));
     }
 
     /**
@@ -70,7 +91,7 @@ class EvenementsController extends Controller
     public function Evenement()
     {
         $datas = Evenement::all();
-        return view('Admin/Evenements/index', compact('datas'));
+        return view('Admin.Evenements.index', compact('datas'));
     }
 
     /**
@@ -79,8 +100,10 @@ class EvenementsController extends Controller
     public function modifierevenements($id)
     {
         $data = Evenement::findOrFail($id);
-        return view('Admin/modification/editevenement', compact('data'));
+        $sites = Site_Touristique::all(); // récupère tous les sites
+        return view('editevenement', compact('data', 'sites'));
     }
+    
 
     /**
      * Traite la modification d'un événement existant.
@@ -124,12 +147,45 @@ class EvenementsController extends Controller
         $post = Evenement::findOrFail($id);
 
         // Suppression de la photo associée si elle existe
-        if ($post->photo) {
-            Storage::disk('public')->delete(str_replace('storage/', '', $post->photo));
+        if (!$post) {
+            return back()->with('error', 'Site touristique  introuvable.');
         }
-
+       
         $post->delete();
 
         return redirect()->route('indexevenements')->with('success', 'Événement supprimé avec succès.');
     }
+//barre de recherche evenement
+    public function searchEvenements(Request $request)
+    {
+        $query = $request->input('query');
+        $site = $request->input('site');
+    
+        $evenements = Evenement::with('site_touristique')->latest();
+    
+        if ($query) {
+            $evenements->where(function($q) use ($query) {
+                $q->where('nom', 'like', "%{$query}%")
+                  ->orWhere('lieu', 'like', "%{$query}%")
+                  ->orWhere('description', 'like', "%{$query}%");
+            });
+        }
+    
+        if ($site && $site !== 'all') {
+            $evenements->where('site_touristique_id', $site);
+        }
+    
+        $evenements = $evenements->get();
+        $sites = Site_touristique::all();
+    
+        return view('Evenements', compact('evenements', 'query', 'site', 'sites'));
+    }
+//la vue chow d'evenement qui lie aussi les photo des galerie au site et evenement 
+    public function show($id)
+    {
+        $evenement = Evenement::with('galeries', 'site_touristique')->findOrFail($id);
+        return view('Admin.Evenements.show', compact('evenement'));
+    }
+    
+
 }

@@ -25,23 +25,10 @@
 
                     <form action="{{ route('roles.traitement') }}" method="post" class="forma">
                         @csrf
-
-                        <div class="form-group">
-                            <label for="user_id">Choisissez un utilisateur</label>
-                            <select name="user_id" id="user_id" class="form-control">
-                                @foreach($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->nom }}</option>
-                                @endforeach
-                            </select>
-                            @error('user_id')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-
                         <div class="form-group">
                             <label for="nom">Nom du rôle <strong class="text-danger">*</strong></label>
-                            <input type="text" name="nom" id="nom" class="form-control" value="{{ old('nom') }}">
-                            @error('nom')
+                            <input type="text" name="name" id="nom" class="form-control" value="{{ old('name') }}">
+                            @error('name')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>

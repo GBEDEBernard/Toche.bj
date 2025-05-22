@@ -26,20 +26,20 @@ class TicketsController extends Controller
  
     ]);
     $ticket=Ticket::create($request->all());
-    return redirect('/Admin/Tickets/index');
+    return redirect('Admin.Tickets.index');
     
  }
   //Afficher la liste des reservation 
   public function ticket(){
         $datas= Ticket::all();  
-    return view('Admin/Tickets/index',compact('datas'));
+    return view('Admin.Tickets.index',compact('datas'));
  }
  //controlleur pour modifier une reservation
  
  public function modifierticket($id){
     $data= Ticket::findOrFail($id);
     
-    return view('Admin/Tickets/update',compact('data'));
+    return view('editticket',compact('data'));
  }
  //la fonction de traitement de la page modification  reservation
  public function modificationticket(Request $request ,$id ){
@@ -51,9 +51,12 @@ class TicketsController extends Controller
  public function supressionticket($id)
  {
    $post= Ticket::Where('id',$id)->first();
-   if ($post != null) {
+   if (!$post ) 
+   {
+     return back()->with('error', 'Ticket introuvable.');
+ } {
      $post->delete();
-     return redirect()->route('indextickets');
+     return redirect()->route('indextickets')->with('success', 'Ticket supprimé avec succès.');
  }
   }
 }

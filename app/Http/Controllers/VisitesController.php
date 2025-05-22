@@ -14,39 +14,41 @@ class VisitesController extends Controller
     //le controller du clé etranger  qui sont dans visite
     // visite pour l'afficher avec sont compact
     $site_touristiques=Site_touristique::all();
-    $users=User::all();
-    return view('Admin/Visites/create', compact('site_touristiques','users'));
- 
+    $users = User::all();
+
+
+    return view('Admin.Visites.create', compact('site_touristiques','users'));
  }
-  //nous allons definir la fonction de notre contact
+  //nous allons definir la fonction de notre visite
   public function traitement_create_visite(Request $request){
-    $request->validate([
-    'site_touristique_id',
-    'user_id',
-     'telephone'=>'required',
-     'nombre'=>'required',
-     'prix'=>'required',
-     'date'=>'required',
-     'chemin_ticket'=>'required',
-    
-    
-    ]);
-    $Visite=Visite::create($request->all());
-    return redirect('/Admin/Visites/index');
+   $request->validate([
+    'site_touristique_id' => 'required|exists:site_touristiques,id',
+    'user_id' => 'required|exists:users,id',
+    'telephone' => 'required',
+    'nombre' => 'required|numeric',
+    'prix' => 'required|numeric',
+    'date' => 'required|date',
+    'chemin_ticket' => 'required|string',
+]);
+
+        // Crée une nouvelle réservation
+        Visite::create($request->all());  
+        return redirect()->route('indexvisites')->with('success', 'Réservation créée avec succès!');
+      
     
  }
-  //Afficher la liste des Evenement 
+  //Afficher la liste des visites 
   public function visite(){
       
-    $datas= Visite::all();  
-    return view('Admin/Visites/index',compact('datas'));
+    $datas= Visite::with('user')->get();  
+    return view('Admin.Visites.index',compact('datas'));
  }
- //controlleur pour modifier une evenement
+ //controlleur pour modifier une visite
  
  public function modifiervisite($id){
     $data= Visite::findOrFail($id);
     
-    return view('Admin/modification/editvisite',compact('data'));
+    return view('editvisite',compact('data'));
  }
  //la fonction de traitement de la page modification 
  public function modificationvisite(Request $request ,$id ){
@@ -55,12 +57,17 @@ class VisitesController extends Controller
     return to_route('indexvisites');
  }
  //fonction pour suprimer une ligne dans la liste des contact
- public function supressionvisite($id)
- {
-   $post= Visite::Where('id',$id)->first();
-   if ($post != null) {
-     $post->delete();
-     return redirect()->route('indexvisites');
- }
-  }
+  // Supprime une visite
+  public function destroy($id)
+{
+    $visite = Visite::find($id);
+    if (!$visite) {
+        return back()->with('error', 'Visite introuvable.');
+    }
+
+    $visite->delete();
+    return redirect()->route('indexvisites')->with('success', 'Visite supprimée.');
+}
+
+  
 }

@@ -10,19 +10,13 @@ use Illuminate\Support\Facades\Storage;
 
 class Site_touristiqueController extends Controller
 {
-    // Controller pour afficher la page des sites touristiques
-    public function site()
-    {
-        
-        // Passer les sites touristiques à la vue
-        return view('Site_touristique',);
-    }
+  
     // Controller pour afficher la page de création de chaque site touristique
     public function Create()
     {
         // Récupérer toutes les catégories
         $categories = Categorie::all();
-        return view('Admin/Site_touristique/create', compact('categories'));
+        return view('Admin.Site_touristique.create', compact('categories'));
     }
 
     public function traitement_create_sites(Request $request)
@@ -65,7 +59,7 @@ class Site_touristiqueController extends Controller
         ]);
     
         // Redirection avec message de succès
-        return redirect()->route('welcome')->with('success', 'Site touristique créé avec succès.');
+        return redirect()->route('index')->with('success', 'Site touristique créé avec succès.');
     }
     
     // Afficher la liste des sites touristiques
@@ -75,17 +69,17 @@ class Site_touristiqueController extends Controller
     {
         $datas = Site_touristique::all();
 
-        return view('Admin/Site_touristique/index', compact('datas'));
+        return view('Admin.Site_touristique.index', compact('datas'));
     }
 
      // Afficher la page de modification
      public function modifiersites($id)
      {
          $data = Site_touristique::findOrFail($id);
-         $categories = Categorie::all(); // Récupère toutes les catégories
+         $categories = Categorie::all();
      
-         return view('Admin.modification.editSite', compact('data', 'categories'));
-     }
+         return view('editsite', compact('data', 'categories'));
+        }
      
      // Traitement de la modification
      public function modificationsites(Request $request, $id)
@@ -126,7 +120,10 @@ class Site_touristiqueController extends Controller
     public function Suprimer($id)
     {
         $post = Site_touristique::findOrFail($id);
-        if ($post) {
+        if (!$post) { 
+            return back()->with('error', 'Site touristique  introuvable.');
+
+        }{
             $post->delete();
             // Redirection avec un message de succès
             return redirect()->route('index')->with('success', 'Site touristique supprimé avec succès.');
@@ -135,4 +132,44 @@ class Site_touristiqueController extends Controller
         // Si le site n'est pas trouvé, rediriger avec un message d'erreur
         return redirect()->route('index')->with('error', 'Site touristique non trouvé.');
     }
+   
+    // la barre de recherche 
+    public function site(Request $request)
+    {
+        $query = $request->input('query');
+        $categorie = $request->input('categorie');
+    
+        $sites = Site_Touristique::with('categorie'); // charge la relation
+    
+        if ($query) {
+            $sites->where(function($q) use ($query) {
+                $q->where('nom', 'like', "%{$query}%")
+                  ->orWhere('commune', 'like', "%{$query}%");
+            });
+        }
+    
+        if ($categorie && $categorie !== 'all') {
+            $sites->where('categorie_id', $categorie); // filtre via ID
+        }
+    
+        $categories = Categorie::all(); // Prend toutes les catégories existantes
+    
+        $sites = $sites->get();
+    
+        return view('Site_touristique', compact('sites', 'query', 'categorie', 'categories'));
+    }
+    
+// Controleur pour afficher chaque site 
+
+public function show(Site_touristique $site)
+{
+    // Charge les relations si besoin
+    $site->load('galeries', 'categorie');
+
+    return view('Admin.Site_touristique.show', compact('site'));
+}
+
+
+
+
 }

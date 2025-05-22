@@ -27,7 +27,7 @@
                     </div>
                     
                     <!-- Submit Button -->
-                    <button type="submit" class="btn btn-primary">Envoyer</button>
+                    <button type="submit" class="btn btn-primary mt-2">Envoyer</button>
                 </form>
             </div>
         </div>

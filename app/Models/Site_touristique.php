@@ -7,6 +7,47 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * 
+ *
+ * @property int $id
+ * @property int|null $categorie_id
+ * @property string $nom
+ * @property string $pays
+ * @property string $departement
+ * @property string $commune
+ * @property string $email
+ * @property string $photo
+ * @property string $contact
+ * @property string $description
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Avi> $avis
+ * @property-read int|null $avis_count
+ * @property-read \App\Models\Categorie|null $categorie
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Evenement> $evenements
+ * @property-read int|null $evenements_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Galerie> $galeries
+ * @property-read int|null $galeries_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Visite> $visites
+ * @property-read int|null $visites_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Site_touristique newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Site_touristique newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Site_touristique query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Site_touristique whereCategorieId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Site_touristique whereCommune($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Site_touristique whereContact($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Site_touristique whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Site_touristique whereDepartement($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Site_touristique whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Site_touristique whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Site_touristique whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Site_touristique whereNom($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Site_touristique wherePays($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Site_touristique wherePhoto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Site_touristique whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Site_touristique extends Model
 {
     use HasFactory;

@@ -28,12 +28,12 @@ class RegisterController extends Controller
      * Where to redirect users after registration.
      *
      * @var string
-     */
-    protected function registered(\Illuminate\Http\Request $request, $user)
-    {
-        return redirect()->route('login')->with('status', 'Inscription réussie ! Connectez-vous pour continuer.');
-    }
-    
+     */   protected function registered(Request $request, $user)
+     
+           {
+              return redirect('/login');
+          }
+
     /**
      * Create a new controller instance.
      *
@@ -73,4 +73,5 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+    
 }

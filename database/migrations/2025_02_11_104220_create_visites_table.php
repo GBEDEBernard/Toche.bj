@@ -15,10 +15,10 @@ return new class extends Migration
         Schema::create('visites', function (Blueprint $table) {
         $table->id();
         $table->foreignId('site_touristique_id')->constrained()->onUpdate('cascade')->onDelete('cascade'); 
-        $table->foreignId('users_id')->constrained()->onUpdate('cascade')->onDelete('cascade'); 
-        $table->integer('telephone');
+        $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade'); 
+        $table->string('telephone');
         $table->integer('nombre');
-        $table->integer('prix');
+        $table->string('prix');
         $table->date('date');
         $table->string('chemin_ticket');
        $table->timestamps();

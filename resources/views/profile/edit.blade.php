@@ -22,6 +22,15 @@
                             <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $user->email) }}" required>
                         </div>
 
+                        <div class="form-group row">
+                            <div class="col-sm-8">
+                                <label for="photo" class="col-sm-4 col-form-label">Photo</label>
+                                <input type="file" name="photo" class="form-control" id="photo">
+                                @error('photo')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div> <br>
                         <button type="submit" class="btn btn-primary">Sauvegarder les changements</button>
                     </form>
                 </div>

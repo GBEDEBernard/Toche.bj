@@ -31,11 +31,11 @@
                     </div>
 
                     <div class="box-body">
-                        <form action="{{ route('sites.traitement') }}" method="post" class="form-horizontal border-solid border-2 shadow p-2" enctype="multipart/form-data">
+                        <form action="{{ route('sites.traitement') }}" method="post" class="form-horizontal border-solid border-2 shadow p-4" enctype="multipart/form-data">
                             @csrf
 
-                            <div class="form-group row">
-                                <label for="nom" class="col-sm-4 col-form-label">Nom du Site<strong class="text-danger">*</strong></label>
+                            <div class="form-group row mt-3">
+                                <label for="nom" class="col-sm-4 col-form-label font-bold">Nom du Site<strong class="text-danger">*</strong></label>
                                 <div class="col-sm-8">
                                     <input type="text" name="nom" class="form-control" id="nom" placeholder="Nom du site">
                                     @error('nom')
@@ -44,8 +44,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label for="categorie_id" class="col-sm-4 col-form-label">Choisissez la Catégorie</label>
+                            <div class="form-group row mt-3">
+                                <label for="categorie_id" class="col-sm-4 col-form-label font-bold">Choisissez la Catégorie</label>
                                 <div class="col-sm-8">
                                     <select name="categorie_id" class="form-control" id="categorie_id">
                                         @foreach($categories as $categorie)
@@ -55,8 +55,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label for="pays" class="col-sm-4 col-form-label">Pays<strong class="text-danger">*</strong></label>
+                            <div class="form-group row mt-3">
+                                <label for="pays" class="col-sm-4 col-form-label font-bold">Pays<strong class="text-danger">*</strong></label>
                                 <div class="col-sm-8">
                                     <input type="text" name="pays" class="form-control" id="pays" placeholder="Pays">
                                     @error('pays')
@@ -65,8 +65,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label for="departement" class="col-sm-4 col-form-label">Département<strong class="text-danger">*</strong></label>
+                            <div class="form-group row mt-3">
+                                <label for="departement" class="col-sm-4 col-form-label font-bold">Département<strong class="text-danger">*</strong></label>
                                 <div class="col-sm-8">
                                     <input type="text" name="departement" class="form-control" id="departement" placeholder="Département">
                                     @error('departement')
@@ -75,8 +75,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label for="commune" class="col-sm-4 col-form-label">Commune<strong class="text-danger">*</strong></label>
+                            <div class="form-group row mt-3">
+                                <label for="commune" class="col-sm-4 col-form-label font-bold">Commune<strong class="text-danger">*</strong></label>
                                 <div class="col-sm-8">
                                     <input type="text" name="commune" class="form-control" id="commune" placeholder="Commune">
                                     @error('commune')
@@ -85,8 +85,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label for="email" class="col-sm-4 col-form-label">Email<strong class="text-danger">*</strong></label>
+                            <div class="form-group row mt-3">
+                                <label for="email" class="col-sm-4 col-form-label font-bold">Email<strong class="text-danger">*</strong></label>
                                 <div class="col-sm-8">
                                     <input type="email" name="email" class="form-control" id="email" placeholder="Email">
                                     @error('email')
@@ -95,8 +95,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label for="photo" class="col-sm-4 col-form-label">Photo du Site</label>
+                            <div class="form-group row mt-3">
+                                <label for="photo" class="col-sm-4 col-form-label font-bold">Photo du Site</label>
                                 <div class="col-sm-8">
                                     <input type="file" name="photo" class="form-control" id="photo">
                                     @error('photo')
@@ -104,9 +104,9 @@
                                     @enderror
                                 </div>
                             </div>
-
-                            <div class="form-group row">
-                                <label for="contact" class="col-sm-4 col-form-label">Contacts</label>
+                           
+                            <div class="form-group row mt-3">
+                                <label for="contact" class="col-sm-4 col-form-label font-bold">Contacts</label>
                                 <div class="col-sm-8">
                                     <input type="number" name="contact" class="form-control" id="contact" placeholder="Numéro de contact">
                                     @error('contact')
@@ -115,8 +115,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row" mt-2>
-                                <label for="description" class="col-sm-4 col-form-label">Description<strong class="text-danger">*</strong></label>
+                            <div class="form-group row mt-3">
+                                <label for="description" class="col-sm-4 col-form-label font-bold">Description<strong class="text-danger">*</strong></label>
                                 <div class="col-sm-8">
                                     <textarea name="description" class="form-control" id="description" placeholder="Description du site"></textarea>
                                     @error('description')
@@ -125,9 +125,9 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <div class="col-sm-12 text-center mt-4">
-                                    <button type="submit" class="btn btn-primary">Envoyer</button>
+                            <div class=" mt-3">
+                                <div class="col-sm-12 text-center mt-4 mb-2">
+                                    <button type="submit" class="bg-blue-700 text-white px-4 py-2 rounded text-xl font-extrabold">Créer</button>
                                 </div>
                             </div>
                         </form>

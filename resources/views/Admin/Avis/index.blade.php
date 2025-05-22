@@ -38,7 +38,7 @@
                   padding: 2px;" href="{{ route('avis') }}">Donner un avis</a> <br><br>
 
                 <a  style="text-decoration: none;background-color: azure; border-radius: 2px;
-                  padding: 2px;" href="{{ route('avis.modifier',$data->id) }}">Modifier un avis</a><br><br>
+                  padding: 2px;" href="{{ route('avis.modifier',$data->id) }}">Modifier un avis</a><br>
                  <form colspan="4" action="{{ route('avis.supression', $data->id) }}" method="post">
                       @csrf
                       @method('DELETE')

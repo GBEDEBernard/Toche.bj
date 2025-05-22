@@ -19,7 +19,7 @@ class CategorieController extends Controller
         // Récupère toutes les catégories depuis la base de données
         $datas = Categorie::all(); // Ou la logique que tu utilises pour récupérer les données
           
-        return view('Admin/Categories/indexcategorie', compact('datas'));
+        return view('Admin.Categories.indexcategorie', compact('datas'));
     }
 
     /**
@@ -29,7 +29,7 @@ class CategorieController extends Controller
      */
     public function createcategorie()
     {
-        return view('Admin/Categories/createcategorie');
+        return view('Admin.Categories.createcategorie');
     }
 
     /**
@@ -49,7 +49,7 @@ class CategorieController extends Controller
         Categorie::create($request->all());
 
         // Redirige l'utilisateur vers une autre page (par exemple 'welcome')
-        return redirect('welcome');
+        return to_route('indexcategorie');
     }
 
     // ==================== MODIFICATION CATÉGORIE ====================
@@ -65,7 +65,7 @@ class CategorieController extends Controller
         // Récupère la catégorie à modifier par son ID
         $data = Categorie::findOrFail($id);
     
-        return view('Admin/modification/editCategorie', compact('data'));
+        return view('editcategorie', compact('data'));
     }
 
     /**
@@ -83,8 +83,8 @@ class CategorieController extends Controller
         // Met à jour les informations de la catégorie
         $data->update($request->all());
 
-        // Redirige vers la page 'welcome'
-        return to_route('welcome');
+        // Redirige vers la page 'categorie'
+        return redirect()->route('indexcategorie');
     }
 
     // ==================== SUPPRESSION CATÉGORIE ====================
@@ -97,15 +97,19 @@ class CategorieController extends Controller
      */
     public function supression($id)
     {
-        // Cherche la catégorie à supprimer
-        $post = Categorie::Where('id', $id)->first();
+       
+        $post = Categorie::findOrFail($id);
+        if (!$post) { 
+            return back()->with('error', 'Catégorie  introuvable.');
 
-        // Si la catégorie existe, on la supprime
-        if ($post != null) {
+        }{
             $post->delete();
+            // Redirection avec un message de succès
+            return to_route('indexcategorie')->with('success', 'Catégorie de Site supprimé avec succès.');
         }
 
-        // Redirige vers la page des catégories après suppression
-        return redirect()->route('indexcategorie');
+        // Si le site n'est pas trouvé, rediriger avec un message d'erreur
+        return to_route('indexcategorie')->with('error', 'Catégorie de Site  non trouvé.');
     }
+       
 }

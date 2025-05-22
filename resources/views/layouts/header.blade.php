@@ -1,4 +1,6 @@
 <!--begin::Header-->
+
+
 <nav class="app-header navbar navbar-expand bg-body">
     <!--begin::Container-->
     <div class="container-fluid">
@@ -60,18 +62,22 @@
             <!--end::Fullscreen Toggle-->
 
             <!--begin::User Menu Dropdown-->
-            <li class="nav-item dropdown user-menu position-relative">
-    @auth
-    <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
-        <img src="{{ auth()->user()->profile_picture ?? '/path/to/default-avatar.jpg' }}" 
-            class="user-image rounded-circle shadow-sm" alt="User Image" width="40" height="40" />
+
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                    
+        <li class="nav-item dropdown user-menu position-relative">
+            @auth
+            <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
+                <img src="{{ auth()->user()->photo ? asset(auth()->user()->photo) : asset('/path/to/default-avatar.jpg') }}" 
+           class="user-image rounded-circle shadow-sm" alt="User Image" width="40" height="40" />
         <span class="d-none d-md-inline ms-2 text-truncate" style="max-width: 150px;">{{ auth()->user()->name }}</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end shadow mt-2 w-auto rounded-lg" style="right: 0; left: auto; min-width: 250px;">
         <!-- User Image -->
         <li class="user-header text-bg-primary text-center p-3">
-            <img src="{{ auth()->user()->profile_picture ?? '/path/to/default-avatar.jpg' }}" 
-                class="rounded-circle shadow mb-2" alt="User Image" width="70" height="70" />
+        <img src="{{ auth()->user()->photo ? asset(auth()->user()->photo) : asset('/path/to/default-avatar.jpg') }}" 
+          class="user-image rounded-circle shadow-sm" alt="User Image" width="40" height="40" />
             <p class="mb-0 fw-bold text-truncate">{{ auth()->user()->name }}</p>
             <small class="d-block">{{ auth()->user()->role ?? 'User' }}</small>
             <small class="d-block">Member since {{ auth()->user()->created_at->format('M Y') }}</small>

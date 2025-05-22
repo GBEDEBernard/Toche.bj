@@ -21,8 +21,8 @@ class RolesController extends Controller
   //nous allons definir la fonction de notre roles
   public function traitement_create_roles(Request $request){
     $request->validate([
-     'user_id',
-     'nom'=>'required',
+      
+     'name'=>'required',
     
     ]);
     $role=Role::create($request->all());
@@ -50,9 +50,13 @@ class RolesController extends Controller
  public function supressionroles($id)
  {
    $post= Role::Where('id',$id)->first();
-   if ($post != null) {
+   if (!$post ) 
+    {
+      return back()->with('error', 'Role introuvable.');
+  }
+  {
      $post->delete();
-     return redirect()->route('indexroles');
+     return redirect()->route('indexroles')->with('success', 'Role supprimé avec succès.');
  }
   }
 }

@@ -12,9 +12,11 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
+        $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+        $loader->alias('Debugbar', \Barryvdh\Debugbar\Facades\Debugbar::class);
     }
 
-    public const HOME = '/welcome';
+    public const HOME = '/welcome'; // <- ici tu définis la redirection
 
     /**
      * Bootstrap any application services.
@@ -23,4 +25,5 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
+  
 }
