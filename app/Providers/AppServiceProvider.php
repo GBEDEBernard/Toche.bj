@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
         $loader->alias('Debugbar', \Barryvdh\Debugbar\Facades\Debugbar::class);
     }
 
-    public const HOME = '/welcome'; // <- ici tu définis la redirection
+    public const HOME = '/login';
 
     /**
      * Bootstrap any application services.

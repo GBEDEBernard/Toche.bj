@@ -16,36 +16,47 @@ class RegisterController extends Controller
     | Register Controller
     |--------------------------------------------------------------------------
     |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
+    | Ce contrôleur gère l'inscription des nouveaux utilisateurs ainsi que leur
+    | validation et création. Par défaut, il utilise un trait pour fournir
+    | cette fonctionnalité sans code additionnel.
     |
     */
 
     use RegistersUsers;
 
     /**
-     * Where to redirect users after registration.
+     * Où rediriger les utilisateurs après l'inscription.
      *
      * @var string
-     */   protected function registered(Request $request, $user)
-     
-           {
-              return redirect('/login');
-          }
+     */
+    // Tu peux modifier cette constante si tu veux
+    // protected $redirectTo = '/home';
 
     /**
-     * Create a new controller instance.
+     * Après l'inscription, redirige vers la page login (si c'est voulu).
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function registered(Request $request, $user)
+    {
+        return redirect('/login');
+    }
+
+    /**
+     * Créé une nouvelle instance du contrôleur.
      *
      * @return void
      */
     public function __construct()
     {
+        // Seuls les invités peuvent accéder à l'inscription
         $this->middleware('guest');
     }
 
     /**
-     * Get a validator for an incoming registration request.
+     * Valide les données reçues lors de l'inscription.
      *
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
@@ -55,12 +66,12 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'], // 'confirmed' vérifie la confirmation du mot de passe
         ]);
     }
 
     /**
-     * Create a new user instance after a valid registration.
+     * Crée un nouvel utilisateur après une inscription validée.
      *
      * @param  array  $data
      * @return \App\Models\User
@@ -73,5 +84,4 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
-    
 }
