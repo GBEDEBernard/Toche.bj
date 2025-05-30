@@ -29,6 +29,9 @@
                                     <th scope="col">Site-touristique</th>
                                     <th scope="col">Lieu</th>
                                     <th scope="col">Date</th>
+                                    <th scope="col">Programme</th>
+                                    <th scope="col">Détails</th>
+                                    <th scope="col">Infos pratiques</th>                            
                                     <th scope="col">Photo</th>
                                     <th scope="col">Sponsor</th>
                                     <th scope="col">Description</th>
@@ -43,6 +46,18 @@
                                         <td>{{$data->site_touristique->nom}}</td>
                                         <td>{{$data->lieu}}</td>
                                         <td>{{$data->date}}</td>
+                                        <td>{{ Str::limit($data->programme, 50) }}</td>
+                                        <td>
+                                            <ul class="list-disc ml-4 text-xs text-gray-700">
+                                                @foreach(explode("\n", $data->programme_details) as $item)
+                                                    @if(trim($item))
+                                                        <li>{{ trim($item) }}</li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                        </td>
+                                        <td>{{ Str::limit($data->infos_pratiques, 50) }}</td>
+                            
                                         <td><img src="{{ asset ($data->photo) }}" alt="Photo du d'evenement"   style="width: 100px; height: 60px;"></td>
                                         <td>{{$data->sponsor}}</td>
                                         <td>{{$data->description}}</td>

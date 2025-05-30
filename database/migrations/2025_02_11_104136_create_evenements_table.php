@@ -19,6 +19,7 @@ return new class extends Migration
           $table->foreignId('site_touristique_id')->constrained()->onUpdate('cascade')->onDelete('cascade'); 
           $table->string('nom');
           $table->string('lieu');
+          $table->string('telephone');
           $table->string('date');
           $table->string('photo');
           $table->string('sponsor');

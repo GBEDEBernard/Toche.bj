@@ -120,7 +120,7 @@ const TicketID = button.getAttribute('data-id');
 
 if (TicketID) {
    const form = document.getElementById('deleteTicketForm');
-   form.action = '/Admin/Tickets/' + TicketID;
+   form.action = '/Admin/Tickets/delete/' + TicketID;
 }
 });
 });

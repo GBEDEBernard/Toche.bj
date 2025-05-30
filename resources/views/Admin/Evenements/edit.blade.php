@@ -65,6 +65,24 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
+                    {{-- Champ programme --}}
+                    <div class="form-group mb-2">
+                        <label for="programme" class="block text-gray-700 font-bold mb-2">Programme</label>
+                        <textarea name="programme" id="programme" rows="4"
+                            class="w-full p-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            {{ old('programme', $data->programme ?? '') }}
+                        </textarea>
+                    </div>
+
+                    {{-- Champ programme_details --}}
+                    <div class="form-group mb-2">
+                        <label for="programme_details" class="block text-gray-700 font-bold mb-2">Détails du Programme</label>
+                        <textarea name="programme_details" id="programme_details" rows="5"
+                            class="w-full p-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            {{ old('programme_details', $data->programme_details ?? '') }}
+                        </textarea>
+                        <p class="text-sm text-gray-500 mt-1">Sépare chaque point du programme par une ligne.</p>
+                    </div>
 
                         @if($data->photo)
                         <div class="form-group mb-2">
@@ -96,6 +114,7 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
+                        @dd($user->roles, $user->getAllPermissions());
 
                         <div class="form-group mt-4">
                             <button type="submit" class="btn btn-primary">Mettre à jour</button>

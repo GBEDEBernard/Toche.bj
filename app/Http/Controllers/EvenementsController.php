@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Evenement;
 use App\Models\Site_touristique;
 use Illuminate\Support\Facades\Storage;
+//use des quatre premier evenement
+use Carbon\Carbon;
 
 
 class EvenementsController extends Controller
@@ -76,6 +78,7 @@ class EvenementsController extends Controller
             'site_touristique_id' => $request->site_touristique_id,
             'nom' => $request->nom,
             'lieu' => $request->lieu,
+            'telephone' => $request->telephone,
             'date' => $request->date,
             'photo' => $photoPath ? 'storage/' . $photoPath : null,
             'sponsor' => $request->sponsor,
@@ -181,11 +184,28 @@ class EvenementsController extends Controller
         return view('Evenements', compact('evenements', 'query', 'site', 'sites'));
     }
 //la vue chow d'evenement qui lie aussi les photo des galerie au site et evenement 
-    public function show($id)
-    {
-        $evenement = Evenement::with('galeries', 'site_touristique')->findOrFail($id);
-        return view('Admin.Evenements.show', compact('evenement'));
+public function show($id)
+{
+    $evenement = Evenement::with(['site_touristique', 'galeries'])->findOrFail($id);
+
+    $relatedEvenements = Evenement::where('id', '!=', $evenement->id)
+        ->where('date', '>=', Carbon::today())
+        ->where('site_touristique_id', $evenement->site_touristique_id)
+        ->orderBy('date')
+        ->take(4)
+        ->get();
+
+    if ($relatedEvenements->isEmpty()) {
+        $relatedEvenements = Evenement::where('id', '!=', $evenement->id)
+            ->where('date', '>=', Carbon::today())
+            ->orderBy('date')
+            ->take(4)
+            ->get();
     }
+
+    return view('Admin.Evenements.show', compact('evenement', 'relatedEvenements'));
+}
+
     
 
 }

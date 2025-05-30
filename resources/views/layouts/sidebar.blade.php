@@ -58,7 +58,7 @@
                 </ul>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="{{ route('indexreservations') }}" class="nav-link">
+                    <a href="{{ route('admin.reservations.index') }}" class="nav-link">
                       <i class="nav-icon bi bi-circle text-warning"></i>
                       <p>Tableau Reservations</p>
                     </a>
@@ -171,26 +171,28 @@
 
              
             <!-- LES sites touristiques -->
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-tree-fill text-danger"></i>
-                  <p>
-                   Sites touristiques
-                    <i class="nav-arrow bi bi-chevron-right"></i>
-                  </p>
-                </a>
-               
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="{{ route('index') }}" class="nav-link">
-                      <i class="nav-icon bi bi-circle text-success"></i>
-                      <p class="text-indigo-500">Tableaux des sites</p>
-                    </a>
-                  
-                  </li>
-                </ul>
-              </li>
-                <!--  fin des sites touristiques -->
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon bi bi-tree-fill text-danger"></i>
+                <p>
+                 Sites touristiques
+                  <i class="nav-arrow bi bi-chevron-right"></i>
+                </p>
+              </a>
+             
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{{ route('index') }}" class="nav-link">
+                    <i class="nav-icon bi bi-circle text-success"></i>
+                    <p class="text-indigo-500">Tableaux des sites</p>
+                  </a>
+                
+                </li>
+              </ul>
+            </li>
+              <!--  fin des sites touristiques --> 
+              
+            
 
                 <!-- Reservation -->
                 <li class="nav-item">
@@ -204,7 +206,7 @@
                
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="{{ route('indexreservations') }}" class="nav-link">
+                    <a href="{{ route('admin.reservations.index') }}" class="nav-link">
                       <i class="nav-icon bi bi-circle text-success"></i>
                       <p>Tableau Reservations</p>
                     </a>
@@ -252,6 +254,49 @@
                 </ul>
               </li>
               <!-- fin Evenements -->
+
+                <!-- LES Paiement -->
+                <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    <i class="nav-icon bi bi-tree-fill text-danger"></i>
+                    <p>
+                     Paiements
+                      <i class="nav-arrow bi bi-chevron-right"></i>
+                    </p>
+                  </a>
+                 
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a href="{{ route('paiement.index') }}" class="nav-link">
+                        <i class="nav-icon bi bi-circle text-success"></i>
+                        <p class="text-indigo-500">Tableaux des Paiements</p>
+                      </a>
+                    
+                    </li>
+                  </ul>
+                </li>
+                  <!--  fin des  Paiement -->
+                    <!-- LES Paiement -->
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon bi bi-tree-fill text-danger"></i>
+                  <p>
+                   Pieces d'identité
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+               
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ route('piece.index') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle text-success"></i>
+                      <p class="text-indigo-500">Tableaux des Pieces d'identité</p>
+                    </a>
+                  
+                  </li>
+                </ul>
+              </li>
+                <!--  fin des  Paiement -->
                 <!-- Galeries -->
                 <li class="nav-item">
                 <a href="#" class="nav-link"> 

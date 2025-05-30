@@ -46,15 +46,20 @@ class Evenement extends Model
 {
     use HasFactory;
     protected $fillable = [
-       
-        'nom',
         'site_touristique_id',
+        'nom',
         'lieu',
+        'telephone',
         'date',
-        'photo',
-        'sponsor',
         'description',
+        'email',
+        'sponsor',
+        'photo',
+        'programme',
+        'programme_details',
+        'infos_pratiques'
     ];
+    
 
      //la méthods reservations  pour declarer qu'un evenement 
     //  peut faire 1 où plusieurs reservations

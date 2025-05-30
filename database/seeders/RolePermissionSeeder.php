@@ -2,55 +2,56 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use App\Models\User;
+use Spatie\Permission\PermissionRegistrar;
 
 class RolePermissionSeeder extends Seeder
 {
     public function run()
     {
-        // Clear cached permissions
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // Liste des entités et actions
         $entities = [
             'avis', 'categories', 'evenements', 'galeries', 'contacts',
-            'reservations', 'roles', 'sti_touristique', 'tickets', 'users', 'visites', 'profil'
+            'reservations', 'roles', 'sti_touristique', 'tickets', 'users', 
+            'visites', 'profil', 'paiement', 'pieces'
         ];
-        $actions = ['create', 'edit', 'delete', 'index', 'update', 'show'];
+        $actions = ['create', 'edit', 'delete', 'index', 'show'];
 
-        // Création des permissions
         foreach ($entities as $entity) {
             foreach ($actions as $action) {
                 Permission::firstOrCreate(['name' => "$entity.$action"]);
             }
         }
 
-        // Use firstOrCreate for access.welcome
         Permission::firstOrCreate(['name' => 'access.welcome']);
 
-        // Création des rôles
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
         $userRole = Role::firstOrCreate(['name' => 'user']);
 
-        // Attribution de toutes les permissions au rôle admin
         $adminRole->syncPermissions(Permission::all());
 
-        // Attribution de permissions spécifiques au rôle user (exemple)
         $userRole->syncPermissions([
             'evenements.show',
             'visites.show',
             'reservations.show',
-            // ... autres permissions pour le rôle user
         ]);
 
-        // Récupérer un user (par exemple id = 1)
-        $user = User::find(1);
+        $firstUser = User::orderBy('created_at')->first();
 
-        if ($user) {
-            $user->assignRole('admin'); // ou 'user'
+        if ($firstUser && !$firstUser->hasRole('admin')) {
+            $firstUser->syncRoles([]); 
+            $firstUser->assignRole('admin');
+            $this->command->info("🎉 Rôle 'admin' donné à {$firstUser->email} (ID: {$firstUser->id})");
+        } elseif ($firstUser) {
+            $this->command->info("ℹ️ L'utilisateur {$firstUser->email} a déjà le rôle admin.");
+        } else {
+            $this->command->warn("😢 Aucun utilisateur trouvé. Aucun rôle assigné.");
         }
+
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
     }
 }

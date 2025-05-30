@@ -25,6 +25,7 @@ class User extends Authenticatable
 
         'name',
         'photo',
+        'telephone',
         'email',
         'password',
     ];
@@ -54,5 +55,18 @@ class User extends Authenticatable
         ];
     }
 
-    
+public function pieces_identites(): HasMany
+{
+    return $this->hasMany(PieceIdentite::class);
+}
+// User.php
+public function reservations() {
+    return $this->hasMany(Reservation::class);
+}
+// User.php
+
+public function pieceIdentite()
+{
+    return $this->hasOne(PieceIdentite::class);
+}
 }

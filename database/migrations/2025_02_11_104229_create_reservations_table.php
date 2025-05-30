@@ -11,16 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-       //il y a clé etrangère site touristique et evenements que j'ai notifié
-          Schema::create('reservations', function (Blueprint $table) {
-              $table->id();
-              $table->foreignId('evenement_id')->constrained()->onUpdate('cascade')->onDelete('cascade'); 
-              $table->foreignId('users_id')->constrained()->onUpdate('cascade')->onDelete('cascade'); 
-              $table->integer('nombre');
-              $table->integer('prix');
-              $table->date('date');
-              $table->timestamps();
-    });
+        Schema::create('reservations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('evenement_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('ticket_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('nombre_personnes');
+            $table->decimal('montant', 10, 2);
+            $table->string('type_paiement');
+            $table->date('date');
+            $table->timestamps();
+        });
     }
 
     /**

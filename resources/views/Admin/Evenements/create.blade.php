@@ -39,13 +39,18 @@
                         <div class="form-group mt-3">
                             <label for="site_touristique_id" class="font-bold">Choisissez le site</label>
                             <select name="site_touristique_id" id="site_touristique_id" class="form-control">
+                                <option value="">-- Sélectionnez un site touristique --</option>
                                 @foreach($site_touristiques as $site_touristique)
-                                    <option value="{{ $site_touristique->id }}" 
+                                    <option value="{{ $site_touristique->id }}"
                                         {{ old('site_touristique_id') == $site_touristique->id ? 'selected' : '' }}>
                                         {{ $site_touristique->nom }}
                                     </option>
                                 @endforeach
                             </select>
+                            @error('site_touristique_id')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                            
                         </div>
 
                         <div class="form-group mt-3">
@@ -62,6 +67,32 @@
                             @error('date')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="telephone" class="font-bold">Telephone <strong class="text-danger">*</strong></label>
+                            <input type="telephone" name="telephone" id="telephone" class="form-control" value="{{ old('telephone') }}">
+                            @error('telephone')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                                                {{-- Champ programme --}}
+                        <div class="mb-4">
+                            <label for="programme" class="block text-gray-700 font-bold mb-2">Programme</label>
+                            <textarea name="programme" id="programme" rows="4"
+                                class="w-full p-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                {{ old('programme', $evenement->programme ?? '') }}
+                            </textarea>
+                        </div>
+
+                        {{-- Champ programme_details --}}
+                        <div class="mb-4">
+                            <label for="programme_details" class="block text-gray-700 font-bold mb-2">Détails du Programme</label>
+                            <textarea name="programme_details" id="programme_details" rows="5"
+                                class="w-full p-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                {{ old('programme_details', $evenement->programme_details ?? '') }}
+                            </textarea>
+                            <p class="text-sm text-gray-500 mt-1">Sépare chaque point du programme par une ligne.</p>
                         </div>
 
                         <!-- Correction de l'upload d'image -->
@@ -85,6 +116,13 @@
                             <label for="description" class="font-bold">Description <strong class="text-danger">*</strong></label>
                             <textarea name="description" id="description" class="form-control">{{ old('description') }}</textarea>
                             @error('description')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="infos_pratiques" class="font-bold">information <strong class="text-danger">*</strong></label>
+                            <textarea name="infos_pratiques" id="infos_pratiques" class="form-control">{{ old('infos_pratiques') }}</textarea>
+                            @error('infos_pratiques')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>

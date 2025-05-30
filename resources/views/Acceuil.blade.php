@@ -72,54 +72,47 @@
     </div>
     
 </div>
+{{-- //la div pour les quatres premier site touristiques --}}
 
-<div class="text-center font-bold text-sm md:text-2xl lg:text-3xl mt-10">
-  <h1 class="hover:opacity-80 m-8">Nos sites touristiques</h1>
+<div class="text-center font-bold text-sm md:text-2xl lg:text-3xl mt-10 mb-8">
+    <h1 class="hover:opacity-80 transition-opacity duration-300">Nos sites touristiques</h1>
 </div>
 
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-4/5 mx-auto mt-6 md:mb-24 mb-6">
-  <article class="border-2 border-white p-2 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 hover:scale-105">
-    <a href="#" class="block cursor-pointer">
-      <img src="{{ asset('/image/site6-enhanced.png')}}" alt="Monument Amazone à Cotonou" class="w-full h-40 md:h-48 object-cover rounded-t-lg loading="lazy">
-      <h3 class="text-red-600 font-bold mt-2 text-lg">Amazone</h3>
-      <h4 class="text-blue-700 font-bold">Cotonou</h4>
-    </a>
-  </article>
-  
-  <article class="border-2 border-white p-2 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 hover:scale-105">
-    <a href="#" class="block cursor-pointer">
-      <img src="{{ asset('/image/goho-square-statue-of.jpg')}}" alt="Place Goho à Abomey" class="w-full h-40 md:h-48 object-cover rounded-t-lg loading="lazy">
-      <h3 class="text-red-600 font-bold mt-2 text-lg">Place Goho</h3>
-      <h4 class="text-blue-700 font-bold">Abomey</h4>
-    </a>
-  </article>
-  
-  <article class="border-2 border-white p-2 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 hover:scale-105">
-    <a href="#" class="block cursor-pointer">
-      <img src="{{ asset('/image/behanzinexil.webp')}}" alt="Musée d'Abomey" class="w-full h-40 md:h-48 object-cover rounded-t-lg loading="lazy">
-      <h3 class="text-red-600 font-bold mt-2 text-lg">Musée d'Abomey</h3>
-      <h4 class="text-blue-700 font-bold">Abomey</h4>
-    </a>
-  </article>
-  
-  <article class="border-2 border-white p-2 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 hover:scale-105">
-    <a href="#" class="block cursor-pointer">
-      <img src="{{ asset('/image/site8-enhanced (1).png')}}" alt="Chute de Tanougou" class="w-full h-40 md:h-48 object-cover rounded-t-lg loading="lazy">
-      <h3 class="text-red-600 font-bold mt-2 text-lg">Chute de Tanougou</h3>
-      <h4 class="text-blue-700 font-bold">Tanougou</h4>
-    </a>
-  </article>
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 justify-items-center">
+        @forelse ($sitesTouristiques as $site)
+            <article class="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full max-w-[20rem] sm:max-w-[22rem] lg:max-w-[18rem]">
+                <a href="{{ route('sites.show', $site->id) }}" class="block">
+                    <img 
+                        class="w-full h-36 sm:h-44 md:h-52 lg:h-48 object-cover rounded-t-lg" 
+                        src="{{ asset($site->photo) }}" 
+                        alt="{{ $site->nom }}"
+                        loading="lazy"
+                    >
+                    <div class="p-4 text-center">
+                        <h3 class="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-blue-600 sm:text-red-600 truncate">
+                            {{ $site->nom }}
+                        </h3>
+                        <h4 class="text-xs sm:text-sm md:text-base font-semibold text-blue-600 sm:text-red-600 mt-2">
+                            {{ $site->commune }}
+                        </h4>
+                    </div>
+                </a>
+            </article>
+        @empty
+            <div class="col-span-1 sm:col-span-2 lg:col-span-4 text-center text-gray-500 text-base sm:text-lg py-8">
+                Aucun site touristique trouvé pour le moment.
+            </div>
+        @endforelse
+    </div>
 </div>
 
-<div class="text-center mt-6">
-  <a href="#" class="text-blue-500 font-semibold hover:underline">Voir plus</a>
+<div class="text-center mb-10">
+    <a href="{{ route('site_touristique') }}" class="text-blue-500 font-semibold hover:underline transition-colors duration-300">
+        Voir plus
+    </a>
 </div>
 
-<div class="text-center mt-10">
-  <div class="voir">
-    <a href="#" class="text-blue-600 font-semibold hover:underline">Voir les liens admin</a>
-  </div>
-</div>
 
 <div class="baniere bg-black p-6 mt-6 rounded-lg shadow-lg text-center md:flex md:items-center md:justify-between">
   <div class="baniere1 max-w-4xl mx-auto text-white">
@@ -135,43 +128,48 @@
 </div>
 
 
+{{-- //les evenement les plus proches --}}
 
-<div class="text-center font-bold text-sm md:text-2xl lg:text-3xl mt-10">
-  <h1 class="hover:opacity-80 m-8">Nos Evenements</h1>
+<div class="text-center font-bold text-sm md:text-2xl lg:text-3xl mt-10 mb-8">
+    <h1 class="hover:opacity-80 transition-opacity duration-300">Nos Événements</h1>
 </div>
-      <div class=" flex justify-center text-center  w-full mt-6 md:mb-[100px]  mb-6">
-         <div class=" flex justify-between w-full md:h-96  md:mt-10 lg:h-64 h-54 p-2 md:w-4/5 ld:w-4/5">
-        
-          <div class="hover:opacity-80 md:h-80 md:mr-5 border-white border-2 p-1 rounded-lg md:rounded-lg h-44  border-solid mr-1 flex w-1/3 rounded-r-lg shadow-md flex-col  md:w-2/3">
-              <img class="w-full h-1/2 md:h-1/2 md:w-full rounded-t-lg md:rounded-t-lg " src="{{asset('/image/Vodoun-days-Benin.jpg')}}" alt="google">
-              <h1 class="md:text-red-600 text-blue-700 font-bold mt-2 text-sm md:text-xl lg:text-2xl ">Vodoudays</h1> 
-              <h4 class="md:text-red-600 text-blue-700 font-bold mt-2 text-sm  md:text-xl lg:text-2xl" >Ouidah</h4>  
-          </div>
 
-           <div class="hover:opacity-80 md:h-80 md:mr-5 border-white border-2 p-1 rounded-lg md:rounded-lg h-44  border-solid mr-1 flex w-1/3 rounded-r-lg shadow-md flex-col  md:w-2/3">
-              <img class="w-full h-1/2 md:h-1/2 md:w-full rounded-t-lg md:rounded-t-lg " src="{{asset('/image/we love eya.jpeg')}}" alt="google">
-              <h1 class="md:text-red-600 text-blue-700 font-bold mt-2 text-sm   md:text-xl lg:text-2xl ">We love eya</h1>  
-              <h4 class="md:text-red-600 text-blue-700 font-bold mt-2 text-sm   md:text-xl lg:text-2xl" >AMAZONE</h4>  
- 
-          </div>
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 justify-items-center">
+        @forelse ($evenements as $evenement)
+            <div class="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full max-w-[20rem] sm:max-w-[22rem] lg:max-w-[18rem]">
+                <img 
+                    class="w-full h-36 sm:h-44 md:h-52 lg:h-48 object-cover rounded-t-lg" 
+                    src="{{ asset($evenement->photo) }}" 
+                    alt="{{ $evenement->nom }}"
+                    loading="lazy"
+                >
+                <div class="p-4 text-center">
+                    <h1 class="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-blue-600 sm:text-red-600 truncate">
+                        {{ $evenement->nom }}
+                    </h1>
+                    <h4 class="text-xs sm:text-sm md:text-base font-semibold text-blue-600 sm:text-red-600 mt-2">
+                        {{ $evenement->lieu }}
+                    </h4>
+                    @if ($evenement->date)
+                        <p class="text-xs sm:text-sm text-gray-500 mt-1">
+                            {{ $evenement->date}}
+                        </p>
+                    @endif
+                </div>
+            </div>
+        @empty
+            <div class="col-span-1 sm:col-span-2 lg:col-span-4 text-center text-gray-500 text-base sm:text-lg py-8">
+                Aucun événement à venir pour le moment.
+            </div>
+        @endforelse
+    </div>
+</div>
 
-          <div class="hover:opacity-80 md:h-80 border-white border-2 p-2 rounded-lg md:rounded-lg h-44  border-solid mr-1 flex w-1/3 rounded-r-lg shadow-md flex-col  md:w-2/3">
-              <img class="w-full h-1/2 md:h-1/2 md:w-full rounded-t-lg md:rounded-t-lg " src="{{asset('/image/vodundays-egungun-4.jpg')}}" alt="google">
-              <h1 class="md:text-red-600 text-blue-700 font-bold mt-2  text-sm md:text-xl lg:text-2xll ">Festival des masques</h1>  
-              <h4 class="md:text-red-600 text-blue-700 font-bold mt-2  text-sm md:text-xl lg:text-2xl" >Cotonou</h4>  
- 
-          </div>  
-          <div class="hover:opacity-80 md:h-80 border-white border-2 p-2 rounded-lg md:rounded-lg h-44  border-solid mr-1 flex w-1/3 rounded-r-lg shadow-md flex-col  md:w-2/3">
-              <img class="w-full h-1/2 md:h-1/2 md:w-full rounded-t-lg md:rounded-t-lg " src="{{asset('/image/site8-enhanced (1).png')}}" alt="google">
-              <h1 class="md:text-red-600 text-blue-700 font-bold mt-2  text-sm md:text-xl lg:text-2xll ">Jours des Martyrs</h1>  
-              <h4 class="md:text-red-600 text-blue-700 font-bold mt-2  text-sm md:text-xl lg:text-2xl" >Cotonou</h4>  
- 
-          </div>  
-        </div>
-    </div>  
-    
-    <div class="text-center mt-6">
-  <a href="#" class="text-blue-500 font-semibold hover:underline">Voir plus</a>
+<div class="text-center mb-10">
+    <a href="{{ route('evenements') }}" class="text-blue-500 font-semibold hover:underline transition-colors duration-300">
+        Voir plus
+    </a>
 </div>
     
       

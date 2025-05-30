@@ -1,12 +1,11 @@
-@extends('layouts.app')
+@extends('bloglayout')
 
 @section('title', 'Modifier Réservation')
 
-@section('content')
-<!-- Page Content -->
+@section('contenu')
 <div class="content-wrapper">
-    <div class="annonce mb-4 mt-3 ml-4">
-        <h1 >Modifier la Réservation</h1>
+    <div class="annonce mb-4">
+        <h1 class="ml-4">Modifier Réservation</h1>
     </div>
     
     <div class="row">
@@ -16,68 +15,89 @@
                     <h3 class="card-title">Formulaire de Modification</h3>
                 </div>
 
-                <div class="card-body">
-                    <p>
-                        Modifiez les informations de réservation pour l'événement et l'utilisateur sélectionnés.
-                    </p>
-
-                    <p><strong>NB:</strong> Toutes les cases comportant les étoiles <strong class="text-danger">*</strong> sont obligatoires.</p>
-
-                    <form action="{{ route('reservations.modification', $data->id) }}" method="POST" class="forma">
+                <div class="card-body p-4">
+                    <form action="{{ route('admin.reservations.update', $data->id) }}" method="post" class="forma p-4">
                         @csrf
                         @method('PUT')
 
                         <div class="mb-2">
-                            <label for="evenement_id" class="block font-semibold text-gray-700">Événement</label>
+                            <label for="evenement_id" class="block font-semibold text-gray-700 font-bold">Événement <strong class="text-danger">*</strong></label>
                             <select name="evenement_id" id="evenement_id" class="w-full border border-gray-300 rounded-lg p-2" required>
                                 <option value="">-- Sélectionnez un événement --</option>
                                 @foreach ($evenements as $evenement)
-                                    <option value="{{ $evenement->id }}" {{ $evenement->id == $data->evenement_id ? 'selected' : '' }}>
-                                        {{ $evenement->nom }}
-                                    </option>
+                                    <option value="{{ $evenement->id }}" {{ $data->evenement_id == $evenement->id ? 'selected' : '' }}>{{ $evenement->nom }}</option>
                                 @endforeach
                             </select>
+                            @error('evenement_id')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="mb-2">
-                            <label for="users_id" class="block font-semibold text-gray-700">Utilisateur</label>
-                            <select name="users_id" id="users_id" class="w-full border border-gray-300 rounded-lg p-2" required>
+                            <label for="user_id" class="block font-semibold text-gray-700 font-bold">Utilisateur <strong class="text-danger">*</strong></label>
+                            <select name="user_id" id="user_id" class="w-full border border-gray-300 rounded-lg p-2" required>
                                 <option value="">-- Sélectionnez un utilisateur --</option>
                                 @foreach ($users as $user)
-                                    <option value="{{ $user->id }}" {{ $user->id == $data->users_id ? 'selected' : '' }}>
-                                        {{ $user->name }}
-                                    </option>
+                                    <option value="{{ $user->id }}" {{ $data->user_id == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
                                 @endforeach
                             </select>
+                            @error('user_id')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
-                      
-                        <div class="form-group mb-2">
-                            <label for="nombre">Nombres <strong class="text-danger">*</strong></label>
-                            <input type="number" name="nombre" id="nombre" class="form-control" value="{{ old('nombre', $data->nombre) }}" required>
-                            @error('nombre')
+
+                        <div class="mb-2">
+                            <label for="ticket_id" class="block font-semibold text-gray-700 font-bold">Type de ticket <strong class="text-danger">*</strong></label>
+                            <select name="ticket_id" id="ticket_id" class="w-full border border-gray-300 rounded-lg p-2" required>
+                                <option value="">-- Sélectionnez un ticket --</option>
+                                @foreach ($tickets as $ticket)
+                                    <option value="{{ $ticket->id }}" data-prix="{{ $ticket->prix }}" {{ $data->ticket_id == $ticket->id ? 'selected' : '' }}>{{ $ticket->type }} ({{ $ticket->prix }} FCFA)</option>
+                                @endforeach
+                            </select>
+                            @error('ticket_id')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="form-group mb-2">
-                            <label for="prix">Prix <strong class="text-danger">*</strong></label>
-                            <input type="number" name="prix" id="prix" class="form-control" value="{{ old('prix', $data->prix) }}" required>
-                            @error('prix')
+                            <label for="nombre_personnes" class="font-bold">Nombre de personnes <strong class="text-danger">*</strong></label>
+                            <input type="number" name="nombre_personnes" id="nombre_personnes" class="form-control" value="{{ $data->nombre_personnes }}" min="1" required>
+                            @error('nombre_personnes')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="form-group mb-2">
-                            <label for="date">Date <strong class="text-danger">*</strong></label>
-                            <input type="date" name="date" id="date" class="form-control" value="{{ old('date', $data->date) }}" required>
+                            <label for="montant" class="font-bold">Montant total <strong class="text-danger">*</strong></label>
+                            <input type="number" name="montant" id="montant" class="form-control" readonly value="{{ $data->montant }}">
+                            @error('montant')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-2">
+                            <label for="type_paiement" class="block font-semibold text-gray-700 font-bold">Type de paiement <strong class="text-danger">*</strong></label>
+                            <select name="type_paiement" id="type_paiement" class="w-full border border-gray-300 rounded-lg p-2" required>
+                                <option value="">-- Sélectionnez un type de paiement --</option>
+                                @foreach ($typesPaiement as $type)
+                                    <option value="{{ $type }}" {{ $data->type_paiement == $type ? 'selected' : '' }}>{{ $type }}</option>
+                                @endforeach
+                            </select>
+                            @error('type_paiement')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label for="date" class="font-bold">Date <strong class="text-danger">*</strong></label>
+                            <input type="date" name="date" id="date" class="form-control" value="{{ $data->date }}" required>
                             @error('date')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="form-group mt-4">
-                            <button type="submit" class="btn btn-primary">Enregistrer</button>
-                            <a href="{{ route('indexreservations') }}" class="btn btn-secondary">Annuler</a>
+                            <button type="submit" class="bg-blue-700 text-white px-4 py-2 rounded text-xl font-extrabold">Modifier</button>
                         </div>
                     </form>
                 </div>
@@ -85,4 +105,22 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ticketSelect = document.getElementById('ticket_id');
+        const nombrePersonnesInput = document.getElementById('nombre_personnes');
+        const montantInput = document.getElementById('montant');
+
+        function calculerMontant() {
+            const selectedOption = ticketSelect.options[ticketSelect.selectedIndex];
+            const prix = parseFloat(selectedOption.getAttribute('data-prix')) || 0;
+            const nombrePersonnes = parseInt(nombrePersonnesInput.value) || 0;
+            montantInput.value = prix * nombrePersonnes;
+        }
+
+        ticketSelect.addEventListener('change', calculerMontant);
+        nombrePersonnesInput.addEventListener('input', calculerMontant);
+    });
+</script>
 @endsection

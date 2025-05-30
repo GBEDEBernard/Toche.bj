@@ -13,20 +13,21 @@ class TicketsController extends Controller
     //le controller du clé etranger  qui sont dans ticket
     // ticket pour l'afficher avec sont compact
     $evenements=Evenement::all();
-    return view('Admin/Tickets/create', compact('evenements'));
+    return view('Admin.Tickets.create', compact('evenements'));
  
  }
   //nous allons definir la fonction de notre reservation
   public function traitement_create_ticket(Request $request){
-    $request->validate([
-     'evenement_id',
-     'type',
-     'nombres'=>'required',
-     'prix'=>'required',
- 
-    ]);
+   $request->validate([
+      'evenement_id' => 'required|exists:evenements,id',
+      'type' => 'required|string',
+      'nombres' => 'required|integer',
+      'prix' => 'required',
+  ]);
+  
+    
     $ticket=Ticket::create($request->all());
-    return redirect('Admin.Tickets.index');
+    return redirect()->route('indextickets');
     
  }
   //Afficher la liste des reservation 
@@ -39,7 +40,7 @@ class TicketsController extends Controller
  public function modifierticket($id){
     $data= Ticket::findOrFail($id);
     
-    return view('editticket',compact('data'));
+    return view('edittickets',compact('data'));
  }
  //la fonction de traitement de la page modification  reservation
  public function modificationticket(Request $request ,$id ){
