@@ -2,6 +2,11 @@
 
 @section('contenu')
 <div class="max-w-lg mx-auto mt-10 p-6 bg-white rounded-lg shadow">
+    
+    <div class="flex justify-center mb-6">
+        <img id="logo-banque" src="{{ asset('images/banques/default.png') }}" alt="Logo Banque" class="h-20">
+    </div>
+
     <h2 class="text-xl font-bold mb-4 text-center text-green-600">Paiement par Banque</h2>
 
     <form action="{{ route('paiement.banque.process', ['id' => $reservation->id]) }}" method="POST">
@@ -40,5 +45,21 @@
             Confirmer le paiement
         </button>
     </form>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const selectBanque = document.getElementById('banque');
+            const logoBanque = document.getElementById('logo-banque');
+    
+            selectBanque.addEventListener('change', function () {
+                const banque = this.value;
+                if (banque) {
+                    logoBanque.src = `/images/banques/${banque.toLowerCase()}.png`;
+                } else {
+                    logoBanque.src = `/images/banques/default.png`;
+                }
+            });
+        });
+    </script>
+    
 </div>
 @endsection

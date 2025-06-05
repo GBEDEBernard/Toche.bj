@@ -42,8 +42,9 @@ class CategorieController extends Controller
     {
         // Validation des données entrantes
         $request->validate([
-            'types' => 'required', // Le champ 'types' est obligatoire
+            'types' => 'required|unique:categories,types',
         ]);
+        
 
         // Créer une nouvelle catégorie avec les données validées
         Categorie::create($request->all());
@@ -96,20 +97,13 @@ class CategorieController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function supression($id)
-    {
-       
-        $post = Categorie::findOrFail($id);
-        if (!$post) { 
-            return back()->with('error', 'Catégorie  introuvable.');
+{
+    $post = Categorie::findOrFail($id);
+    $post->delete();
 
-        }{
-            $post->delete();
-            // Redirection avec un message de succès
-            return to_route('indexcategorie')->with('success', 'Catégorie de Site supprimé avec succès.');
-        }
+    return to_route('indexcategorie')->with('success', 'Catégorie supprimée avec succès.');
+}
 
-        // Si le site n'est pas trouvé, rediriger avec un message d'erreur
-        return to_route('indexcategorie')->with('error', 'Catégorie de Site  non trouvé.');
-    }
-       
+
+    
 }

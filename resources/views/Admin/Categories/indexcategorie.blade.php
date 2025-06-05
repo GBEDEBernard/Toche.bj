@@ -102,18 +102,20 @@
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const deleteModal = document.getElementById('confirmDeleteCategorieModal');
+   document.addEventListener('DOMContentLoaded', function () {
+    const deleteModal = document.getElementById('confirmDeleteCategorieModal');
 
-        deleteModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget;
-            const CategorieId = button.getAttribute('data-id');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const CategorieId = button.getAttribute('data-id');
 
-            if (CategorieId) {
-                const form = document.getElementById('deleteCategorieForm');
-                form.action = '/Admin/Categorie/' + CategorieId;
-            }
-        });
+        if (CategorieId) {
+            const form = document.getElementById('deleteCategorieForm');
+            const route = "{{ route('categorie.supression', ':id') }}".replace(':id', CategorieId);
+            form.action = route;
+        }
     });
+});
+
 </script>
 

@@ -110,29 +110,4 @@ public function processBanque(Request $request, $id)
     return redirect()->route('merci.reservation')->with('success', 'Paiement par compte bancaire confirmé. Merci !');
 }
 
-// // public function processBanque(Request $request, $id)
-// // {
-// //     $reservation = Reservation::findOrFail($id);
-
-// //     // Simulation du traitement
-// //     $banque = $request->banque;
-// //     $numeroCompte = $request->numero_compte;
-// //     $nomTitulaire = $request->nom_titulaire;
-
-// //     // Ici, tu peux créer un enregistrement ou lancer une logique de paiement
-// //     // Exemple :
-// //     Paiement::create([
-// //         'reservation_id' => $reservation->id,
-// //         'type' => 'banque',
-// //         'banque' => $banque,
-// //         'numero_compte' => $numeroCompte,
-// //         'nom_titulaire' => $nomTitulaire,
-// //         'montant' => $reservation->montant,
-// //         'statut' => 'en attente', // ou validé si tu veux simuler un succès direct
-// //     ]);
-
-// //     return redirect()->route('paiement.success')->with('success', 'Votre paiement bancaire est en cours de traitement.');
-// }
-
-    
 }

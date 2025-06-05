@@ -139,7 +139,7 @@ class Site_touristiqueController extends Controller
         $query = $request->input('query');
         $categorie = $request->input('categorie');
     
-        $sites = Site_Touristique::with('categorie'); // charge la relation
+        $sites = Site_Touristique::with(['categorie', 'tousLesAvis']); // Charger aussi les avis
     
         if ($query) {
             $sites->where(function($q) use ($query) {
@@ -149,26 +149,35 @@ class Site_touristiqueController extends Controller
         }
     
         if ($categorie && $categorie !== 'all') {
-            $sites->where('categorie_id', $categorie); // filtre via ID
+            $sites->where('categorie_id', $categorie);
         }
     
-        $categories = Categorie::all(); // Prend toutes les catégories existantes
-    
+        $categories = Categorie::all();
         $sites = $sites->get();
+    
+        // Ajouter la moyenne des notes à chaque site
+        foreach ($sites as $site) {
+            $site->moyenne_note = round($site->tousLesAvis
+            ->where('statut', 'approuvé')->avg('note'), 1);
+        }
     
         return view('Site_touristique', compact('sites', 'query', 'categorie', 'categories'));
     }
     
+    
 // Controleur pour afficher chaque site 
-
 public function show(Site_touristique $site)
 {
-    // Charge les relations si besoin
-    $site->load('galeries', 'categorie');
+    // Charge toutes les relations nécessaires en un coup
+    $site->load('galeries', 'categorie', 'tousLesAvis', 'details');
+
+    // Calcule la moyenne des notes des avis approuvés
+    $site->moyenne_note = $site->tousLesAvis
+        ->where('statut', 'approuvé')
+        ->avg('note');
 
     return view('Admin.Site_touristique.show', compact('site'));
 }
-
 
 
 

@@ -26,6 +26,13 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\PieceIdentiteController;
+use App\Http\Controllers\CommentaireController;
+use App\Http\Controllers\AvisController;
+use App\Http\Controllers\SiteDetailController;
+use App\Http\Controllers\EvenementParagrapheController;
+use App\Http\Controllers\SearchController;
+
+use App\Models\EvenementParagraphe;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,17 +66,14 @@ Route::middleware(['auth', 'can:contacts.index'])->group(function () {
     Route::delete('/supprimer/{id}', [ContactController::class, 'destroy'])->name('contact.supression')->middleware('can:contacts.delete');
 });
 
-// 🔹 Formulaire
-Route::get('/formulaire', function () {
-    return view('layouts.formulaire');
-})->name('formulaire');
-Route::post('/formulaire', [FormulaireController::class, 'submit'])->name('formulaire.submit');
-
 /*
 |--------------------------------------------------------------------------
 | Routes supplémentaires protégées
 |--------------------------------------------------------------------------
 */
+//la route pour la barre de resherche
+
+// Route::get('/recherche', [SearchController::class, 'index'])->name('search');
 
 Route::get('Site_touristique', [Site_touristiqueController::class, 'site'])->name('site_touristique');
 
@@ -102,17 +106,25 @@ Route::middleware(['auth', 'can:sti_touristique.index'])->prefix('Admin')->group
     Route::get('Site_touristique/create', [Site_touristiqueController::class, 'create'])->name('create')->middleware('can:sti_touristique.create');
     Route::post('Site_touristique/create', [Site_touristiqueController::class, 'traitement_create_sites'])->name('sites.traitement');
     Route::get('Site_touristique/index', [Site_touristiqueController::class, 'Site_touristiques'])->name('index');
-
     Route::get('/editsite/{id}', [Site_touristiqueController::class, 'modifiersites'])->name('site.modifier')->middleware('can:sti_touristique.edit');
     Route::put('/editsite/{id}', [Site_touristiqueController::class, 'modificationsites'])->name('Site.modification')->middleware('can:sti_touristique.edit');
-  
-    // Route::get('Admin/modification/editSite/{id}', [Site_touristiqueController::class, 'modifiersites'])->name('site.modifier')->middleware('can:sti_touristique.edit');
-    // Route::put('Admin/modification/editSite/{id}', [Site_touristiqueController::class, 'modificationsites'])->name('Site.modification')->middleware('can:sti_touristique.update');
-   
     Route::delete('Site_touristique/delete/{id}', [Site_touristiqueController::class, 'Suprimer'])->name('Site.supression')->middleware('can:sti_touristique.delete');
 });
 
 Route::get('/sites/{site}', [Site_touristiqueController::class, 'show'])->name('sites.show');
+
+// les Paragraphe de chaque site 
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/details', [SiteDetailController::class, 'index'])->name('details.index'); // ?site_id=2
+    Route::get('/details/create', [SiteDetailController::class, 'create'])->name('details.create'); // ?site_id=2
+    Route::post('/details/store', [SiteDetailController::class, 'store'])->name('details.store');
+    Route::get('/details/{detail}', [SiteDetailController::class, 'show'])->name('details.show');
+    Route::get('/details/{detail}/edit', [SiteDetailController::class, 'edit'])->name('details.edit');
+    Route::put('/details/{detail}', [SiteDetailController::class, 'update'])->name('details.update');
+    Route::delete('/details/{detail}', [SiteDetailController::class, 'destroy'])->name('details.destroy');
+});
+
+
 
 /*---------------------------------------
 | Routes pour les Catégories (Admin only)
@@ -123,7 +135,7 @@ Route::middleware(['auth', 'can:categories.index'])->prefix('Admin')->group(func
     Route::get('Categories/indexcategorie', [CategorieController::class, 'Categorie'])->name('indexcategorie');
     Route::get('/editcategorie/{id}', [CategorieController::class, 'modifiercategorie'])->name('categorie.modifier')->middleware('can:categories.edit');
     Route::put('/editcategorie/{id}', [CategorieController::class, 'modificationcategorie'])->name('categorie.modification')->middleware('can:categories.edit'); 
-    Route::delete('Categories/delete/{id}', [CategorieController::class, 'Supression'])->name('categorie.supression')->middleware('can:categories.delete');
+    Route::delete('Categories/delete/{id}', [CategorieController::class, 'supression'])->name('categorie.supression')->middleware('can:categories.delete');
 });
 
 /*---------------------------------------
@@ -132,8 +144,7 @@ Route::middleware(['auth', 'can:categories.index'])->prefix('Admin')->group(func
 Route::middleware(['auth', 'can:evenements.index'])->prefix('Admin')->group(function () {
     Route::get('Evenements/create', [EvenementsController::class, 'create_evenement'])->name('evenement.create')->middleware('can:evenements.create');
     Route::post('Evenements/create', [EvenementsController::class, 'traitement_create_evenement'])->name('evenements.traitement');
-    Route::get('Evenements/index', [EvenementsController::class, 'Evenement'])->name('indexevenements');
-   
+    Route::get('Evenements/index', [EvenementsController::class, 'Evenement'])->name('indexevenements'); 
     Route::get('/editevenement/{id}', [EvenementsController::class, 'modifierevenements'])->name('evenements.modifier')->middleware('can:evenements.edit');
     Route::put('/editevenement/{id}', [EvenementsController::class, 'modificationevenements'])->name('evenements.modification')->middleware('can:evenements.edit');
     Route::delete('Evenements/delete/{id}', [EvenementsController::class, 'Supressionevenements'])->name('evenements.supression')->middleware('can:evenements.delete');
@@ -142,6 +153,16 @@ Route::middleware(['auth', 'can:evenements.index'])->prefix('Admin')->group(func
 // Public show route for events
 Route::get('/admin/evenements/{id}', [EvenementsController::class, 'show'])->name('admin.evenements.show');
 
+//evenement paragraphe
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/paragraphes', [EvenementParagrapheController::class, 'index'])->name('paragraphes.index'); // ?site_id=2
+    Route::get('/paragraphes/create', [EvenementParagrapheController::class, 'create'])->name('paragraphes.create'); // ?site_id=2
+    Route::post('/paragraphes/store', [EvenementParagrapheController::class, 'store'])->name('paragraphes.store');
+    Route::get('/paragraphes/{paragraphe}', [EvenementParagrapheController::class, 'show'])->name('paragraphes.show');
+    Route::get('/paragraphes/{paragraphe}/edit', [EvenementParagrapheController::class, 'edit'])->name('paragraphes.edit');
+    Route::put('/paragraphes/{paragraphe}', [EvenementParagrapheController::class, 'update'])->name('paragraphes.update');
+    Route::delete('/paragraphes/{paragraphe}', [EvenementParagrapheController::class, 'destroy'])->name('paragraphes.destroy');
+});
 /*---------------------------------------
 | Routes pour les Visites
 ----------------------------------------*/
@@ -151,7 +172,11 @@ Route::middleware(['auth', 'can:visites.index'])->prefix('Admin')->group(functio
     Route::get('Visites/index', [VisitesController::class, 'visite'])->name('indexvisites');
     Route::get('/editvisite/{id}', [VisitesController::class, 'modifiervisite'])->name('visites.modifier')->middleware('can:visites.edit');
     Route::put('/editvisite/{id}', [VisitesController::class, 'modificationvisite'])->name('visites.modification')->middleware('can:visites.edit');
+   
     Route::delete('Visites/delete/{id}', [VisitesController::class, 'destroy'])->name('visites.supression')->middleware('can:visites.delete');
+// route de demande de visite
+    Route::post('visite/demande/{site}', [VisitesController::class, 'storeDemande'])->name('visite.demande.store');
+
 });
 
 //*---------------------------------------
@@ -190,7 +215,9 @@ Route::middleware(['auth', 'can:tickets.index'])->prefix('Admin')->group(functio
     Route::get('/editticket/{id}', [TicketsController::class, 'modifierticket'])->name('tickets.modifier')->middleware('can:tickets.edit');
     Route::put('/editticket/{id}', [TicketsController::class, 'modificationticket'])->name('tickets.modification')->middleware('can:tickets.edit');
    
-    Route::delete('Tickets/delete/{id}', [TicketsController::class, 'Supressionticket'])->name('tickets.supression')->middleware('can:tickets.delete');
+    Route::delete('/Admin/Tickets/delete/{id}', [TicketsController::class, 'supressionticket'])
+    ->name('tickets.supression')
+    ->middleware('can:tickets.delete');
 });
 // In routes/web.php
 Route::get('/tickets/availability/{ticket_id}', [ReservationsController::class, 'getTicketAvailability'])->name('tickets.availability');
@@ -286,3 +313,25 @@ Route::get('Public/Reservations/merci', function () {
 //les routes backend
 Route::get('/paiement/banque/{reservation}', [PaiementController::class, 'formBanque'])->name('paiements.banque.form');
 Route::post('/paiement/banque', [PaiementController::class, 'storeBanque'])->name('paiements.banque.store');
+
+// la route pour les commentaire
+Route::post('/commentaires', [CommentaireController::class, 'store'])->name('commentaires.store');
+
+//pour les avis
+// Route publique pour poster un avis (utilisée par le formulaire)
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/avis', [AvisController::class, 'store'])->name('avis.store');
+    Route::post('/avis/{id}/repondre', [AvisController::class, 'repondre'])->name('avis.repondre');
+    Route::put('/avis/{avis}', [AvisController::class, 'update'])->name('avis.update');
+
+});
+
+//les routes des avis
+Route::prefix('Admin/Avis')->middleware(['auth', 'role:admin'])->name('Admin.Avis.')->group(function () {
+    Route::get('/index', [AvisController::class, 'index'])->name('index');
+    Route::patch('/{avis}/approuver', [AvisController::class, 'approuver'])->name('approuver');
+    Route::patch('/{avis}/refuser', [AvisController::class, 'refuser'])->name('refuser');
+    Route::post('/{avis}/repondre', [AvisController::class, 'repondre'])->name('repondre'); // 👈 AJOUT ICI
+});
+

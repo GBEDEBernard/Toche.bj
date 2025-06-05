@@ -32,10 +32,34 @@
                 <p class="text-sm text-gray-600 mt-1">
                     Catégorie : {{ $site->categorie->types ?? 'Non définie' }}
                 </p>
+
+                                {{-- afficharge des etoiles sur les sites  --}}
+
+                <div class="flex  items-center space-x-1 mt-1">
+                    @php
+                    $moyenne = $site->moyenne_note ?? 0;
+                    $etoilesPleine = floor($moyenne);
+                    $demiEtoile = ($moyenne - $etoilesPleine) >= 0.5;
+                    $etoilesVide = 5 - $etoilesPleine - ($demiEtoile ? 1 : 0);
+                   @endphp
+                
+                    @for ($i = 0; $i < $etoilesPleine; $i++)
+                        <span class="text-yellow-400">★</span>
+                    @endfor
+                    @if($demiEtoile)
+                        <span class="text-yellow-400">☆</span>
+                    @endif
+                    @for ($i = 0; $i < $etoilesVide; $i++)
+                        <span class="text-gray-300">★</span>
+                    @endfor
+                    <span class="text-gray-600 ml-2 text-sm">({{ $moyenne }})</span>
+                </div>
+
                 <a href="{{ route('sites.show', $site->id) }}"
                    class="inline-block mt-4 text-sm bg-blue-600 text-white px-4 py-1 rounded-full hover:bg-blue-700 transition">
                     Voir détails
                 </a>
+                {{-- afficharge des etoiles sur les sites  --}}
             </div>
         </div>
     @empty

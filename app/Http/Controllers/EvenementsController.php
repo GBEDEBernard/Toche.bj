@@ -186,7 +186,10 @@ class EvenementsController extends Controller
 //la vue chow d'evenement qui lie aussi les photo des galerie au site et evenement 
 public function show($id)
 {
-    $evenement = Evenement::with(['site_touristique', 'galeries'])->findOrFail($id);
+    $evenement = Evenement::with(['site_touristique', 'galeries', 'avis'])->findOrFail($id);
+
+    $moyenne = $evenement->avis->avg('note');
+    $evenement->moyenne_note = $moyenne ? round($moyenne, 1) : 0;
 
     $relatedEvenements = Evenement::where('id', '!=', $evenement->id)
         ->where('date', '>=', Carbon::today())
@@ -202,6 +205,13 @@ public function show($id)
             ->take(4)
             ->get();
     }
+
+    // Aussi calculer la moyenne pour les événements liés, si besoin
+    $relatedEvenements->transform(function ($event) {
+        $moyenne = $event->avis->avg('note');
+        $event->moyenne_note = $moyenne ? round($moyenne, 1) : 0;
+        return $event;
+    });
 
     return view('Admin.Evenements.show', compact('evenement', 'relatedEvenements'));
 }

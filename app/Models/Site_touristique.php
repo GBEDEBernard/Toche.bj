@@ -83,10 +83,26 @@ class Site_touristique extends Model
     public function  evenements():HasMany{
         return $this->hasMany(Evenement::class);
     }
-    //la méthods avis  pour declarer qu'un utilisateur (user)
-    //  peut donner 1 où plusieurs avis
-    public function  avis():HasMany{
-        return $this->hasMany(Avi::class);
+    
+    //relation des commentaire
+    public function commentaires() {
+        return $this->hasMany(Commentaire::class);
     }
+    
+    public function avis()
+    {
+        return $this->morphMany(Avis::class, 'avisable')->where('statut', 'approuvé');
+    }
+    
+// Affiche tous les avis, utile pour l'utilisateur connecté
+public function tousLesAvis() {
+    return $this->morphMany(Avis::class, 'avisable');
+}
+
+public function details()
+{
+    return $this->hasMany(SiteDetail::class)->orderBy('ordre');
+}
+
 
 }

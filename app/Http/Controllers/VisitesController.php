@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Visite;
 use App\Models\Site_touristique;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class VisitesController extends Controller
 {
@@ -67,7 +68,32 @@ class VisitesController extends Controller
 
     $visite->delete();
     return redirect()->route('indexvisites')->with('success', 'Visite supprimée.');
+}public function storeDemande(Request $request, Site_Touristique $site)
+{
+    $request->validate([
+        'nom' => 'required|string|max:255',
+        'telephone' => 'required|string',
+        'nombre' => 'required|integer|min:1',
+        'date' => 'required|date|after_or_equal:today',
+    ]);
+
+    // Vérifie si l'utilisateur est connecté avant de continuer
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Vous devez être connecté pour faire une demande de visite.');
+    }
+
+    // Création de la visite
+    Visite::create([
+        'site_touristique_id' => $site->id,
+        'user_id' =>Auth::id() , // ici c'est sûr qu'on est connecté
+        'telephone' => $request->telephone,
+        'nombre' => $request->nombre,
+        'prix' => 0,
+        'date' => $request->date,
+        'chemin_ticket' => '',
+    ]);
+
+    return redirect()->back()->with('success', 'Votre demande de visite a été enregistrée. Nous vous contacterons bientôt !');
 }
 
-  
 }

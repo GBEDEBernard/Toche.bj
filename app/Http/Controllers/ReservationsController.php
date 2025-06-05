@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
+
 class ReservationsController extends Controller
 {
     /**
@@ -160,27 +161,32 @@ public function store(Request $request)
         'evenement_id' => 'required|exists:evenements,id',
         'ticket_id' => 'required|exists:tickets,id',
         'nombre_personnes' => 'required|integer|min:1',
+        'montant' => 'required|numeric|min:0',
+        'type_paiement' => 'required|string',
         'type_piece' => 'required|string',
-        'numero_piece' => 'required|string',
-        'type_paiement' => 'required|in:Carte bancaire,Mobile Money,Espèces',
+        'numero_piece' => 'required|string|unique:pieces_identites,numero',
         'date' => 'required|date',
     ]);
 
     $user = Auth::user();
 
-    // Vérifie ticket dispo (déjà bien géré côté JS mais c’est mieux de revalider ici)
+    // Vérification du ticket
     $ticket = Ticket::findOrFail($validated['ticket_id']);
+
     if ($validated['nombre_personnes'] > $ticket->nombres) {
         return back()->withErrors(['nombre_personnes' => 'Nombre de personnes dépasse les tickets disponibles.']);
     }
 
-    // Enregistrer la pièce d'identité si pas encore existante
-    $piece = PieceIdentite::firstOrCreate(
-        ['user_id' => $user->id],
-        ['type' => $validated['type_piece'], 'numero' => $validated['numero_piece']]
-    );
+    // Enregistrer la pièce d'identité (on a déjà validé qu'elle est unique)
+    $piece = PieceIdentite::create([
+        'user_id' => $user->id,
+        'type' => $validated['type_piece'],
+        'numero' => $validated['numero_piece'],
+        'date_expiration' => null, // À prévoir dans un formulaire futur
+        'scan' => null, // Possibilité d'ajouter l'upload plus tard
+    ]);
 
-    // Créer la réservation
+    // Création de la réservation
     $reservation = Reservation::create([
         'evenement_id' => $validated['evenement_id'],
         'user_id' => $user->id,
@@ -191,29 +197,27 @@ public function store(Request $request)
         'date' => $validated['date'],
     ]);
 
-    // Créer le paiement
+    // Création du paiement associé
     $paiement = Paiement::create([
         'reservation_id' => $reservation->id,
         'montant' => $reservation->montant,
         'type_paiement' => $reservation->type_paiement,
-        'mode' => strtolower($reservation->type_paiement), // par exemple : "mobile money"
-        'reference' => uniqid('PMT_'), // ou tout autre identifiant unique
-        'date_paiement' => now(), // ou la date réelle du paiement
+        'mode' => strtolower($reservation->type_paiement),
+        'reference' => uniqid('PMT_'),
+        'date_paiement' => now(),
         'statut' => 'en_attente',
     ]);
-    
 
-    // 🔁 Redirection selon le type de paiement
-    if ($validated['type_paiement'] === 'Mobile Money') {
-        return redirect()->route('paiement.mobile', ['id' => $paiement->id]);
-    } elseif ($validated['type_paiement'] === 'Carte bancaire') {
-        return redirect()->route('paiement.banque', ['id' => $paiement->id]);
+    // Redirection selon le mode de paiement
+    switch ($validated['type_paiement']) {
+        case 'Mobile Money':
+            return redirect()->route('paiement.mobile', ['id' => $paiement->id]);
+        case 'Carte bancaire':
+            return redirect()->route('paiement.banque', ['id' => $paiement->id]);
+        default:
+            return redirect()->route('merci.reservation')->with('success', 'Réservation enregistrée avec succès. Paiement à faire sur place.');
     }
-
-    // Sinon, message pour les espèces
-    return redirect()->route('merci.reservation')->with('success', 'Réservation enregistrée avec succès. Paiement à faire sur place.');
 }
-        
 
     
         public function mobileMoney($reservationId)

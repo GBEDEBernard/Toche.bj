@@ -40,7 +40,7 @@ class TicketsController extends Controller
  public function modifierticket($id){
     $data= Ticket::findOrFail($id);
     
-    return view('edittickets',compact('data'));
+    return view('editTicket',compact('data'));
  }
  //la fonction de traitement de la page modification  reservation
  public function modificationticket(Request $request ,$id ){
@@ -50,14 +50,15 @@ class TicketsController extends Controller
  }
  //fonction pour suprimer une ligne dans la liste des reservation
  public function supressionticket($id)
- {
-   $post= Ticket::Where('id',$id)->first();
-   if (!$post ) 
-   {
-     return back()->with('error', 'Ticket introuvable.');
- } {
-     $post->delete();
-     return redirect()->route('indextickets')->with('success', 'Ticket supprimé avec succès.');
- }
-  }
+{
+    $ticket = Ticket::find($id);
+    if (!$ticket) {
+        return back()->with('error', 'Ticket introuvable.');
+    }
+
+    $ticket->delete();
+
+    return redirect()->route('indextickets')->with('success', 'Ticket supprimé avec succès.');
+}
+
 }

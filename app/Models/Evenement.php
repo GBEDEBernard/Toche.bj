@@ -81,4 +81,24 @@ class Evenement extends Model
     public function site_touristique():BelongsTo{
         return $this->belongsTo(Site_touristique::class );
     }
+    //relation des commentaire
+    public function commentaires() {
+        return $this->hasMany(Commentaire::class);
+    }
+
+    public function avis()
+    {
+        return $this->morphMany(Avis::class, 'avisable')->where('statut', 'approuvé');
+    }
+    // Affiche tous les avis, utile pour l'utilisateur connecté
+public function tousLesAvis()
+{
+    return $this->morphMany(Avis::class, 'avisable');
+}
+//les ordres pour les paragraphe
+public function paragraphes()
+{
+    return $this->hasMany(EvenementParagraphe::class)->orderBy('ordre');
+}
+
 }
