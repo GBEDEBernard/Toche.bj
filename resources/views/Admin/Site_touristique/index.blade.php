@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="content-wrapper mt-4">
+<div class="content-wrapper mt-4 p-4">
     <!-- Section d'annonce -->
     <section class="content-header">
         <h1 class="text-center mb-2 font-serif font-bold">Liste des Sites Touristiques</h1>

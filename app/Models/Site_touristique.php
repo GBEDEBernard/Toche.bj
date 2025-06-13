@@ -61,6 +61,10 @@ class Site_touristique extends Model
         'photo',
         'contact',
         'description',
+        // POUR LA LOCALISATION
+        'adresse', // Nouveau
+        'latitude', // Nouveau
+        'longitude', // Nouveau
         
     ];
     //cette method catégorie veut dire un site touristique est 

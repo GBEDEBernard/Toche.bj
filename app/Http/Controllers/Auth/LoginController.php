@@ -4,50 +4,29 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request; // <-- Ajout de cette ligne
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | Ce contrôleur gère l'authentification des utilisateurs et leur redirection
-    | après la connexion.
-    |
-    */
-
     use AuthenticatesUsers;
 
-    /**
-     * Où rediriger les utilisateurs après une connexion réussie.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\RedirectResponse
-     */
+    // Par défaut, redirige vers la page d'accueil
+    protected $redirectTo = '/';
 
-    /**
-     * Rediriger après une connexion réussie.
-     */
-    protected function authenticated(Request $request, $user)
-    {
-         // Rediriger l'utilisateur vers la page AdminLTE après la connexion
-         if ($user->can('access.welcome')) {
-            return redirect()->to('/welcome');
-        } else {
-            return redirect()->to('/accueil');
-        }    }
-
-    /**
-     * Créer une nouvelle instance de contrôleur.
-     *
-     * @return void
-     */
     public function __construct()
     {
-        // On protège l'accès à la page de connexion pour les utilisateurs déjà connectés
-        $this->middleware('guest')->except('logout'); // On laisse la méthode logout accessible même pour les utilisateurs connectés
+        $this->middleware('guest')->except('logout');
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        // Si l'utilisateur est admin (user_id = 1 ou rôle admin)
+        if ($user->id === 1 || $user->hasRole('admin')) {
+            return redirect()->intended('/welcome'); // Redirige vers /admin ou page demandée
+        }
+
+        // Pour les utilisateurs standards, redirige vers la page demandée ou /
+        return redirect()->intended($this->redirectTo);
     }
 }

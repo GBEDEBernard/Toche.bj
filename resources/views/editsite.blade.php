@@ -42,6 +42,21 @@
                 <input type="text" name="commune" value="{{ $data->commune }}" required class="w-full mt-1 border border-gray-300 rounded-md p-2">
             </div>
 
+              {{-- <div>
+              <label for="adresse" class="block text-gray-700 font-medium">Adresse <span class="text-red-600">*</span></label>
+              <input type="text" name="adresse" value="{{ $data->adresse }}" required class="w-full mt-1 border border-gray-300 rounded-md p-2">
+             </div>
+           
+             <div>
+                <label for="latitude" class="block text-gray-700 font-medium">Latitude <span class="text-red-600">*</span></label>
+                <input type="text" name="latitude" value="{{ $data->latitude }}" required class="w-full mt-1 border border-gray-300 rounded-md p-2">
+               </div>
+  
+               <div>
+                <label for="longitude" class="block text-gray-700 font-medium">Adresse <span class="text-red-600">*</span></label>
+                <input type="text" name="longitude" value="{{ $data->longitude }}" required class="w-full mt-1 border border-gray-300 rounded-md p-2">
+               </div>
+   --}}
             <div>
                 <label for="email" class="block text-gray-700 font-medium">Email <span class="text-red-600">*</span></label>
                 <input type="email" name="email" value="{{ $data->email }}" required class="w-full mt-1 border border-gray-300 rounded-md p-2">

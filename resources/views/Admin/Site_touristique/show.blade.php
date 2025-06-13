@@ -9,23 +9,24 @@
         {{-- Overlay sombre pour lisibilité --}}
         <div class="absolute inset-0 bg-black bg-opacity-50"></div>
 
-        <div class="absolute bottom-6 left-6 text-white z-10">
-            <h2 class="text-3xl md:text-5xl font-bold">{{ $site->nom }}</h2>
-            <h3 class="text-xl">{{ $site->commune }}</h3>
+        <div class="absolute bottom-6 left-6 text-white z-10 font-serif">
+            <h2 class="text-3xl md:text-5xl font-bold font-serif">{{ $site->nom }}</h2>
+            <h3 class="text-xl ">{{ $site->commune }}</h3>
             <p class="text-sm">Tel : {{ $site->contact ?? 'Non renseigné' }}</p>
+          
         </div>
     </div>
 
     {{-- Description --}}
     <section class="px-4 md:px-20 py-10 bg-gray-50">
-        <h1 class="text-2xl md:text-4xl font-bold mb-6">À propos de {{ $site->nom }}</h1>
+        <h1 class="text-2xl md:text-4xl font-bold mb-6 font-serif">À propos de {{ $site->nom }}</h1>
         <div class="text-gray-800 space-y-4 text-justify">
             <p>{{ $site->description }}</p>
         </div>
     </section>
     {{-- les details sur chaque site --}}
     <section class="px-4 md:px-20 py-10 bg-white">
-        <h2 class="text-2xl font-bold mb-6">Détails</h2>
+        <h2 class="text-2xl font-bold mb-6 font-serif">Détails</h2>
         @foreach($site->details as $detail)
             <article class="mb-6">
                 @if($detail->titre)
@@ -42,7 +43,7 @@
  
 @if($site->galeries && count($site->galeries) > 0)
 <section class="px-4 md:px-20 py-10">
-    <h2 class="text-2xl font-bold mb-4">Galeries</h2>
+    <h2 class="text-2xl font-bold mb-4 font-serif">Galeries</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         @foreach ($site->galeries as $galerie)
             <div>
@@ -53,14 +54,21 @@
     </div>
 </section>
 @endif
-<!-- Alpine.js doit être inclus dans ton layout principal -->
+<!-- Alpine.js doit être inclus dans  layout principal -->
 
+{{-- Section Conseils aux visiteurs --}}
+<div class="max-w-4xl mx-auto my-12 px-4">
+    <h2 class="text-2xl md:text-3xl font-serif font-bold text-gray-800 mb-4">Conseils pour explorer les sites touristiques</h2>
+    <p class="text-gray-600 font-serif font-bold leading-relaxed">
+        Pour profiter pleinement de votre visite au Bénin, planifiez votre voyage pendant la saison sèche (novembre à mars) pour un climat agréable. Respectez les traditions locales, notamment lors des visites de sites sacrés comme ceux liés au vodou. Pensez à réserver vos billets à l'avance via notre plateforme pour éviter les files d'attente !
+    </p>
+</div>
 <div x-data="{ open: false }" class="flex flex-col items-center justify-center mt-10 px-4">
 
     <!-- Bouton de demande -->
     <button 
         @click="open = !open"
-        class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded font-bold text-lg"
+        class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded font-bold text-lg font-serif"
     >
         Demander une visite
     </button>
@@ -69,7 +77,7 @@
     <div 
         x-show="open" 
         x-transition 
-        class="w-full max-w-lg bg-gray-100 p-6 mt-6 rounded shadow-lg"
+        class="w-full max-w-lg bg-gray-100 p-6 mt-6 rounded shadow-lg font-serif"
     >
         <h2 class="text-2xl font-bold mb-6 text-center">Formulaire de demande</h2>
 
@@ -107,15 +115,15 @@
 </div>
 {{-- message de succes --}}
 @if(session('success'))
-<div class="mt-4 p-3 bg-green-200 text-green-800 rounded">
+<div class="mt-4 p-3 bg-green-200 text-green-800 rounded font-serif">
     {{ session('success') }}
 </div>
 @endif
 
-            </div>
+            </div >
       {{--la div pour les commentaire  --}}
       @if(auth()->check())
-      <section class="px-4 md:px-20 py-10 bg-white">
+      <section class="px-4 md:px-20 py-10 bg-white font-serif">
           <h3 class="text-xl font-bold mb-4 text-blue-700">Donnez votre avis et notez nous</h3>
       
           <!-- Bouton pour ouvrir la modale -->
@@ -309,4 +317,20 @@
           }
       </script>
 </div>
+{{-- script pour la localisation 
+@push('scripts')
+    @if ($site->latitude && $site->longitude)
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script>
+            var map = L.map('map').setView([{{ $site->latitude }}, {{ $site->longitude }}], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            L.marker([{{ $site->latitude }}, {{ $site->longitude }}]).addTo(map)
+                .bindPopup('<b>{{ $site->nom }}</b><br>{{ $site->adresse ?? $site->commune }}');
+        </script>
+    @endif
+@endpush
+--}}
 @endsection

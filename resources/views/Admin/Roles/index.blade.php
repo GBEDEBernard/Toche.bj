@@ -1,121 +1,134 @@
 @extends('layouts.app')
 
-@section('title', 'Liste des Rôles')
-
 @section('content')
-<!-- Main content -->
-<section class="content">
-    <div class="container-fluid">
-        <!-- Card for listing roles -->
-        <div class="row">
-            <div class="col-md-12">
-                <!-- Card -->
-                <div class="card card-primary w-75  mt-4 mx-auto ">
-                    <div class="card-header">
-                        <h3 class="card-title">Liste des Rôles</h3>
-                    </div>
-                    <div class="text-end mb-3 mr-2 mt-4">
-                        <a class="shadow  text-xl text-white  italic py-2 px-1 rounded bg-blue-600 border-2 border-solid font-bold mb-2 mr-4 " style="text-decoration: none;" href="{{ route('roles') }}">
-                            Donner un role</a>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        <!-- Table -->
-                        <table class="table table-bordered table-striped table-hover">
-                            <thead>
-                                <tr class="text-center" >
-                                    <th scope="col">N°</th>
-                                    <th scope="col">Nom</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-center">
-                                @foreach($datas as $data)
-                                    <tr>
-                                        <td>{{$data->id}}</td>
-                                        <td>{{$data->name}}</td>
-                                        <td>
-                                          
-                                            <a href="{{ route('roles.modifier', $data->id) }}" class=" text-decoration-none font-bold flex text-xl">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 mr-2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
-                                                  </svg>
-                                                    Modifier</a>   
-                                                    <button type="button"  class="font-bold text-red-600 flex text-decoration-none"     
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#confirmDeleteRoleModal"
-                                                    data-id="{{ $data->id }}">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                        class="size-5 mr-2">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                                    </svg>
-                                                    Supprimer
-                                                </button>  
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+<div class="container mx-auto px-4 py-8">
+    <!-- Header -->
+    <header class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 uppercase tracking-tight">Gestion des Rôles</h1>
+        <p class="mt-2 text-sm text-gray-600">Gérez les rôles et assignez-les aux utilisateurs de manière efficace.</p>
+    </header>
+
+    <!-- Messages -->
+    @if (session('success'))
+        <div class="mb-6 bg-green-50 border-l-4 border-green-500 text-green-700 p-4 rounded-lg shadow-sm" role="alert">
+            <div class="flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                <span>{{ session('success') }}</span>
             </div>
         </div>
-    </div>
-</section>
-
-            <!-- Modal de confirmation -->
-            <div class="modal fade" id="confirmDeleteRoleModal" tabindex="-1"
-                aria-labelledby="confirmDeleteRoleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <form  method="POST" id="deleteRoleForm">
-                        @csrf
-                        @method('DELETE')
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Confirmation</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-                            <div class="modal-body">
-                                Voulez-vous vraiment supprimer cette visite ?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                <button type="submit" class="btn btn-danger">Supprimer</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+    @endif
+    @if (session('error'))
+        <div class="mb-6 bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-lg shadow-sm" role="alert">
+            <div class="flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                </svg>
+                <span>{{ session('error') }}</span>
             </div>
+        </div>
+    @endif
 
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
+    <!-- Create Role Button -->
+    <div class="mb-8 flex justify-end">
+        <a href="{{ route('admin.roles.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-300">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Créer un nouveau rôle
+        </a>
+    </div>
 
-            @if (session('error'))
-                <div class="alert alert-danger">
-                    {{ session('error') }}
-                </div>
-            @endif
+    <!-- Roles Table -->
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-8">
+        <div class="p-6 border-b border-gray-200">
+            <h3 class="text-xl font-semibold text-gray-900">Liste des Rôles</h3>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permissions</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @forelse ($roles as $role)
+                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                            <td class="px-6 py-4 text-sm text-gray-900">{{ $role->name }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-600">
+                                {{ $role->permissions->pluck('name')->implode(', ') ?: 'Aucune' }}
+                            </td>
+                            <td class="px-6 py-4 text-sm">
+                                <div class="flex items-center space-x-3">
+                                    <a href="{{ route('admin.roles.edit', $role->id) }}" class="text-indigo-600 hover:text-indigo-800 font-medium">Modifier</a>
+                                    @if ($role->name !== 'admin')
+                                        <form action="{{ route('admin.roles.destroy', $role->id) }}" method="POST" class="inline" onsubmit="return confirm('Voulez-vous vraiment supprimer ce rôle ?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:text-red-800 font-medium">Supprimer</button>
+                                        </form>
+                                    @endif
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" class="px-6 py-4 text-sm text-gray-500 text-center">Aucun rôle trouvé.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Users Table -->
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div class="p-6 border-b border-gray-200">
+            <h3 class="text-xl font-semibold text-gray-900">Assigner des Rôles aux Utilisateurs</h3>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Utilisateur</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rôles Actuels</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assigner Rôles</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @forelse ($users as $user)
+                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                            <td class="px-6 py-4 text-sm text-gray-900">{{ $user->email }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-600">
+                                {{ $user->roles->pluck('name')->implode(', ') ?: 'Aucun' }}
+                            </td>
+                            <td class="px-6 py-4 text-sm">
+                                <form action="{{ route('admin.roles.assign', $user->id) }}" method="POST" class="flex items-center space-x-3">
+                                    @csrf
+                                    <select name="roles[]" multiple class="w-48 border-gray-300 rounded-lg p-2 text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->name }}" {{ $user->hasRole($role->name) ? 'selected' : '' }}>
+                                                {{ $role->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-300">
+                                        Mettre à jour
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" class="px-6 py-4 text-sm text-gray-500 text-center">Aucun utilisateur trouvé.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 @endsection
-
-@push('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const deleteModal = document.getElementById('confirmDeleteRoleModal');
-
-        deleteModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget;
-            const roleID = button.getAttribute('data-id');
-
-            if (roleID) {
-                const form = document.getElementById('deleteRoleForm');
-                form.action = '/Admin/Roles/' + roleID;
-            }
-        });
-    });
-</script>
-@endpush

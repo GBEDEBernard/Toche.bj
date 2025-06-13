@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Evenement;
 use App\Models\Site_touristique;
+use App\Models\Hotel;
+use App\Models\Faq;
+use Carbon\Carbon; // tout en haut si ce n’est pas déjà fait
+
 
 class AcceuilController extends Controller
 {
@@ -18,7 +22,8 @@ class AcceuilController extends Controller
                 ->where('statut', 'approuvé')
                 ->avg('note') ?? 0;
         }
-        
+
+
         $topSites = $sitesTouristiques->sortByDesc('moyenne_note')->take(4);
     
         // Récupérer les top événements
@@ -33,7 +38,9 @@ class AcceuilController extends Controller
         }
     
         $topEvenements = $evenements->sortByDesc('moyenne_note')->take(4);
-    
+        // pour les faq
+        $faqs = Faq::orderBy('order')->get();
+
         // Logique de recherche
         $destination = $request->input('destination');
         $date = $request->input('date');
@@ -62,13 +69,26 @@ class AcceuilController extends Controller
             })
             ->with(['site_touristique', 'galeries', 'avis'])
             ->get();
-    
+
+            // la recuperation des quatres hotel
+            $hotels = Hotel::latest()->take(4)->get();  // on prend les 4 derniers hôtels
+
+            // variable des annonce
+            $prochainEvenement = Evenement::with(['galeries' => function ($query) {
+                $query->orderBy('id')->take(2);
+            }])
+            ->where('date', '>=', Carbon::today())
+            ->orderBy('date')
+            ->first();
         return view('Acceuil', [
             'topSites' => $topSites,
             'topEvenements' => $topEvenements,
             'sites' => $sites,
             'evenements' => $evenementsRecherche,
-            'isSearch' => true
+            'isSearch' => true,
+            'faqs' => $faqs,  // ajoute ça directement
+            'prochainEvenement' => $prochainEvenement, // 🧠 la clé manquante !
+            'hotels' => $hotels, 
         ]);
     }
     

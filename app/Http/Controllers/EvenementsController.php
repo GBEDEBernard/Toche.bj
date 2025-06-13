@@ -15,13 +15,13 @@ class EvenementsController extends Controller
     /**
      * Affiche la page principale des événements.
      */
-    public function index(Request $request) // il manquait $request aussi ici !
+    public function index(Request $request)
     {
         $query = $request->input('query');
         $siteId = $request->input('site');
-    
+
         $evenements = Evenement::with('site_touristique');
-    
+
         if ($query) {
             $evenements->where(function ($q) use ($query) {
                 $q->where('nom', 'like', "%{$query}%")
@@ -29,17 +29,24 @@ class EvenementsController extends Controller
                   ->orWhere('description', 'like', "%{$query}%");
             });
         }
-    
+
         if ($siteId && $siteId !== 'all') {
             $evenements->where('site_touristique_id', $siteId);
         }
-    
+
         $evenements = $evenements->get();
         $sites = Site_touristique::all();
-    
-        return view('Evenements', compact('evenements', 'query', 'siteId', 'sites'));
+
+        // Récupérer l'événement le plus proche avec ses deux premières photos
+        $prochainEvenement = Evenement::with(['galeries' => function ($query) {
+            $query->orderBy('id')->take(2); // Prendre les 2 premières photos
+        }])
+            ->where('date', '>=', Carbon::today())
+            ->orderBy('date')
+            ->first();
+
+        return view('Evenements', compact('evenements', 'query', 'siteId', 'sites', 'prochainEvenement'));
     }
-    
     /**
      * Affiche le formulaire de création d'un événement.
      */

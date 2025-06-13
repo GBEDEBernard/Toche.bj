@@ -1,110 +1,139 @@
 <!--begin::Header-->
-
-
-<nav class="app-header navbar navbar-expand bg-body">
+<nav class="app-header navbar navbar-expand bg-body shadow-sm m-2">
     <!--begin::Container-->
     <div class="container-fluid">
         <!--begin::Start Navbar Links-->
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+                <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button" aria-label="Toggle Sidebar">
                     <i class="bi bi-list"></i>
                 </a>
             </li>
-            <li class="nav-item d-none d-md-block"><a href="{{route('welcome')}}" class="nav-link">Home</a></li>
-            <li class="nav-item d-none d-md-block"><a href="{{ route('contact.liste') }}" class="nav-link">Contact</a></li>
+            <li class="nav-item d-none d-md-block">
+                <a href="{{ route('welcome') }}" class="nav-link">Tableau de bord</a>
+            </li>
+            <li class="nav-item d-none d-md-block">
+                <a href="{{ route('contact.liste') }}" class="nav-link">Contact</a>
+            </li>
         </ul>
         <!--end::Start Navbar Links-->
 
+ 
+<!--end::Notifications Dropdown Menu-->
         <!--begin::End Navbar Links-->
-        <ul class="navbar-nav ms-auto">
+        <ul class="navbar-nav ms-auto align-items-center">
             <!--begin::Navbar Search-->
             <li class="nav-item">
-                <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                    <i class="bi bi-search"></i>
-                </a>
+                <form class="d-flex" action="{{ route('admin.search') }}" method="GET">
+                    <input class="form-control form-control-sm me-2" type="search" name="query" placeholder="Rechercher..." aria-label="Search">
+                    <button class="btn btn-outline-primary btn-sm" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
             </li>
-            <!--end::Navbar Search-->
-
-            <!--begin::Messages Dropdown Menu-->
-            <li class="nav-item dropdown">
-                <a class="nav-link" data-bs-toggle="dropdown" href="#">
-                    <i class="bi bi-chat-text"></i>
-                    <span class="navbar-badge badge text-bg-danger">3</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                    <a href="#" class="dropdown-item">See All Messages</a>
-                </div>
-            </li>
-            <!--end::Messages Dropdown Menu-->
-
-            <!--begin::Notifications Dropdown Menu-->
-            <li class="nav-item dropdown">
-                <a class="nav-link" data-bs-toggle="dropdown" href="#">
-                    <i class="bi bi-bell-fill"></i>
-                    <span class="navbar-badge badge text-bg-warning">15</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                    <span class="dropdown-item dropdown-header">15 Notifications</span>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">See All Notifications</a>
-                </div>
-            </li>
-            <!--end::Notifications Dropdown Menu-->
-
-            <!--begin::Fullscreen Toggle-->
+           
             <li class="nav-item">
-                <a class="nav-link" href="#" data-lte-toggle="fullscreen">
+                <a class="nav-link" href="#" data-lte-toggle="fullscreen" aria-label="Toggle Fullscreen">
                     <i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i>
-                    <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none"></i>
+                    <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none;"></i>
                 </a>
             </li>
             <!--end::Fullscreen Toggle-->
-
-            <!--begin::User Menu Dropdown-->
-
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-                    
-        <li class="nav-item dropdown user-menu position-relative">
-            @auth
-            <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
-                <img src="{{ auth()->user()->photo ? asset(auth()->user()->photo) : asset('/path/to/default-avatar.jpg') }}" 
-           class="user-image rounded-circle shadow-sm" alt="User Image" width="40" height="40" />
-        <span class="d-none d-md-inline ms-2 text-truncate" style="max-width: 150px;">{{ auth()->user()->name }}</span>
+<!--begin::Notifications Dropdown Menu-->
+<li class="nav-item dropdown">
+    <a class="nav-link" data-bs-toggle="dropdown" href="#" aria-expanded="false">
+        <i class="bi bi-bell-fill text-orange"></i>
+        @php
+            $unreadNotifications = 0;
+            if (auth()->check()) {
+                try {
+                    $unreadNotifications = auth()->user()->unreadNotifications()->where('type', 'App\Notifications\NewAvisNotification')->count();
+                } catch (\Exception $e) {
+                    \Log::error('Error fetching notifications: ' . $e->getMessage());
+                }
+            }
+        @endphp
+        @if ($unreadNotifications > 0)
+            <span class="navbar-badge badge text-bg-orange">{{ $unreadNotifications }}</span>
+        @endif
     </a>
-    <ul class="dropdown-menu dropdown-menu-end shadow mt-2 w-auto rounded-lg" style="right: 0; left: auto; min-width: 250px;">
-        <!-- User Image -->
-        <li class="user-header text-bg-primary text-center p-3">
-        <img src="{{ auth()->user()->photo ? asset(auth()->user()->photo) : asset('/path/to/default-avatar.jpg') }}" 
-          class="user-image rounded-circle shadow-sm" alt="User Image" width="40" height="40" />
-            <p class="mb-0 fw-bold text-truncate">{{ auth()->user()->name }}</p>
-            <small class="d-block">{{ auth()->user()->role ?? 'User' }}</small>
-            <small class="d-block">Member since {{ auth()->user()->created_at->format('M Y') }}</small>
-        </li>
-
-        <!-- Menu Body -->
-        <li class="user-body px-3 py-2">
-            <div class="d-flex justify-content-between">
-                <a href="#" class="text-decoration-none">Followers</a>
-                <a href="#" class="text-decoration-none">Sales</a>
-                <a href="#" class="text-decoration-none">Friends</a>
-            </div>
-        </li>
-
-        <!-- Menu Footer -->
-        <li class="user-footer d-flex justify-content-between px-3 py-2">
-            <a href="{{ route('profile') }}" class="btn btn-sm btn-outline-primary">Profile</a>
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="btn btn-sm btn-outline-danger">Déconnexion</button>
-            </form>
-        </li>
-    </ul>
-    @endauth
+    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end shadow">
+        <span class="dropdown-item dropdown-header">{{ $unreadNotifications }} Notification{{ $unreadNotifications !== 1 ? 's' : '' }} d’avis</span>
+        <div class="dropdown-divider"></div>
+        @if (auth()->check())
+            @forelse (auth()->user()->unreadNotifications()->where('type', 'App\Notifications\NewAvisNotification')->take(3)->get() as $notification)
+                <a href="{{ route('Admin.Avis.index') }}" class="dropdown-item">
+                    <div class="d-flex align-items-center">
+                        <div class="me-2">
+                            <i class="bi bi-star-fill text-orange"></i>
+                        </div>
+                        <div>
+                            <p class="mb-0 text-truncate" style="max-width: 200px;">{{ $notification->data['message'] }}</p>
+                            <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
+                        </div>
+                    </div>
+                </a>
+                <div class="dropdown-divider"></div>
+            @empty
+                <div class="dropdown-item text-muted">Aucune notification d’avis nouvelle</div>
+            @endforelse
+        @else
+            <div class="dropdown-item text-muted">Connectez-vous pour voir les notifications</div>
+        @endif
+        <a href="{{ route('Admin.Avis.index') }}" class="dropdown-item dropdown-footer">Voir tous les avis</a>
+    </div>
 </li>
-
-<!--end::User Menu Dropdown-->
+<!--end::Notifications Dropdown Menu-->
+            <!--begin::User Menu Dropdown-->
+            <li class="nav-item dropdown user-menu">
+                @auth
+                    <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="{{ auth()->user()->photo ? asset(auth()->user()->photo) : asset('images/default-avatar.jpg') }}"
+                             class="user-image rounded-circle shadow-sm" alt="User Image" width="32" height="32">
+                        <span class="d-none d-md-inline ms-2 text-truncate" style="max-width: 150px;">{{ auth()->user()->name }}</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow">
+                        <li class="user-header bg-primary text-white text-center p-3">
+                            <img src="{{ auth()->user()->photo ? asset(auth()->user()->photo) : asset('images/default-avatar.jpg') }}"
+                                 class="rounded-circle shadow-sm" alt="User Image" width="60" height="60">
+                            <p class="mb-1 fw-bold">{{ auth()->user()->name }}</p>
+                            <small>{{ auth()->user()->roles->pluck('name')->implode(', ') ?: 'Utilisateur' }}</small>
+                            <small>Membre depuis {{ auth()->user()->created_at->format('M Y') }}</small>
+                        </li>
+                        <li class="user-body px-3 py-2">
+                            <div class="row text-center">
+                                <div class="col-4">
+                                    <a href="#" class="text-decoration-none">Abonnés</a>
+                                    <p class="mb-0">{{ auth()->user()->followers_count ?? 0 }}</p>
+                                </div>
+                                <div class="col-4">
+                                    <a href="#" class="text-decoration-none">Réservations</a>
+                                    <p class="mb-0">{{ auth()->user()->reservations_count ?? 0 }}</p>
+                                </div>
+                                <div class="col-4">
+                                    <a href="#" class="text-decoration-none">Amis</a>
+                                    <p class="mb-0">{{ auth()->user()->friends_count ?? 0 }}</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="user-footer d-flex justify-content-between p-3">
+                            <a href="{{ route('profile.edit') }}" class="btn btn-sm btn-outline-primary">Profil</a>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Déconnexion</button>
+                            </form>
+                        </li>
+                    </ul>
+                @else
+                    <li class="nav-item">
+                        <a href="{{ route('login') }}" class="nav-link">Connexion</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('register') }}" class="nav-link">Inscription</a>
+                    </li>
+                @endauth
+            </li>
+            <!--end::User Menu Dropdown-->
         </ul>
         <!--end::End Navbar Links-->
     </div>

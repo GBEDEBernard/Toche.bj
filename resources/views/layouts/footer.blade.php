@@ -1,38 +1,18 @@
 <!--begin::Footer-->
-<footer class="main-footer">
-    <div class="float-end d-none d-sm-inline">Anything you want</div>
-    <strong>
-        Copyright &copy; 2014-2024&nbsp;
-        <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
-    </strong>
-    All rights reserved.
-</footer>
-<!--end::Footer-->
-
-<!-- Scripts nécessaires -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="path_to_your_adminlte/dist/js/adminlte.min.js"></script>
-
-<script>
-  $(document).ready(function () {
-      // Réactive les menus déroulants
-      $('.nav-item.dropdown').on('click', function () {
-          let dropdownMenu = $(this).find('.dropdown-menu');
-          if (dropdownMenu.hasClass('show')) {
-              dropdownMenu.removeClass('show');
-          } else {
-              $('.dropdown-menu').removeClass('show'); // Ferme les autres menus
-              dropdownMenu.addClass('show');
-          }
-      });
-
-      // Empêche le menu de se fermer en cliquant dedans
-      $('.dropdown-menu').on('click', function (e) {
-          e.stopPropagation();
-      });
-
-      // Gestion de la sidebar AdminLTE
-      $('[data-widget="pushmenu"]').PushMenu('toggle');
-  });
-</script>
+<footer class="app-footer bg-gray-900 text-white py-4 shadow-sm">
+    <div class="container-fluid d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <div class="mb-2 mb-md-0">
+        <strong class="font-serif font-semibold text-sm md:text-base uppercase tracking-tight">
+          Copyright © 2025
+          <a href="https://toche.bj" class="text-blue-400 hover:text-blue-600 transition-colors duration-300 text-decoration-none">
+            Toché.bj
+          </a>.
+          All rights reserved.
+        </strong>
+      </div>
+      <div class="font-serif text-sm text-gray-300 hover:text-blue-400 transition-colors duration-300">
+        Toché - Le Miroir du Bénin
+      </div>
+    </div>
+  </footer>
+  <!--end::Footer-->

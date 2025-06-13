@@ -21,6 +21,12 @@
     </div>
 </div>
 
+{{-- Paragraphe d'introduction --}}
+<div class="text-center max-w-3xl mx-auto mb-10 px-4">
+    <p class="text-lg text-gray-600 font-serif leading-relaxed">
+        Découvrez les trésors du Bénin à travers ses sites touristiques uniques, mêlant histoire, culture et beauté naturelle. Que vous soyez passionné par les traditions vodou, les plages tropicales ou les monuments historiques, il y a un site pour chaque voyageur.
+    </p>
+</div>
 {{-- Grille des sites touristiques --}}
 <section class="px-4 md:px-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-20">
     @forelse ($sites as $site)
@@ -59,7 +65,6 @@
                    class="inline-block mt-4 text-sm bg-blue-600 text-white px-4 py-1 rounded-full hover:bg-blue-700 transition">
                     Voir détails
                 </a>
-                {{-- afficharge des etoiles sur les sites  --}}
             </div>
         </div>
     @empty
@@ -67,6 +72,7 @@
             Aucun site trouvé. Essaie un autre mot-clé ?
         </div>
     @endforelse
+    
 </section>
 
 @endsection

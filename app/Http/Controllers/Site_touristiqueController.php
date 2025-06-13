@@ -170,7 +170,7 @@ public function show(Site_touristique $site)
 {
     // Charge toutes les relations nécessaires en un coup
     $site->load('galeries', 'categorie', 'tousLesAvis', 'details');
-
+    $site->update(['last_viewed_at' => now()]);
     // Calcule la moyenne des notes des avis approuvés
     $site->moyenne_note = $site->tousLesAvis
         ->where('statut', 'approuvé')

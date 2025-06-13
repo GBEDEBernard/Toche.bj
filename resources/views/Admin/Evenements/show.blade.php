@@ -238,7 +238,13 @@
             <p>Aucune photo disponible pour cet événement.</p>
         </section>
     @endif
-
+<!-- Section Pourquoi participer -->
+<div class="max-w-4xl mx-auto my-12 px-4">
+    <h2 class="text-2xl md:text-3xl font-serif font-bold text-gray-800 mb-4">Pourquoi participer à nos événements ?</h2>
+    <p class="text-gray-600 font-serif leading-relaxed">
+        Nos événements au Bénin offrent une immersion unique dans une culture riche et vibrante. Que ce soit pour découvrir les rituels vodou, danser au rythme des tambours traditionnels ou explorer des marchés artisanaux, chaque événement est une célébration de l’héritage béninois. Réservez dès maintenant pour vivre des moments inoubliables !
+    </p>
+</div>
     {{-- CTA --}}
     @if($evenement)
         <section class="text-center py-10 bg-blue-100">

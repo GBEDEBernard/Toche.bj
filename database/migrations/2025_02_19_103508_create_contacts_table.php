@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('nom');
             $table->string('prenom');
             $table->string('objet', 50);
-            $table->string('email')->unique();
+            $table->string('email');
             $table->text('contenu');
             $table->timestamps(); // Ajoute created_at et updated_at
         });

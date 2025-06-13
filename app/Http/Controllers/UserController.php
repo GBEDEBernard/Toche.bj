@@ -11,7 +11,10 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     // Controller pour la page de création des Users
-   
+    public function create_users()
+    {
+        return view('Admin.Users.create');
+    }
 public function traitement_create_users(Request $request)
 {
     $request->validate([

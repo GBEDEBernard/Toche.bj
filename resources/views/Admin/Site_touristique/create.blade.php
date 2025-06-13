@@ -14,7 +14,7 @@
                 <div class="box box-primary">
                     <div class="text-2xl">
                         <h4 class="">
-                            Le siège de la plateforme de gestion des touristiques & évènements du Bénin est situé en face de l'église des Assemblées de Dieu d'Alègléta, en quittant le Carrefour TOGOUDO (Godomey), juste après l'École primaire EPP TOGOUDO.
+                            La plateforme de gestion des touristiques & évènements du Bénin .
                         </h4>
                     </div>
                 </div>
@@ -84,6 +84,34 @@
                                     @enderror
                                 </div>
                             </div>
+                            {{-- POUR LA LOCALISATION LE DEBUT  
+                            <div class="form-group row mt-3">
+                                <label for="adresse" class="col-sm-4 col-form-label font-bold">Adresse</label>
+                                <div class="col-sm-8">
+                                <input type="text" name="adresse" id="adresse" class="form-control" value="{{ old('adresse') }}" placeholder="Adresse">
+                                @error('adresse') 
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                              </div>
+                            </div>
+                        
+                            <div class="form-group row mt-3">
+                                <label for="latitude" class="col-sm-4 col-form-label font-bold" >Latitude</label>
+                                <div class="col-sm-8">
+                                <input type="text" name="latitude" id="latitude" class="form-control" value="{{ old('latitude') }}" placeholder="Latitude">
+                                @error('latitude') 
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                               </div>
+                            </div>
+                        
+                            <div class="form-group row mt-3">
+                                <label for="longitude" class="col-sm-4 col-form-label font-bold">Longitude</label>
+                                <div class="col-sm-8">
+                                <input type="text" name="longitude" id="longitude" class="form-control text-black" value="{{ old('longitude') }}" placeholder="Lontitude">
+                                  @error('longitude')
+                                   <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                             </div>
+                            </div>
+                        --}}
 
                             <div class="form-group row mt-3">
                                 <label for="email" class="col-sm-4 col-form-label font-bold">Email<strong class="text-danger">*</strong></label>
@@ -138,3 +166,35 @@
     </section>
 </div>
 @endsection
+{{-- 
+@push('scripts')
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialiser la carte
+        var map = L.map('map').setView([6.496857, 2.628852], 13); // Coordonnées par défaut (Porto-Novo)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Marqueur mobile
+        var marker = L.marker([6.496857, 2.628852], { draggable: true }).addTo(map);
+        marker.on('dragend', function(e) {
+            var latlng = marker.getLatLng();
+            document.getElementById('latitude').value = latlng.lat;
+            document.getElementById('longitude').value = latlng.lng;
+        });
+
+        // Mettre à jour le marqueur en fonction des champs latitude/longitude
+        document.getElementById('latitude').addEventListener('input', updateMarker);
+        document.getElementById('longitude').addEventListener('input', updateMarker);
+        function updateMarker() {
+            var lat = document.getElementById('latitude').value;
+            var lng = document.getElementById('longitude').value;
+            if (lat && lng) {
+                marker.setLatLng([lat, lng]);
+                map.setView([lat, lng], 13);
+            }
+        }
+    </script>
+@endpush --}}

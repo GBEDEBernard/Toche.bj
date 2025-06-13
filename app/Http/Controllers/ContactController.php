@@ -11,7 +11,7 @@ class ContactController extends Controller
 {
     // Affichage du formulaire de contact
     public function index() {
-        return view('layouts.Contacts');
+        return view('Contacts');
     }
     
 
@@ -27,7 +27,7 @@ class ContactController extends Controller
 
         Contact::create($request->only(['nom', 'prenom', 'objet', 'email', 'contenu']));
 
-        return redirect('/')->with('success', 'Contact enregistré avec succès.');
+        return redirect()->back()->with('success', 'Votre message à été envoiyez  avec succès nous allons vous repondre vite.');
     }
 
     // Affichage de la liste des contacts

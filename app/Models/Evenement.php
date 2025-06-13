@@ -57,7 +57,11 @@ class Evenement extends Model
         'photo',
         'programme',
         'programme_details',
-        'infos_pratiques'
+        'infos_pratiques',
+         // POUR LA LOCALISATION
+         'adresse', // Nouveau
+         'latitude', // Nouveau
+         'longitude', // Nouveau
     ];
     
 
