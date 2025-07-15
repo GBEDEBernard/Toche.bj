@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 
 /**
  * 
@@ -66,6 +68,7 @@ class Site_touristique extends Model
         'latitude', // Nouveau
         'longitude', // Nouveau
         
+        
     ];
     //cette method catégorie veut dire un site touristique est 
     //lié à un et un seul catégorie 
@@ -108,5 +111,11 @@ public function details()
     return $this->hasMany(SiteDetail::class)->orderBy('ordre');
 }
 
-
+//itineraire
+public function itineraires(): BelongsToMany
+{
+    return $this->belongsToMany(Itineraire::class, 'itineraire_sites')
+                ->withPivot('ordre', 'temps_prevu', 'commentaire')
+                ->withTimestamps();
+}
 }

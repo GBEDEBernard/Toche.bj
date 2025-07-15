@@ -11,8 +11,9 @@ use App\Http\Controllers\{
     Controller, PaiementController, PieceIdentiteController, CommentaireController,
     AvisController, SiteDetailController, EvenementParagrapheController, SearchController,
     AproposController, NewsletterController, FaqController, HotelController,MessageController,
-    NotificationController,
+    NotificationController,AgenceVoyageController,ItineraireController,ItineraireSiteController
 };
+use App\Http\Controllers\DemandeParticipationController;
 
 
 /*
@@ -27,10 +28,21 @@ Route::get('/', fn() => view('welcome'))->name('welcome');
 Route::get('/contact', [ContactController::class, 'contact'])->name('contact.liste');
 
 
-// Route pour profil
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
+    // Mot de passe
+    Route::get('/profile/password/edit', [ProfileController::class, 'editPassword'])->name('profile.password.edit');
+    Route::post('/profile/password/update', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+
+    // Suppression compte
+    Route::get('/profile/delete/confirm', [ProfileController::class, 'confirmDelete'])->name('profile.delete.confirm');
+    Route::delete('/profile/destroy', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 
 // Route pour recherche
 Route::get('/admin/search', [SearchController::class, 'search'])->name('admin.search');
@@ -344,4 +356,48 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::put('/{piece}', [PieceIdentiteController::class, 'update'])->name('piece.update')->middleware('can:pieces.edit');
         Route::delete('/{piece}', [PieceIdentiteController::class, 'destroy'])->name('piece.destroy')->middleware('can:pieces.delete');
     });
+
+    //la gestion des itineraire sur le site touristique 
+    // Agences de voyage  ->middleware(['can:agence.index'])->middleware('can:agence.create')->middleware('can:agence.edit') ->middleware('can:agence.edit')->middleware('can:agence.delete')
+    
+Route::prefix('agence')->group(function () {
+    Route::get('/create', [AgenceVoyageController::class, 'create'])->name('agence.create');
+    Route::post('/create', [AgenceVoyageController::class, 'store'])->name('agence.store');
+    Route::get('/index', [AgenceVoyageController::class, 'index'])->name('agence.index');
+    Route::get('/edit/{id}', [AgenceVoyageController::class, 'edit'])->name('agence.edit');
+    Route::put('/edit/{id}', [AgenceVoyageController::class, 'update'])->name('agence.update');
+    Route::delete('/delete/{id}', [AgenceVoyageController::class, 'destroy'])->name('agence.delete');
+});
+// Itinéraires
+Route::prefix('itineraire')->group(function () {
+    Route::get('/create', [ItineraireController::class, 'create'])->name('itineraire.create');
+    Route::post('/create', [ItineraireController::class, 'store'])->name('itineraire.store');
+    Route::get('/index', [ItineraireController::class, 'index'])->name('itineraire.index');
+    Route::get('/edit/{id}', [ItineraireController::class, 'edit'])->name('itineraire.edit');
+    Route::put('/edit/{id}', [ItineraireController::class, 'update'])->name('itineraire.update');
+    Route::delete('/delete/{id}', [ItineraireController::class, 'destroy'])->name('itineraire.delete');
+
+Route::get('/itineraire-offres', [ItineraireController::class, 'indexpublic'])->name('itineraire.offres');
+Route::get('/itineraire-offres/demande/{id}', [ItineraireController::class, 'demande'])->name('itineraire.demande');
+Route::post('/itineraire-offres/demande/{id}', [ItineraireController::class, 'envoyer'])->name('itineraire.envoyer');
+
+});
+// Association Itinéraire - Site
+Route::prefix('itineraire-site')->group(function () {
+    Route::get('/create', [ItineraireSiteController::class, 'create'])->name('itineraire_site.create');
+    Route::post('/create', [ItineraireSiteController::class, 'store'])->name('itineraire_site.store');
+    Route::get('/index', [ItineraireSiteController::class, 'index'])->name('itineraire_site.index');
+    Route::get('/edit/{id}', [ItineraireSiteController::class, 'edit'])->name('itineraire_site.edit');
+    Route::put('/edit/{id}', [ItineraireSiteController::class, 'update'])->name('itineraire_site.update');
+    Route::delete('/delete/{id}', [ItineraireSiteController::class, 'destroy'])->name('itineraire_site.delete');
+});
+
+Route::get('/itineraire-offres', [ItineraireController::class, 'indexpublic'])->name('itineraire.offres');
+Route::get('/itineraire-offres/demande/{id}', [ItineraireController::class, 'demande'])->name('itineraire.demande');
+Route::post('/itineraire-offres/demande/{id}', [ItineraireController::class, 'envoyer'])->name('itineraire.envoyer');
+
+Route::post('/itineraire/{id}/demande', [DemandeParticipationController::class, 'store'])->name('itineraire.envoyer');
+Route::post('/admin/demande/{id}/repondre', [DemandeParticipationController::class, 'repondre'])->name('demande.repondre');
+Route::get('/itineraire-offres/{id}', [ItineraireController::class, 'showpublic'])->name('itineraire.showpublic');
+
 });

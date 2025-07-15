@@ -16,11 +16,13 @@
 
     <div class="mb-4">
         <label for="contenu" class="block font-semibold mb-1">Contenu</label>
-        <textarea name="contenu" id="contenu" class="w-full border rounded px-3 py-2" rows="6">{{ old('contenu') }}</textarea>
+        <textarea name="contenu" id="contenu" class="w-full border rounded px-3 py-2" rows="5">{{ old('contenu') }}</textarea>
         @error('contenu')
             <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
         @enderror
     </div>
+    
+   
 
     <div class="mb-4">
         <label for="ordre" class="block font-semibold mb-1">Ordre</label>
@@ -35,16 +37,20 @@
 </form>
 
 @push('scripts')
-<link rel="stylesheet" href="https://unpkg.com/trix/dist/trix.css">
-<script src="https://unpkg.com/trix/dist/trix.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        let textarea = document.getElementById('contenu');
-        if(textarea){
-            let trixEditor = document.createElement('trix-editor');
-            trixEditor.setAttribute('input', 'contenu');
-            textarea.insertAdjacentElement('afterend', trixEditor);
-            textarea.style.display = 'none';
+        const textarea = document.getElementById('contenu');
+        if (textarea) {
+            console.log('Textarea found:', textarea);
+            console.log('Textarea styles:', window.getComputedStyle(textarea));
+            // Détecte les changements
+            new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    console.log('Textarea mutation:', mutation);
+                });
+            }).observe(textarea, { attributes: true, childList: true, subtree: true });
+        } else {
+            console.log('Textarea not found!');
         }
     });
 </script>

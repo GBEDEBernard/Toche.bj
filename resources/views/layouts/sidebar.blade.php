@@ -1,202 +1,188 @@
+@php
+    $currentRoute = request()->route()->getName();
+
+    $openOffres = str_starts_with($currentRoute, 'agence.');
+    $openDetails = request()->routeIs('admin.details.*') || request()->routeIs('admin.paragraphes.*');
+
+    $entiteRoutes = [
+        'Admin.Avis.index', 'index', 'indexevenements', 'admin.hotels.index', 'admin.reservations.index',
+        'indexvisites', 'galeries.index', 'indextickets', 'indexcategorie', 'indexusers', 'paiement.index',
+        'piece.index', 'contact.liste', 'admin.apropos.index', 'admin.faqs.index', 'admin.newsletters.index'
+    ];
+    $openEntity = !$openOffres && in_array($currentRoute, $entiteRoutes);
+
+    $openRoles = request()->routeIs('admin.roles.*');
+    $openProfile = request()->routeIs('profile.*') || request()->is('profile/edit*');
+@endphp
+
 <!--begin::Sidebar-->
 <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
-    <!--begin::Sidebar Brand-->
+    <!-- Logo -->
     <div class="sidebar-brand py-4">
         <a href="{{ route('welcome') }}" class="brand-link flex items-center gap-2">
             <img src="/image/logo3.jpg" alt="Toché Logo" class="brand-image w-10 h-10 opacity-75 shadow rounded-full hover:scale-105 transition-transform duration-300" />
             <span class="brand-text font-serif font-bold text-lg md:text-xl text-white tracking-tight uppercase">Toché le Bénin</span>
         </a>
     </div>
-    <!--end::Sidebar Brand-->
-  
-    <!--begin::Sidebar Wrapper-->
-    <div class="sidebar-wrapper">
+
+    <!-- Navigation -->
+    <div class="sidebar-wrapper overflow-y-auto max-h-screen">
         <nav class="mt-4">
-            <!--begin::Sidebar Menu-->
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
-  
-                <!-- Les Roles -->
-                <li class="nav-item">
-                    <a href="#" class="nav-link flex items-center gap-2 font-serif font-semibold text-sm md:text-base uppercase tracking-tight text-white hover:bg-gray-700 transition-colors duration-300">
+                <!-- Gestion des Rôles -->
+                <li class="nav-item {{ $openRoles ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link text-white {{ $openRoles ? 'bg-gray-700' : '' }}">
                         <i class="nav-icon bi bi-table text-blue-400"></i>
-                        <p>Gestion_Roles<i class="nav-arrow bi bi-chevron-right ms-auto"></i></p>
+                        <p>Gestion_Roles <i class="nav-arrow bi bi-chevron-right ms-auto"></i></p>
                     </a>
-                    <ul class="nav nav-treeview ps-4">
-                         <li class="nav-item">
-                                @hasrole('admin')
-                                <a href="{{ route('admin.roles.index') }}" class="nav-link flex items-center gap-2 font-serif text-sm text-gray-300 hover:text-indigo-800 transition-colors duration-300">
-                                    <i class="nav-icon bi bi-circle text-yellow-400"></i>
-                                    <p>Roles et permission</p>
-                                </a>
-                                @endhasrole
+                    <ul class="nav nav-treeview ps-4" style="{{ $openRoles ? 'display: block;' : 'display: none;' }}">
+                        @hasrole('admin')
+                        <li class="nav-item">
+                            <a href="{{ route('admin.roles.index') }}" class="nav-link {{ request()->routeIs('admin.roles.index') ? 'text-blue-400' : 'text-gray-300' }}">
+                                <i class="nav-icon bi bi-circle text-yellow-400"></i> Roles et permissions
+                            </a>
                         </li>
- 
+                        @endhasrole
                     </ul>
                 </li>
-  
-                <!-- Entité -->
-                <li class="nav-item">
-                    <a href="#" class="nav-link flex items-center gap-2 font-serif font-semibold text-sm md:text-base uppercase tracking-tight text-white hover:bg-gray-700 transition-colors duration-300">
+
+                <!-- Entités -->
+                <li class="nav-item {{ $openEntity ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link text-white {{ $openEntity ? 'bg-gray-700' : '' }}">
                         <i class="nav-icon bi bi-grid-fill text-red-400"></i>
-                        <p>Entité<i class="nav-arrow bi bi-chevron-right ms-auto"></i></p>
+                        <p>Entité <i class="nav-arrow bi bi-chevron-right ms-auto"></i></p>
                     </a>
-                    <ul class="nav nav-treeview ps-4">
+                    <ul class="nav nav-treeview ps-4" style="{{ $openEntity ? 'display: block;' : 'display: none;' }}">
+                        @php
+                            $entites = [
+                                ['route' => 'Admin.Avis.index', 'label' => 'Avis des utilisateurs'],
+                                ['route' => 'index', 'label' => 'Les Sites touristiques'],
+                                ['route' => 'indexevenements', 'label' => 'Les Évènements'],
+                                ['route' => 'admin.hotels.index', 'label' => 'Hotels & Restauration'],
+                                ['route' => 'admin.reservations.index', 'label' => 'Les Réservations'],
+                                ['route' => 'indexvisites', 'label' => 'Les Visites'],
+                                ['route' => 'galeries.index', 'label' => 'Les Galeries'],
+                                ['route' => 'indextickets', 'label' => 'Les Tickets'],
+                                ['route' => 'indexcategorie', 'label' => 'Les Catégories'],
+                                ['route' => 'indexusers', 'label' => 'Utilisateurs'],
+                                ['route' => 'paiement.index', 'label' => 'Paiements'],
+                                ['route' => 'piece.index', 'label' => "Pièces d'identité"],
+                                ['route' => 'contact.liste', 'label' => 'Les Contacts'],
+                                ['route' => 'admin.apropos.index', 'label' => 'À propos'],
+                                ['route' => 'admin.faqs.index', 'label' => 'FAQs'],
+                                ['route' => 'admin.newsletters.index', 'label' => 'Newsletters'],
+                            ];
+                        @endphp
+                        @foreach($entites as $entite)
+                            <li class="nav-item">
+                                <a href="{{ route($entite['route']) }}" class="nav-link {{ request()->routeIs($entite['route']) ? 'text-blue-400' : 'text-gray-300' }}">
+                                    <i class="nav-icon bi bi-circle text-green-400"></i> {{ $entite['label'] }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </li>
+
+                <!-- Détail des Paragraphes -->
+                <li class="nav-item {{ $openDetails ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link text-white {{ $openDetails ? 'bg-gray-700' : '' }}">
+                        <i class="nav-icon bi bi-info-circle-fill text-yellow-400"></i>
+                        <p>Détail_Sites <i class="nav-arrow bi bi-chevron-right ms-auto"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview ps-4" style="{{ $openDetails ? 'display: block;' : 'display: none;' }}">
+                        <!-- Sites -->
                         <li class="nav-item">
-                            <a href="{{ route('Admin.Avis.index') }}" class="nav-link flex items-center gap-2 font-serif text-sm text-gray-300 hover:text-blue-400 transition-colors duration-300">
-                                <i class="nav-icon bi bi-circle text-green-400"></i>
-                                <p>Avis des utilisateurs</p>
+                            <a href="#" class="nav-link text-gray-300 hover:text-blue-400">
+                                <i class="nav-icon bi bi-geo-alt text-blue-400"></i> Sites Touristiques
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('index') }}" class="nav-link flex items-center gap-2 font-serif text-sm text-gray-300 hover:text-blue-400 transition-colors duration-300">
-                                <i class="nav-icon bi bi-circle text-green-400"></i>
-                                <p>Les Sites touristiques</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('indexevenements') }}" class="nav-link flex items-center gap-2 font-serif text-sm text-gray-300 hover:text-blue-400 transition-colors duration-300">
-                                <i class="nav-icon bi bi-circle text-green-400"></i>
-                                <p>Les Évènements</p>
-                            </a>
+                            <ul class="nav nav-treeview ps-4" style="display: {{ request()->routeIs('admin.details.*') ? 'block' : 'none' }};">
+                                @foreach(App\Models\Site_touristique::all() as $site)
+                                    <li class="nav-item">
+                                        <a href="{{ route('admin.details.index', ['site_id' => $site->id]) }}"
+                                           class="nav-link {{ request()->fullUrlIs(route('admin.details.index', ['site_id' => $site->id])) ? 'text-blue-400' : 'text-gray-300' }}">
+                                            <i class="bi bi-circle-fill text-green-400" style="font-size: 0.5rem;"></i> {{ $site->nom }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
                         </li>
 
+                        <!-- Événements -->
                         <li class="nav-item">
-                            <a href="{{ route('admin.hotels.index') }}" class="nav-link flex items-center gap-2 font-serif text-sm text-gray-300 hover:text-blue-400 transition-colors duration-300">
-                                <i class="nav-icon bi bi-circle text-green-400"></i>
-                                <p>Hotels & Restauration</p>
+                            <a href="#" class="nav-link text-gray-300 hover:text-blue-400">
+                                <i class="nav-icon bi bi-calendar-event text-blue-400"></i> Événements
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.reservations.index') }}" class="nav-link flex items-center gap-2 font-serif text-sm text-gray-300 hover:text-blue-400 transition-colors duration-300">
-                                <i class="nav-icon bi bi-circle text-green-400"></i>
-                                <p>Les Réservations</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('indexvisites') }}" class="nav-link flex items-center gap-2 font-serif text-sm text-gray-300 hover:text-blue-400 transition-colors duration-300">
-                                <i class="nav-icon bi bi-circle text-green-400"></i>
-                                <p>Les Visites</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('galeries.index') }}" class="nav-link flex items-center gap-2 font-serif text-sm text-gray-300 hover:text-blue-400 transition-colors duration-300">
-                                <i class="nav-icon bi bi-circle text-green-400"></i>
-                                <p>Les Galeries</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('indextickets') }}" class="nav-link flex items-center gap-2 font-serif text-sm text-gray-300 hover:text-blue-400 transition-colors duration-300">
-                                <i class="nav-icon bi bi-circle text-green-400"></i>
-                                <p>Les Tickets</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('indexcategorie') }}" class="nav-link flex items-center gap-2 font-serif text-sm text-gray-300 hover:text-blue-400 transition-colors duration-300">
-                                <i class="nav-icon bi bi-circle text-green-400"></i>
-                                <p>Les Catégories</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('indexusers') }}" class="nav-link flex items-center gap-2 font-serif text-sm text-gray-300 hover:text-blue-400 transition-colors duration-300">
-                                <i class="nav-icon bi bi-circle text-green-400"></i>
-                                <p>Utilisateurs</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('paiement.index') }}" class="nav-link flex items-center gap-2 font-serif text-sm text-gray-300 hover:text-blue-400 transition-colors duration-300">
-                                <i class="nav-icon bi bi-circle text-green-400"></i>
-                                <p>Paiements</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('piece.index') }}" class="nav-link flex items-center gap-2 font-serif text-sm text-gray-300 hover:text-blue-400 transition-colors duration-300">
-                                <i class="nav-icon bi bi-circle text-green-400"></i>
-                                <p>Pièces d'identité</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('contact.liste') }}" class="nav-link flex items-center gap-2 font-serif text-sm text-gray-300 hover:text-blue-400 transition-colors duration-300">
-                                <i class="nav-icon bi bi-circle text-green-400"></i>
-                                <p>Les Contacts</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.apropos.index') }}" class="nav-link flex items-center gap-2 font-serif text-sm text-gray-300 hover:text-blue-400 transition-colors duration-300">
-                                <i class="nav-icon bi bi-circle text-green-400"></i>
-                                <p>A propos</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.faqs.index') }}" class="nav-link flex items-center gap-2 font-serif text-sm text-gray-300 hover:text-blue-400 transition-colors duration-300">
-                                <i class="nav-icon bi bi-circle text-green-400"></i>
-                                <p>Les Faqs</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.newsletters.index') }}" class="nav-link flex items-center gap-2 font-serif text-sm text-gray-300 hover:text-blue-400 transition-colors duration-300">
-                                <i class="nav-icon bi bi-circle text-green-400"></i>
-                                <p>Newsleters</p>
-                            </a>
+                            <ul class="nav nav-treeview ps-4" style="display: {{ request()->routeIs('admin.paragraphes.*') ? 'block' : 'none' }};">
+                                @foreach(App\Models\Evenement::all() as $evenement)
+                                    <li class="nav-item">
+                                        <a href="{{ route('admin.paragraphes.index', ['evenement_id' => $evenement->id]) }}"
+                                           class="nav-link {{ request()->fullUrlIs(route('admin.paragraphes.index', ['evenement_id' => $evenement->id])) ? 'text-blue-400' : 'text-gray-300' }}">
+                                            <i class="bi bi-circle-fill text-green-400" style="font-size: 0.5rem;"></i> {{ $evenement->nom }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
                         </li>
                     </ul>
                 </li>
-  
-                <!-- Détails paragraphes -->
-                <li class="nav-item">
-                    <a href="#" class="nav-link flex items-center gap-2 font-serif font-semibold text-sm md:text-base uppercase tracking-tight text-white hover:bg-gray-700 transition-colors duration-300">
-                        <i class="nav-icon bi bi-info-circle-fill text-red-400"></i>
-                        <p>Détails Paragraphes<i class="nav-arrow bi bi-chevron-right ms-auto"></i></p>
+
+                <!-- Agences -->
+                <li class="nav-item {{ $openOffres ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link text-white {{ $openOffres ? 'bg-gray-700' : '' }}">
+                        <i class="nav-icon bi bi-airplane-fill text-green-600"></i>
+                        <p>Offres_voyages <i class="nav-arrow bi bi-chevron-right ms-auto"></i></p>
                     </a>
-                    <ul class="nav nav-treeview ps-4">
-                        <!-- Sous-menu Sites -->
+                    <ul class="nav nav-treeview ps-4" style="{{ $openOffres ? 'display: block;' : 'display: none;' }}">
                         <li class="nav-item">
-                            <a href="#" class="nav-link toggle-submenu flex items-center gap-2 font-serif text-sm text-gray-300 hover:text-blue-400 transition-colors duration-300" data-target="sites-submenu">
-                                <i class="nav-icon bi bi-geo-alt text-blue-400"></i>
-                                <p>Sites Touristiques<i class="nav-arrow bi bi-chevron-down ms-auto"></i></p>
+                            <a href="{{ route('agence.index') }}" class="nav-link {{ request()->routeIs('agence.index') ? 'text-blue-400' : 'text-gray-300' }}">
+                                <i class="bi bi-car-front-fill text-green-500"></i> Agence_voyage
                             </a>
-                            <ul class="nav nav-treeview ps-4" id="sites-submenu" style="display: none;">
-                                @forelse(App\Models\Site_touristique::all() as $site)
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.details.index', ['site_id' => $site->id]) }}" class="nav-link flex items-center gap-2 font-serif text-sm text-gray-300 hover:text-blue-400 transition-colors duration-300">
-                                            <i class="nav-icon bi bi-circle-fill text-green-400" style="font-size: 0.5rem;"></i>
-                                            <p>{{ $site->nom }}</p>
-                                        </a>
-                                    </li>
-                                @empty
-                                    <li class="nav-item">
-                                        <p class="text-muted ps-4 font-serif text-sm">Aucun site disponible</p>
-                                    </li>
-                                @endforelse
-                            </ul>
                         </li>
-                        <!-- Sous-menu Événements -->
                         <li class="nav-item">
-                            <a href="#" class="nav-link toggle-submenu flex items-center gap-2 font-serif text-sm text-gray-300 hover:text-blue-400 transition-colors duration-300" data-target="events-submenu">
-                                <i class="nav-icon bi bi-calendar-event text-blue-400"></i>
-                                <p>Événements<i class="nav-arrow bi bi-chevron-down ms-auto"></i></p>
+                            <a href="{{ route('itineraire.index') }}" class="nav-link {{ request()->routeIs('agence.index') ? 'text-blue-400' : 'text-gray-300' }}">
+                                <i class="bi bi-car-front-fill text-green-500"></i>
+ Itinéraire
                             </a>
-                            <ul class="nav nav-treeview ps-4" id="events-submenu" style="display: none;">
-                                @forelse(App\Models\Evenement::all() as $evenement)
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.paragraphes.index', ['evenement_id' => $evenement->id]) }}" class="nav-link flex items-center gap-2 font-serif text-sm text-gray-300 hover:text-blue-400 transition-colors duration-300">
-                                            <i class="nav-icon bi bi-circle-fill text-green-400" style="font-size: 0.5rem;"></i>
-                                            <p>{{ $evenement->nom }}</p>
-                                        </a>
-                                    </li>
-                                @empty
-                                    <li class="nav-item">
-                                        <p class="text-muted ps-4 font-serif text-sm">Aucun événement disponible</p>
-                                    </li>
-                                @endforelse
-                            </ul>
-                           
+                        </li> <li class="nav-item">
+                            <a href="{{ route('itineraire_site.index') }}" class="nav-link {{ request()->routeIs('agence.index') ? 'text-blue-400' : 'text-gray-300' }}">
+                                <i class="bi bi-car-front-fill text-green-500"></i> Itinéraire_Site
+                            </a>
                         </li>
                     </ul>
                 </li>
+
+                <!-- Mon Profil -->
+                <li class="nav-item {{ $openProfile ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link text-white {{ $openProfile ? 'bg-gray-700' : '' }}">
+                        <i class="nav-icon bi bi-person-circle text-cyan-400"></i>
+                        <p>Mon Profil <i class="nav-arrow bi bi-chevron-right ms-auto"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview ps-4" style="{{ $openProfile ? 'display: block;' : 'display: none;' }}">
+                        <li class="nav-item">
+                            <a href="{{ route('profile') }}" class="nav-link {{ request()->routeIs('profile.show') ? 'text-blue-400' : 'text-gray-300' }}">
+                                <i class="bi bi-person-lines-fill text-green-400"></i> Voir mon profil
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('profile.edit') }}" class="nav-link {{ request()->routeIs('profile.edit') ? 'text-blue-400' : 'text-gray-300' }}">
+                                <i class="bi bi-pencil-fill text-yellow-400"></i> Modifier mon profil
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('profile.password.edit') }}#changer-mdp" class="nav-link text-gray-300 hover:text-red-500">
+                                <i class="bi bi-key-fill text-red-500"></i> Changer mot de passe
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('profile.delete.confirm') }}#suppression" class="nav-link text-gray-300 hover:text-red-600">
+                                <i class="bi bi-trash-fill text-red-600"></i> Supprimer compte
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
             </ul>
-            <!--end::Sidebar Menu-->
         </nav>
     </div>
-    <!--end::Sidebar Wrapper-->
-  </aside>
-  <!--end::Sidebar-->
+</aside>
+<!--end::Sidebar-->

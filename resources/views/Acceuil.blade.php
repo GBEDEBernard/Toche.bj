@@ -256,6 +256,126 @@
         </div>
     @endif
 </div>
+<!-- SECTION : Itinéraires en vedette -->
+<div 
+    x-data="{
+        activeSlide: 0,                         // Index de l'itinéraire actuellement visible
+        total: {{ count($topItineraires) }},   // Nombre total d'itinéraires
+        interval: null,
+        start() {
+            this.interval = setInterval(() => {
+                this.activeSlide = (this.activeSlide + 1) % this.total; // Passage auto toutes les 8s
+            }, 8000);
+        }
+    }" 
+    x-init="start()" 
+    class="w-full max-w-7xl mx-auto px-4 md:px-8 mt-16 font-serif"
+>
+    <!-- Titre principal -->
+    <h2 class="text-center text-3xl md:text-4xl font-extrabold font-serif text-gray-800 mb-10 uppercase tracking-wider">
+        🌍 Itinéraires en vedette
+    </h2>
+
+    <!-- SLIDER PRINCIPAL contenant chaque itinéraire -->
+    <div class="relative overflow-hidden rounded-xl shadow-lg">
+        <div class="flex transition-transform duration-700 ease-in-out"
+             :style="'transform: translateX(-' + (activeSlide * 100) + '%)'">
+            
+            @foreach($topItineraires as $itineraire)
+                @php
+                    // On récupère les photos de chaque site touristique associé
+                    $photos = $itineraire->site_touristiques->pluck('photo')->filter()->map(fn($p) => asset($p))->values();
+                    if ($photos->isEmpty()) {
+                        $photos = [asset('/image/itineraire.jpg')]; // Image par défaut
+                    }
+                @endphp
+
+                <!-- Slide individuel d’un itinéraire -->
+                <div class="w-full flex-shrink-0">
+                    <div class="relative w-full h-[420px] md:h-[520px] overflow-hidden rounded-xl">
+
+                        <!-- Slider interne pour faire défiler les images du même itinéraire -->
+                        <div 
+                            x-data="{
+                                images: {{ json_encode($photos) }},   // Liste des images à afficher
+                                current: 0,                           // Index de l’image affichée
+                                init() {
+                                    setInterval(() => {
+                                        this.current = (this.current + 1) % this.images.length; // Changement toutes les 3s
+                                    }, 3000);
+                                }
+                            }" 
+                            x-init="init()" 
+                            class="absolute inset-0 bg-black"
+                        >
+                            <template x-for="(img, idx) in images" :key="idx">
+                                <img 
+                                    :src="img"
+                                    x-show="current === idx"
+                                    x-transition
+                                    class="absolute inset-0 w-full h-full object-contain object-center bg-black" />
+                            </template>
+                        </div>
+
+                        <!-- Overlay (titre, description, lieux, bouton) -->
+                        <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-end p-6 z-10">
+                            <h3 class="text-white text-2xl md:text-3xl font-bold font-serif drop-shadow">
+                                {{ $itineraire->titre }}
+                            </h3>
+                            <p class="text-white mt-2 text-sm md:text-base line-clamp-2">
+                                {{ $itineraire->description }}
+                            </p>
+
+                            <!-- Liste des lieux visités -->
+                            <div class="flex flex-wrap gap-2 mt-3">
+                                @foreach ($itineraire->site_touristiques as $site)
+                                    <span class="bg-white/80 text-blue-800 text-xs md:text-sm px-2 py-1 rounded shadow">
+                                        📍 {{ $site->nom }}
+                                    </span>
+                                @endforeach
+                            </div>
+
+                            <!-- Lien vers les détails -->
+                            <a href="{{ route('itineraire.showpublic', $itineraire->id) }}"
+                               class="mt-4 inline-block bg-indigo-600 text-white px-6 py-2 rounded-lg shadow hover:bg-indigo-700 transition">
+                                Voir les détails
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        <!-- BOUTONS DE CONTRÔLE -->
+        <div class="absolute inset-y-0 left-0 flex items-center">
+            <button 
+                @click="activeSlide = activeSlide > 0 ? activeSlide - 1 : total - 1"
+                class="bg-white/70 hover:bg-white text-gray-800 rounded-full p-2 shadow-lg m-2"
+                aria-label="Précédent">
+                ⬅️
+            </button>
+        </div>
+        <div class="absolute inset-y-0 right-0 flex items-center">
+            <button 
+                @click="activeSlide = (activeSlide + 1) % total"
+                class="bg-white/70 hover:bg-white text-gray-800 rounded-full p-2 shadow-lg m-2"
+                aria-label="Suivant">
+                ➡️
+            </button>
+        </div>
+    </div>
+
+    <!-- INDICATEURS (ronds de pagination) -->
+    <div class="flex justify-center mt-6 space-x-2">
+        @foreach ($topItineraires as $i => $itineraire)
+            <div 
+                @click="activeSlide = {{ $i }}"
+                :class="{ 'bg-indigo-600': activeSlide === {{ $i }}, 'bg-gray-300': activeSlide !== {{ $i }} }"
+                class="w-4 h-4 rounded-full cursor-pointer transition duration-300">
+            </div>
+        @endforeach
+    </div>
+</div>
 
     <!-- Section FAQ -->
 <div class="w-4/5 mx-auto my-12 p-6 bg-gray-50 rounded-lg shadow-lg">
@@ -281,6 +401,12 @@
 </div>
 
     <!-- Section Newsletter -->
+      <!-- Success Message -->
+      @if (session('contenu'))
+      <div class="mb-4 p-4 bg-blue-100 text-blue-800 rounded-lg font-serif text-sm">
+          {{ session('contenu') }}
+      </div>
+  @endif
     <div class="w-4/5 mx-auto my-12 p-6 bg-gray-100 rounded-lg shadow-lg text-center">
         <h1 class="text-2xl md:text-3xl lg:text-4xl font-serif font-bold text-gray-800 mb-4 tracking-tight uppercase">
             Abonnez-vous à notre Newsletter 📩

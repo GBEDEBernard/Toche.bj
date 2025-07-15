@@ -1,5 +1,5 @@
 <!--begin::Header-->
-<nav class="app-header navbar navbar-expand bg-body shadow-sm m-2">
+<nav class="app-header navbar navbar-expand bg-body shadow-sm ">
     <!--begin::Container-->
     <div class="container-fluid">
         <!--begin::Start Navbar Links-->
@@ -18,8 +18,6 @@
         </ul>
         <!--end::Start Navbar Links-->
 
- 
-<!--end::Notifications Dropdown Menu-->
         <!--begin::End Navbar Links-->
         <ul class="navbar-nav ms-auto align-items-center">
             <!--begin::Navbar Search-->
@@ -38,52 +36,50 @@
                     <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none;"></i>
                 </a>
             </li>
-            <!--end::Fullscreen Toggle-->
-<!--begin::Notifications Dropdown Menu-->
-<li class="nav-item dropdown">
-    <a class="nav-link" data-bs-toggle="dropdown" href="#" aria-expanded="false">
-        <i class="bi bi-bell-fill text-orange"></i>
-        @php
-            $unreadNotifications = 0;
-            if (auth()->check()) {
-                try {
-                    $unreadNotifications = auth()->user()->unreadNotifications()->where('type', 'App\Notifications\NewAvisNotification')->count();
-                } catch (\Exception $e) {
-                    \Log::error('Error fetching notifications: ' . $e->getMessage());
-                }
-            }
-        @endphp
-        @if ($unreadNotifications > 0)
-            <span class="navbar-badge badge text-bg-orange">{{ $unreadNotifications }}</span>
-        @endif
-    </a>
-    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end shadow">
-        <span class="dropdown-item dropdown-header">{{ $unreadNotifications }} Notification{{ $unreadNotifications !== 1 ? 's' : '' }} d’avis</span>
-        <div class="dropdown-divider"></div>
-        @if (auth()->check())
-            @forelse (auth()->user()->unreadNotifications()->where('type', 'App\Notifications\NewAvisNotification')->take(3)->get() as $notification)
-                <a href="{{ route('Admin.Avis.index') }}" class="dropdown-item">
-                    <div class="d-flex align-items-center">
-                        <div class="me-2">
-                            <i class="bi bi-star-fill text-orange"></i>
-                        </div>
-                        <div>
-                            <p class="mb-0 text-truncate" style="max-width: 200px;">{{ $notification->data['message'] }}</p>
-                            <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
-                        </div>
-                    </div>
+            <!--begin::Notifications Dropdown Menu-->
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-bs-toggle="dropdown" href="#" aria-expanded="false">
+                    <i class="bi bi-bell-fill text-orange"></i>
+                    @php
+                        $unreadNotifications = 0;
+                        if (auth()->check()) {
+                            try {
+                                $unreadNotifications = auth()->user()->unreadNotifications()->where('type', 'App\Notifications\NewAvisNotification')->count();
+                            } catch (\Exception $e) {
+                                \Log::error('Error fetching notifications: ' . $e->getMessage());
+                            }
+                        }
+                    @endphp
+                    @if ($unreadNotifications > 0)
+                        <span class="navbar-badge badge text-bg-orange">{{ $unreadNotifications }}</span>
+                    @endif
                 </a>
-                <div class="dropdown-divider"></div>
-            @empty
-                <div class="dropdown-item text-muted">Aucune notification d’avis nouvelle</div>
-            @endforelse
-        @else
-            <div class="dropdown-item text-muted">Connectez-vous pour voir les notifications</div>
-        @endif
-        <a href="{{ route('Admin.Avis.index') }}" class="dropdown-item dropdown-footer">Voir tous les avis</a>
-    </div>
-</li>
-<!--end::Notifications Dropdown Menu-->
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end shadow">
+                    <span class="dropdown-item dropdown-header">{{ $unreadNotifications }} Notification{{ $unreadNotifications !== 1 ? 's' : '' }} d’avis</span>
+                    <div class="dropdown-divider"></div>
+                    @if (auth()->check())
+                        @forelse (auth()->user()->unreadNotifications()->where('type', 'App\Notifications\NewAvisNotification')->take(3)->get() as $notification)
+                            <a href="{{ route('Admin.Avis.index') }}" class="dropdown-item">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-2">
+                                        <i class="bi bi-star-fill text-orange"></i>
+                                    </div>
+                                    <div>
+                                        <p class="mb-0 text-truncate" style="max-width: 200px;">{{ $notification->data['message'] }}</p>
+                                        <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                        @empty
+                            <div class="dropdown-item text-muted">Aucune notification d’avis nouvelle</div>
+                        @endforelse
+                    @else
+                        <div class="dropdown-item text-muted">Connectez-vous pour voir les notifications</div>
+                    @endif
+                    <a href="{{ route('Admin.Avis.index') }}" class="dropdown-item dropdown-footer">Voir tous les avis</a>
+                </div>
+            </li>
             <!--begin::User Menu Dropdown-->
             <li class="nav-item dropdown user-menu">
                 @auth
@@ -117,7 +113,7 @@
                             </div>
                         </li>
                         <li class="user-footer d-flex justify-content-between p-3">
-                            <a href="{{ route('profile.edit') }}" class="btn btn-sm btn-outline-primary">Profil</a>
+                            <a href="{{ route('profile') }}" class="btn btn-sm btn-outline-primary">Profil</a>
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-sm btn-outline-danger">Déconnexion</button>

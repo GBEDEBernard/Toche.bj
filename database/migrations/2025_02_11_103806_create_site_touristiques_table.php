@@ -19,6 +19,8 @@ return new class extends Migration
            $table->string('pays');
            $table->string('departement');
            $table->string('commune');
+           $table->decimal('latitude', 10, 6);
+           $table->decimal('longitude', 10, 6);
            $table->string('email')->unique();
            $table->string('photo');
            $table->string('contact');

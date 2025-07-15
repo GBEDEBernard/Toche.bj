@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('content')
@@ -73,35 +72,36 @@
             </a>
         </div>
     </div>
-<!-- Ajoutez ceci où vous voulez afficher les avis -->
-<section class="container py-4">
-    <h2 class="mb-4 text-center">Derniers avis</h2>
-    <div class="row">
-        @forelse ($latestAvis as $avis)
-            <div class="col-md-4 mb-4">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $avis->avisable->nom }}</h5>
-                        <p class="card-text">{{ Str::limit($avis->commentaire, 100) }}</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="badge bg-warning">{{ $avis->note }}/5</span>
-                            <small class="text-muted">Par {{ $avis->user->name }}</small>
+
+    <!-- Derniers avis -->
+    <section class="container py-4">
+        <h2 class="mb-4 text-center">Derniers avis</h2>
+        <div class="row">
+            @forelse ($latestAvis as $avis)
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $avis->avisable->nom }}</h5>
+                            <p class="card-text">{{ Str::limit($avis->commentaire, 100) }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-warning">{{ $avis->note }}/5</span>
+                                <small class="text-muted">Par {{ $avis->user->name }}</small>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        @empty
-            <div class="col-12 text-center">
-                <p class="text-muted">Aucun avis approuvé pour le moment.</p>
-            </div>
-        @endforelse
-    </div>
-</section>
+            @empty
+                <div class="col-12 text-center">
+                    <p class="text-muted">Aucun avis approuvé pour le moment.</p>
+                </div>
+            @endforelse
+        </div>
+    </section>
+
     <!-- Main Content -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Left Column -->
         <div class="lg:col-span-7">
-            <!-- Sites Chart -->
+            <!-- Chart Sites par catégorie -->
             <div class="bg-white rounded-2xl shadow-lg mb-6">
                 <div class="p-6 border-b border-gray-200">
                     <h3 class="text-xl font-semibold text-gray-800">Sites par catégorie</h3>
@@ -111,15 +111,26 @@
                 </div>
             </div>
 
-            <!-- Latest Sites -->
+            <!-- Derniers sites -->
             <div class="bg-white rounded-2xl shadow-lg mb-6">
                 <div class="p-6 border-b border-gray-200">
                     <h3 class="text-xl font-semibold text-gray-800">Derniers sites touristiques</h3>
                 </div>
                 <div class="p-6">
                     <ul class="space-y-3">
-                        @forelse ($latestSites as $site)
-                            <li class="flex justify-between items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300">
+                        @forelse ($latestSites as $index => $site)
+                            @php
+                                $colors = [
+                                    ['bg' => 'bg-indigo-50', 'hover' => 'hover:bg-indigo-100'],
+                                    ['bg' => 'bg-emerald-50', 'hover' => 'hover:bg-emerald-100'],
+                                    ['bg' => 'bg-amber-50', 'hover' => 'hover:bg-amber-100'],
+                                    ['bg' => 'bg-rose-50', 'hover' => 'hover:bg-rose-100'],
+                                    ['bg' => 'bg-teal-50', 'hover' => 'hover:bg-teal-100'],
+                                    ['bg' => 'bg-cyan-50', 'hover' => 'hover:bg-cyan-100'],
+                                ];
+                                $color = $colors[$index % count($colors)];
+                            @endphp
+                            <li class="flex justify-between items-center p-4 {{ $color['bg'] }} rounded-lg {{ $color['hover'] }} transition-colors duration-300">
                                 <span class="text-sm text-gray-600">{{ $site->nom }} ({{ $site->commune }})</span>
                                 <a href="{{ route('sites.show', $site->id) }}" class="text-sm text-indigo-600 hover:text-indigo-800 transition-colors duration-300">Voir</a>
                             </li>
@@ -130,7 +141,7 @@
                 </div>
             </div>
 
-            <!-- Latest Events -->
+            <!-- Derniers événements -->
             <div class="bg-white rounded-2xl shadow-lg">
                 <div class="p-6 border-b border-gray-200">
                     <h3 class="text-xl font-semibold text-gray-800">Derniers événements</h3>
@@ -150,9 +161,7 @@
             </div>
         </div>
 
-        <!-- Right Column -->
         <div class="lg:col-span-5">
-            <!-- Recent Activity -->
             <div x-data="{ open: true }" class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl shadow-lg">
                 <div class="p-6 border-b border-gray-200 flex justify-between items-center">
                     <h3 class="text-xl font-semibold text-gray-800">Activité récente</h3>
@@ -169,75 +178,155 @@
             </div>
         </div>
     </div>
+
+    <!-- Carte des itinéraires -->
+    <div class="bg-white rounded-2xl shadow-lg my-10">
+        <div class="p-6 border-b border-gray-200">
+            <h3 class="text-xl font-semibold text-gray-800">Carte des itinéraires</h3>
+        </div>
+        <div id="map" style="height: 400px;"></div>
+    </div>
+
+    <!-- Statistiques Itinéraires -->
+    <div class="grid grid-cols-2 gap-6 mb-6">
+        <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl shadow-lg p-6 flex items-center gap-4">
+            <i class="bi bi-map-fill text-blue-700 text-5xl"></i>
+            <div>
+                <h3 class="text-4xl font-bold">{{ $totalItineraires }}</h3>
+                <p class="text-sm">Itinéraires créés</p>
+            </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-lime-50 to-lime-100 rounded-2xl shadow-lg p-6 flex items-center gap-4">
+            <i class="bi bi-link-45deg text-lime-700 text-5xl"></i>
+            <div>
+                <h3 class="text-4xl font-bold">{{ $totalAssociations }}</h3>
+                <p class="text-sm">Itinéraires-Sites</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Graphique des sites par itinéraire -->
+    <div class="bg-white rounded-2xl shadow-lg mb-10">
+        <div class="p-6 border-b border-gray-200">
+            <h3 class="text-xl font-semibold text-gray-800">Nombre de sites par itinéraire</h3>
+        </div>
+        <div class="p-6">
+            <canvas id="itineraireChart" class="w-full h-64"></canvas>
+        </div>
+    </div>
 </div>
 
-@push('scripts')
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const ctx = document.getElementById('sitesChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: {!! json_encode($chartLabels) !!},
-            datasets: [{
-                label: 'Sites par catégorie',
-                data: {!! json_encode($chartData) !!},
-                backgroundColor: [
-                    'rgba(79, 70, 229, 0.7)',
-                    'rgba(16, 185, 129, 0.7)',
-                    'rgba(245, 158, 11, 0.7)',
-                    'rgba(239, 68, 68, 0.7)',
-                    'rgba(139, 92, 246, 0.7)',
-                ],
-                borderColor: [
-                    'rgba(79, 70, 229, 1)',
-                    'rgba(16, 185, 129, 1)',
-                    'rgba(245, 158, 11, 1)',
-                    'rgba(239, 68, 68, 1)',
-                    'rgba(139, 92, 246, 1)',
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    grid: { color: 'rgba(0, 0, 0, 0.05)' },
-                    title: {
-                        display: true,
-                        text: 'Nombre de sites'
-                    }
-                },
-                x: {
-                    grid: { display: false },
-                    title: {
-                        display: true,
-                        text: 'Catégories'
-                    }
-                }
+    document.addEventListener("DOMContentLoaded", () => {
+        const map = L.map('map').setView([6.370, 2.391], 8);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        const itineraireSites = @json($itineraireSitesMap);
+        itineraireSites.forEach(item => {
+            if(item.site_touristique.latitude && item.site_touristique.longitude) {
+                L.marker([item.site_touristique.latitude, item.site_touristique.longitude])
+                    .addTo(map)
+                    .bindPopup(`<strong>${item.itineraire.titre}</strong><br>${item.site_touristique.nom}`);
+            }
+        });
+    });
+</script>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const ctx = document.getElementById('sitesChart')?.getContext('2d');
+        if (!ctx) return;
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: @json($chartLabels),
+                datasets: [{
+                    label: 'Sites par catégorie',
+                    data: @json($chartData),
+                    backgroundColor: [
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(255, 206, 86, 0.5)',
+                            'rgba(75, 192, 192, 0.5)',
+                            'rgba(153, 102, 255, 0.5)',
+                            'rgba(255, 159, 64, 0.5)'
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                    borderWidth: 1,
+                    barThickness: 20
+                }]
             },
-            plugins: {
-                legend: {
-                    position: 'top',
-                    labels: {
-                        font: {
-                            size: 14
-                        }
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
                     }
-                },
-                tooltip: {
-                    enabled: true,
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                    titleFont: { size: 14 },
-                    bodyFont: { size: 12 }
                 }
             }
-        }
+        });
+
+        const itineraireCtx = document.getElementById('itineraireChart')?.getContext('2d');
+        if (!itineraireCtx) return;
+
+        new Chart(itineraireCtx, {
+            type: 'bar',
+            data: {
+                labels: @json($itineraireLabels),
+                datasets: [{
+                    label: 'Sites par itinéraire',
+                    data: @json($itineraireData),
+                    backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(255, 206, 86, 0.5)',
+                            'rgba(75, 192, 192, 0.5)',
+                            'rgba(153, 102, 255, 0.5)',
+                            'rgba(255, 159, 64, 0.5)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                    borderWidth: 1,
+                    barThickness: 20,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { stepSize: 1 }
+                    }
+                }
+            }
+        });
     });
-});
 </script>
-@endpush
 @endsection

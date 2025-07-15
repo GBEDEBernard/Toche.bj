@@ -52,8 +52,12 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'telephone' => 'string',
+            'photo' => 'string',
+            'adresse' => 'string',
         ];
     }
+    
 
 public function pieces_identites(): HasMany
 {
@@ -68,5 +72,10 @@ public function reservations() {
 public function pieceIdentite()
 {
     return $this->hasOne(PieceIdentite::class);
+}
+//Agence
+public function agences(): HasMany
+{
+    return $this->hasMany(AgenceVoyage::class);
 }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Evenement;
+use App\Models\Itineraire;
 use App\Models\Site_touristique;
 use App\Models\Hotel;
 use App\Models\Faq;
@@ -15,6 +16,7 @@ class AcceuilController extends Controller
     public function index(Request $request)
     {
         // Récupérer les top sites
+
         $sitesTouristiques = Site_touristique::with('tousLesAvis')->get();
         
         foreach ($sitesTouristiques as $site) {
@@ -44,8 +46,8 @@ class AcceuilController extends Controller
         // Logique de recherche
         $destination = $request->input('destination');
         $date = $request->input('date');
-        $nombre_personnes = $request->input('nombre_personnes');
-    
+        
+
         $sites = Site_touristique::query()
             ->when($destination, function ($q) use ($destination) {
                 $q->where('nom', 'like', "%$destination%")
@@ -80,6 +82,9 @@ class AcceuilController extends Controller
             ->where('date', '>=', Carbon::today())
             ->orderBy('date')
             ->first();
+
+            $nombre_personnes = $request->input('nombre_personnes');
+            $topItineraires = Itineraire::with(['agence', 'site_touristiques'])->latest()->take(3)->get();
         return view('Acceuil', [
             'topSites' => $topSites,
             'topEvenements' => $topEvenements,
@@ -89,6 +94,8 @@ class AcceuilController extends Controller
             'faqs' => $faqs,  // ajoute ça directement
             'prochainEvenement' => $prochainEvenement, // 🧠 la clé manquante !
             'hotels' => $hotels, 
+            'nombre_personnes'=>$nombre_personnes,
+            'topItineraires' =>$topItineraires,
         ]);
     }
     

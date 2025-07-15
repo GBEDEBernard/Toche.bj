@@ -42,26 +42,31 @@
                 <input type="text" name="commune" value="{{ $data->commune }}" required class="w-full mt-1 border border-gray-300 rounded-md p-2">
             </div>
 
-              {{-- <div>
-              <label for="adresse" class="block text-gray-700 font-medium">Adresse <span class="text-red-600">*</span></label>
-              <input type="text" name="adresse" value="{{ $data->adresse }}" required class="w-full mt-1 border border-gray-300 rounded-md p-2">
-             </div>
-           
-             <div>
-                <label for="latitude" class="block text-gray-700 font-medium">Latitude <span class="text-red-600">*</span></label>
-                <input type="text" name="latitude" value="{{ $data->latitude }}" required class="w-full mt-1 border border-gray-300 rounded-md p-2">
-               </div>
-  
-               <div>
-                <label for="longitude" class="block text-gray-700 font-medium">Adresse <span class="text-red-600">*</span></label>
-                <input type="text" name="longitude" value="{{ $data->longitude }}" required class="w-full mt-1 border border-gray-300 rounded-md p-2">
-               </div>
-   --}}
+     
             <div>
                 <label for="email" class="block text-gray-700 font-medium">Email <span class="text-red-600">*</span></label>
                 <input type="email" name="email" value="{{ $data->email }}" required class="w-full mt-1 border border-gray-300 rounded-md p-2">
             </div>
-
+            <div class="form-group row mt-3">
+                <label for="latitude" class="col-sm-4 col-form-label font-bold">Latitude <strong class="text-danger">*</strong></label>
+                <div class="col-sm-8">
+                    <input type="text" name="latitude" class="form-control" id="latitude" value="{{ $data->latitude }}" placeholder="Latitude">
+                    @error('latitude')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+            
+            <div class="form-group row mt-3">
+                <label for="longitude" class="col-sm-4 col-form-label font-bold">Longitude <strong class="text-danger">*</strong></label>
+                <div class="col-sm-8">
+                    <input type="text" name="longitude" class="form-control" id="longitude" value="{{ $data->longitude }}" placeholder="Longitude">
+                    @error('longitude')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+            
             @if($data->photo)
             <div class="form-group mb-2">
                 <label class="font-bold">Photo actuelle :</label><br>
