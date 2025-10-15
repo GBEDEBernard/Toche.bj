@@ -9,6 +9,10 @@
 
     <!-- Bouton d'ajout -->
     <div class="text-end mb-4">
+         <a href="{{ route('welcome') }}"
+                            class="inline-block px-5 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition">
+                                ← Retour
+                            </a>
         <a href="{{ route('users') }}" class="bg-blue-600 text-white px-4 py-2 rounded shadow font-bold hover:bg-blue-700 transition">
             + Créer un utilisateur
         </a>

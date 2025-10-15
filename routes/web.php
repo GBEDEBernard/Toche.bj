@@ -163,7 +163,7 @@ Route::middleware(['auth', 'can:contacts.index'])->group(function () {
 | Protégées par authentification et permissions spécifiques
 |--------------------------------------------------------------------------
 */
-Route::prefix('admin')->middleware(['auth'])->group(function () {
+Route::prefix('admin')->middleware(['auth' , 'check.session'])->group(function () {
     // Recherche
     Route::get('/search', [SearchController::class, 'index'])->name('admin.search')->middleware('can:access_admin');
 

@@ -3,149 +3,144 @@
 @section('title', 'Liste des Événements')
 
 @section('content')
-<!-- Main content -->
-<section class="content">
-    <div class="container-fluid">
-        <!-- Card for listing events -->
-        <div class="row">
-            <div class="col-md-12">
-                <!-- Card -->
-                <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">Liste des Événements</h3>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="text-end mb-3 mr-2 mt-4">
-                        <a class="shadow  text-xl text-white  italic py-2 px-1 rounded bg-blue-600 border-2 border-solid font-bold mb-2 mr-4 " style="text-decoration: none;" href="{{ route('evenement.create') }}">
-                            Ajouter un Événement</a>
-                    </div>
-                    <div class="card-body">
-                        <!-- Table -->
-                        <table class="table table-bordered table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">N°</th>
-                                    <th scope="col">Nom</th>
-                                    <th scope="col">Site-touristique</th>
-                                    <th scope="col">Lieu</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Programme</th>
-                                    <th scope="col">Détails</th>
-                                    <th scope="col">Infos pratiques</th>                            
-                                    <th scope="col">Photo</th>
-                                    <th scope="col">Sponsor</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($datas as $data)
-                                    <tr>
-                                        <td>{{$data->id}}</td>
-                                        <td>{{$data->nom}}</td>
-                                        <td>{{$data->site_touristique->nom}}</td>
-                                        <td>{{$data->lieu}}</td>
-                                        <td>{{$data->date}}</td>
-                                        <td>{{ Str::limit($data->programme, 50) }}</td>
-                                        <td>
-                                            <ul class="list-disc ml-4 text-xs text-gray-700">
-                                                @foreach(explode("\n", $data->programme_details) as $item)
-                                                    @if(trim($item))
-                                                        <li>{{ trim($item) }}</li>
-                                                    @endif
-                                                @endforeach
-                                            </ul>
-                                        </td>
-                                        <td>{{ Str::limit($data->infos_pratiques, 50) }}</td>
-                            
-                                        <td><img src="{{ asset ($data->photo) }}" alt="Photo du d'evenement"   style="width: 100px; height: 60px;"></td>
-                                        <td>{{$data->sponsor}}</td>
-                                        <td>{{$data->description}}</td>
-                                        <td>
-                                           
-                                            <a href="{{ route('evenements.modifier', $data->id) }}" class=" text-decoration-none font-bold flex text-xl">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 mr-2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
-                                                  </svg>
-                                                    Modifier</a>
-                                            
-                                           
-                                                    <button type="button"  class="font-bold text-red-600 flex text-decoration-none"     
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#confirmDeleteEvenementModal"
-                                                    data-id="{{ $data->id }}">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                        class="size-5 mr-2">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                                    </svg>
-                                                    Supprimer
-                                                </button>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+<section class="py-6">
+    <div class="container mx-auto">
+
+        <!-- Barre d'action + recherche -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+            <!-- Boutons -->
+            <div class="flex gap-3">
+                <a href="{{ route('welcome') }}" class="px-5 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition">
+                    ← Retour
+                </a>
+                <a href="{{ route('evenement.create') }}" class="px-6 py-2 bg-blue-600 text-white font-bold rounded-lg shadow hover:bg-blue-700 transition">
+                    Ajouter un Événement
+                </a>
             </div>
+
+            <!-- Barre de recherche -->
+            <form method="GET" action="{{ route('indexevenements') }}" class="flex gap-2 w-full md:w-auto">
+                <input type="text" name="query" value="{{ request('query') }}" placeholder="Rechercher par nom, lieu ou description" class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                
+                <select name="site" class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="all">Tous les sites</option>
+                    @foreach($sites as $site)
+                        <option value="{{ $site->id }}" {{ request('site') == $site->id ? 'selected' : '' }}>{{ $site->nom }}</option>
+                    @endforeach
+                </select>
+
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">Rechercher</button>
+            </form>
+        </div>
+
+        <!-- Table des événements -->
+        <div class="overflow-x-auto bg-white rounded-lg shadow">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-blue-600 text-white">
+                    <tr>
+                        <th class="px-4 py-2 text-left text-sm font-medium">#</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium">Nom</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium">Site</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium">Lieu</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium">Date</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium">Programme</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium">Détails</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium">Infos pratiques</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium">Photo</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium">Sponsor</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium">Description</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    @forelse($datas as $data)
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-2 text-sm">{{ $data->id }}</td>
+                            <td class="px-4 py-2 text-sm font-semibold">{{ $data->nom }}</td>
+                            <td class="px-4 py-2 text-sm">{{ $data->site_touristique->nom }}</td>
+                            <td class="px-4 py-2 text-sm">{{ $data->lieu }}</td>
+                            <td class="px-4 py-2 text-sm">{{ \Carbon\Carbon::parse($data->date)->format('d/m/Y') }}</td>
+                            <td class="px-4 py-2 text-sm">{{ Str::limit($data->programme, 50) }}</td>
+                            <td class="px-4 py-2 text-sm">
+                                <ul class="list-disc ml-4 text-xs text-gray-700">
+                                    @foreach(explode("\n", $data->programme_details) as $item)
+                                        @if(trim($item))
+                                            <li>{{ trim($item) }}</li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            </td>
+                            <td class="px-4 py-2 text-sm">{{ Str::limit($data->infos_pratiques, 50) }}</td>
+                            <td class="px-4 py-2">
+                                <img src="{{ asset($data->photo) }}" alt="Photo" class="w-24 h-16 object-cover rounded">
+                            </td>
+                            <td class="px-4 py-2 text-sm">{{ $data->sponsor }}</td>
+                            <td class="px-4 py-2 text-sm">{{ Str::limit($data->description, 50) }}</td>
+                            <td class="px-4 py-2 text-sm flex flex-col gap-1">
+                                <a href="{{ route('evenements.modifier', $data->id) }}" class="px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition text-center">Modifier</a>
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#confirmDeleteEvenementModal" data-id="{{ $data->id }}" class="px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition text-center">Supprimer</button>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="12" class="px-4 py-6 text-center text-gray-500">Aucun événement trouvé</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="mt-4">
+            {{ $datas->appends(request()->query())->links() }}
         </div>
     </div>
 </section>
 
-<!-- Modal de confirmation -->
-<div class="modal fade" id="confirmDeleteEvenementModal" tabindex="-1"
-    aria-labelledby="confirmDeleteEvenementModalLabel" aria-hidden="true">
+<!-- Modal de suppression -->
+<div class="modal fade" id="confirmDeleteEvenementModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <form  method="POST" id="deleteEvenementForm">
+        <form method="POST" id="deleteEvenementForm">
             @csrf
             @method('DELETE')
-            <div class="modal-content">
-                <div class="modal-header">
+            <div class="modal-content rounded-lg shadow-lg">
+                <div class="modal-header bg-red-600 text-white">
                     <h5 class="modal-title">Confirmation</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
-                    Voulez-vous vraiment supprimer cette visite ?
+                <div class="modal-body text-gray-800">
+                    Voulez-vous vraiment supprimer cet événement ?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                    <button type="button" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition">Supprimer</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
 
-
 @if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
+    <div class="mt-4 p-4 bg-green-500 text-white rounded">{{ session('success') }}</div>
 @endif
-
 @if (session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
+    <div class="mt-4 p-4 bg-red-500 text-white rounded">{{ session('error') }}</div>
 @endif
 @endsection
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const deleteModal = document.getElementById('confirmDeleteEvenementModal');
+document.addEventListener('DOMContentLoaded', function () {
+    const deleteModal = document.getElementById('confirmDeleteEvenementModal');
 
-        deleteModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget;
-            const EvenementID = button.getAttribute('data-id');
-
-            if (EvenementID) {
-                const form = document.getElementById('deleteEvenementForm');
-                form.action = '/Admin/Evenements/' + EvenementID;
-            }
-        });
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const evenementID = button.getAttribute('data-id');
+        if (evenementID) {
+            const form = document.getElementById('deleteEvenementForm');
+            form.action = '/Admin/Evenements/' + evenementID;
+        }
     });
+});
 </script>
 @endpush

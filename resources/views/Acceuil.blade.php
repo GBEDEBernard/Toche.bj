@@ -392,6 +392,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
             </button>
+            
             <div class="hidden p-4 bg-white shadow-md rounded-lg mt-2 faq-answer">
                 <p class="font-serif text-gray-600">{{ $faq->answer }}</p>
             </div>
@@ -422,4 +423,15 @@
         </form>
 
     </div>
+
+    <script>
+    function toggleFaq(button) {
+        const answer = button.parentElement.querySelector(".faq-answer");
+        const icon = button.querySelector("svg");
+
+        answer.classList.toggle("hidden");
+        icon.classList.toggle("rotate-180");
+    }
+</script>
+
 @endsection

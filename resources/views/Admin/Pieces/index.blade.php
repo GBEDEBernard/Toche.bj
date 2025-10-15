@@ -2,11 +2,17 @@
 
 @section('content')
 <div class="max-w-6xl mx-auto mt-10">
-    <div class="flex justify-between items-center mb-4">
+    <div class="flex justify-between items-center mb-4 gap-3">
         <h2 class="text-2xl font-semibold">Liste des Pièces d'identité</h2>
+         <div>
+             <a href="{{ route('welcome') }}"
+                            class="inline-block px-5 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition">
+                                ← Retour
+                            </a>
         <a href="{{ route('piece.create') }}" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded">
             + Nouvelle Pièce
         </a>
+         </div>
     </div>
 
     <div class="bg-white shadow overflow-hidden rounded-lg">

@@ -15,29 +15,37 @@
 
 </div>
     <table class="table-auto w-full mt-4 border-collapse border border-gray-200">
-        <thead>
-            <tr>
-                <th class="border border-gray-300 px-4 py-2">Ordre</th>
-                <th class="border border-gray-300 px-4 py-2">Question</th>
-                <th class="border border-gray-300 px-4 py-2">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($faqs as $faq)
-            <tr>
-                <td class="border border-gray-300 px-4 py-2 text-center">{{ $faq->order }}</td>
-                <td class="border border-gray-300 px-4 py-2">{{ $faq->question }}</td>
-                <td class="border border-gray-300 px-4 py-2 flex gap-2">
-                    <a href="{{ route('editfaqs', $faq) }}" class="bg-yellow-400 px-3 py-1 rounded hover:bg-yellow-500">Modifier</a>
-                    <form action="{{ route('admin.faqs.destroy', $faq) }}" method="POST" onsubmit="return confirm('Supprimer cette FAQ ?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Supprimer</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
+       <thead>
+    <tr>
+        <th class="border border-gray-300 px-4 py-2 text-center">Ordre</th>
+        <th class="border border-gray-300 px-4 py-2">Question</th>
+        <th class="border border-gray-300 px-4 py-2">Réponse</th>
+        <th class="border border-gray-300 px-4 py-2 text-center">Actions</th>
+    </tr>
+</thead>
+<tbody>
+    @foreach($faqs as $faq)
+    <tr class="hover:bg-gray-50">
+        <td class="border border-gray-300 px-4 py-2 text-center font-semibold">{{ $faq->order }}</td>
+        <td class="border border-gray-300 px-4 py-2">{{ $faq->question }}</td>
+        <td class="border border-gray-300 px-4 py-2 text-gray-700">
+            <div class="max-h-32 overflow-y-auto">
+                {{ Str::limit($faq->answer, 120, '...') }}
+            </div>
+        </td>
+        <td class="border border-gray-300 px-4 py-2 flex gap-2 justify-center">
+            <a href="{{ route('editfaqs', $faq) }}" class="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500">Modifier</a>
+            <form action="{{ route('admin.faqs.destroy', $faq) }}" method="POST" onsubmit="return confirm('Supprimer cette FAQ ?');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Supprimer</button>
+            </form>
+        </td>
+    </tr>
+    @endforeach
+</tbody>
+
     </table>
 </div>
+
 @endsection

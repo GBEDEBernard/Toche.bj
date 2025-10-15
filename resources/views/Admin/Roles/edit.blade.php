@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('content')
@@ -16,31 +15,43 @@
     @endif
 
     <div class="bg-white rounded-2xl shadow-lg p-6">
-
         <form action="{{ route('admin.roles.update', $role->id) }}" method="POST">
             @csrf
             @method('PUT')
+
+            <!-- Nom du rôle -->
             <div class="mb-4">
                 <label for="name" class="block text-sm font-medium text-gray-700">Nom du Rôle</label>
-                <input type="text" name="name" id="name" value="{{ $role->name }}" class="mt-1 w-full border-gray-300 rounded-lg p-2" required>
+                <input type="text" name="name" id="name" value="{{ $role->name }}" 
+                       class="mt-1 w-full border-gray-300 rounded-lg p-2" required>
             </div>
+
+            <!-- Permissions -->
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Permissions</label>
-                <select name="permissions[]" multiple class="w-full border-gray-300 rounded-lg p-2">
-                    {{-- empechez la suppression accidentel de mon roles permission et acces welcome --}}
+                <label class="block text-sm font-medium text-gray-700 mb-2">Permissions</label>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
                     @foreach ($permissions as $permission)
                         @if (!in_array($permission->name, ['roles.index', 'roles.create', 'roles.edit', 'roles.delete', 'roles.show', 'access_admin']))
-                            <option value="{{ $permission->name }}" {{ $role->hasPermissionTo($permission->name) ? 'selected' : '' }}>
-                                {{ $permission->name }}
-                            </option>
+                            <label class="inline-flex items-center space-x-2 bg-gray-50 p-2 rounded-lg border">
+                                <input type="checkbox" name="permissions[]" value="{{ $permission->name }}"
+                                    class="rounded text-indigo-600 focus:ring-indigo-500"
+                                    {{ $role->hasPermissionTo($permission->name) ? 'checked' : '' }}>
+                                <span class="text-gray-700">{{ $permission->name }}</span>
+                            </label>
                         @endif
                     @endforeach
-                </select>
+                </div>
             </div>
-            <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-300">
-                Mettre à jour
-            </button>
-            <a href="{{ route('admin.roles.index') }}" class="ml-4 text-indigo-600 hover:text-indigo-800">Annuler</a>
+
+            <!-- Boutons -->
+            <div class="flex items-center space-x-4 mt-6">
+                <button type="submit" 
+                        class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-300">
+                    Mettre à jour
+                </button>
+                <a href="{{ route('admin.roles.index') }}" 
+                   class="text-indigo-600 hover:text-indigo-800">Annuler</a>
+            </div>
         </form>
     </div>
 </div>

@@ -4,8 +4,15 @@
 <div class="p-4">
     <div class="flex justify-between items-center mb-4">
         <h1 class="text-2xl font-bold text-gray-800">Liste des paiements</h1>
+        <div>
+             <a href="{{ route('welcome') }}"
+                            class="inline-block px-5 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition">
+                                ← Retour
+                            </a>
         <a href="{{ route('paiement.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">+ Nouveau Paiement</a>
-    </div>
+
+        </div>   
+     </div>
 
     <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
         <thead class="bg-gray-100 text-gray-600 uppercase text-sm">

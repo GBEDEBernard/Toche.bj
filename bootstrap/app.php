@@ -19,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => RoleMiddleware::class,
             'permission' => PermissionMiddleware::class,
             'role_or_permission' => RoleOrPermissionMiddleware::class,
+            'check.session' => \App\Http\Middleware\CheckSession::class,
         ]);
 
         // Ajout du middleware TrackVisitors au groupe 'web'
@@ -30,3 +31,4 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->create();
+

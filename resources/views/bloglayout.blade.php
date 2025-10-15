@@ -10,11 +10,26 @@
         .font-serif {
             font-family: 'Playfair Display', serif;
         }
+
+        /* Lazy load effect pro */
+        .lazy-img {
+            filter: blur(12px);
+            opacity: 0;
+            transition: filter 0.6s ease-out, opacity 0.6s ease-out, transform 0.6s ease-out;
+            transform: scale(1.05);
+        }
+        .lazy-img.loaded {
+            filter: blur(0);
+            opacity: 1;
+            transform: scale(1);
+        }
     </style>
+
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
+    <!-- NAVBAR -->
     <nav class="bg-gray-800 text-white p-4 flex flex-col md:flex-row items-center justify-between shadow-lg" x-data="{ itineraireOpen: false }">
         <div class="flex justify-center mb-4 md:mb-0">
             <a href="{{ route('accueil') }}">
@@ -68,14 +83,16 @@
         @endif
     </nav>
 
+    <!-- MAIN -->
     <main class="min-h-screen">
         @yield('contenu')
     </main>
 
+    <!-- FOOTER -->
     <footer class="flex flex-col md:flex-row justify-between p-6 bg-gray-800 text-white mt-12 shadow-lg">
         <div class="w-full md:w-1/3 p-2 flex items-center gap-3">
             <img src="{{ asset('image/logo3.jpg') }}" alt="Logo Toche" class="h-12 object-contain rounded-full hover:scale-110 transition-transform duration-300" />
-            <p class="text-sm md:text-base font-serif font-semibold text-gray-300 hover:text-blue-400 transition-colors duration-300">
+            <p class="text-sm md:text-base font-serif font-semibold text-gray-300 hover:text-blue-400 transition-colors">
                 Toché, la plateforme de gestion des sites touristiques & événements du Bénin
             </p>
         </div>
@@ -104,7 +121,41 @@
         </div>
     </footer>
 
+    <!-- SCRIPTS -->
     <script src="//unpkg.com/alpinejs" defer></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const lazyImages = document.querySelectorAll("img.lazy-img");
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const img = entry.target;
+              img.src = img.dataset.src;
+
+              img.addEventListener('load', () => {
+                img.classList.add('loaded');
+              });
+
+              observer.unobserve(img);
+            }
+          });
+        }, {
+          rootMargin: "0px 0px 200px 0px",
+          threshold: 0.1
+        });
+
+        lazyImages.forEach(img => observer.observe(img));
+      } else {
+        lazyImages.forEach(img => {
+          img.src = img.dataset.src;
+          img.classList.add('loaded');
+        });
+      }
+    });
+    </script>
 </body>
 </html>

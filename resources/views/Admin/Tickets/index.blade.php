@@ -16,6 +16,10 @@
                     </div>
                      <!-- Action Buttons -->
                      <div class="text-end mb-3 mr-4 mt-4">
+                          <a href="{{ route('welcome') }}"
+                            class="inline-block px-5 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition">
+                                ← Retour
+                            </a>
                         <a class="shadow  text-xl text-white  italic py-2 px-1 rounded bg-blue-600 border-2 border-solid mr-4 font-bold mb-2" style="text-decoration: none;" href="{{ route('tickets') }}">
                             Ajouter ticket</a>
                         </div>

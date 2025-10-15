@@ -5,6 +5,10 @@
     <h1 class="text-xl font-bold mb-4">Liste de mes agences de voyage</h1>
 
     <div class="text-end mb-4">
+         <a href="{{ route('welcome') }}"
+                            class="inline-block px-5 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition">
+                                ← Retour
+                            </a>
         <a href="{{ route('agence.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
             + Ajouter une agence
         </a>
@@ -32,18 +36,18 @@
             @forelse ($agences as $agence)
                 <tr>
                     <td class="p-2 border border-gray-400">{{ $loop->iteration }}</td>
-                    <td class="p-2 border border-gray-400"">{{ $agence->nom }}</td>
-                    <td class="p-2 border border-gray-400"">{{ $agence->contact }}</td>
-                    <td class="p-2 border border-gray-400"">{{ $agence->adresse }}</td>
-                    <td class="p-2 border border-gray-400"">{{ $agence->description }}</td>
-                    <td class="p-2 border border-gray-400"">
+                    <td class="p-2 border border-gray-400">{{ $agence->nom }}</td>
+                    <td class="p-2 border border-gray-400">{{ $agence->contact }}</td>
+                    <td class="p-2 border border-gray-400">{{ $agence->adresse }}</td>
+                    <td class="p-2 border border-gray-400">{{ $agence->description }}</td>
+                    <td class="p-2 border border-gray-400">
                         @if($agence->photo)
                             <img src="{{ asset('storage/' . $agence->photo) }}" alt="Photo agence" style="max-width: 90px;" class="rounded">
                         @else
                             <span class="text-gray-400 italic">Pas de photo</span>
                         @endif
                     </td>
-                    <td class="p-2 border border-gray-400"">
+                    <td class="p-2 border border-gray-400">
                         <a href="{{ route('agence.edit', $agence->id) }}" class="text-blue-600 hover:underline">Modifier</a>
                         <form action="{{ route('agence.delete', $agence->id) }}" method="POST" class="inline" >
                             @csrf

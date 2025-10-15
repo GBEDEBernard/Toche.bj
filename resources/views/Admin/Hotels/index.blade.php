@@ -2,8 +2,12 @@
 
 @section('content')
 <div class="max-w-6xl mx-auto py-8">
-    <div class="flex justify-between items-center mb-6">
+    <div class="flex justify-between items-center mb-6 gap-3">
         <h2 class="text-2xl font-bold">Liste des Hôtels</h2>
+         <a href="{{ route('welcome') }}"
+                            class="inline-block px-5 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition">
+                                ← Retour
+                            </a>
         <a href="{{ route('admin.hotels.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Ajouter</a>
     </div>
 

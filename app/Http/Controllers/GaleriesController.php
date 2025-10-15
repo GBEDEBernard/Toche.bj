@@ -21,7 +21,7 @@ class GaleriesController extends Controller
         'evenement_id' => 'required|exists:evenements,id',
         'site_touristique_id' => 'required|exists:site_touristiques,id',
         'nom' => 'required|string|max:255',
-        'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
     ]);
 
     // Gérer l’upload de la photo
@@ -66,7 +66,7 @@ class GaleriesController extends Controller
              'evenement_id' => 'required|exists:evenements,id',
              'site_touristique_id' => 'required|exists:site_touristiques,id',
              'nom' => 'required|string|max:255',
-             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
          ]);
      
          $galerie = Galerie::findOrFail($id);

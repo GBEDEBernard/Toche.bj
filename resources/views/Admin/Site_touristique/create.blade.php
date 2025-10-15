@@ -10,14 +10,7 @@
     <section class="content">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <!-- Box primaire avec les infos -->
-                <div class="box box-primary">
-                    <div class="text-2xl">
-                        <h4 class="">
-                            La plateforme de gestion des touristiques & évènements du Bénin .
-                        </h4>
-                    </div>
-                </div>
+               
 
                 <!-- Alerte info -->
                 <div class="alert alert-info">
@@ -146,6 +139,10 @@
 
                             <div class=" mt-3">
                                 <div class="col-sm-12 text-center mt-4 mb-2">
+                                     <a href="{{ route('index') }}"
+                                          class="inline-block px-5 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition">
+                                            ← Retour
+                                    </a>
                                     <button type="submit" class="bg-blue-700 text-white px-4 py-2 rounded text-xl font-extrabold">Créer</button>
                                 </div>
                             </div>

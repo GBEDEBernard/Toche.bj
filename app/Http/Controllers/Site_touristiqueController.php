@@ -9,12 +9,19 @@ use Illuminate\Support\Facades\Storage;
 
 class Site_touristiqueController extends Controller
 {
+    /**
+     * Affiche le formulaire de création d’un site touristique.
+     */
     public function Create()
     {
-        $categories = Categorie::all();
+        $categories = Categorie::all(); // Récupère toutes les catégories pour le select
         return view('Admin.Site_touristique.create', compact('categories'));
     }
 
+    /**
+     * Traite la soumission du formulaire de création d’un site touristique.
+     * Valide les données, gère l’upload de la photo et enregistre le site.
+     */
     public function traitement_create_sites(Request $request)
     {
         $request->validate([
@@ -31,6 +38,7 @@ class Site_touristiqueController extends Controller
             'longitude' => 'required|numeric|between:-180,180',
         ]);
 
+        // Gestion de l'image uploadée
         $photoPath = null;
         if ($request->hasFile('photo')) {
             $photoPath = $request->file('photo')->storeAs(
@@ -40,6 +48,7 @@ class Site_touristiqueController extends Controller
             );
         }
 
+        // Création du site touristique
         Site_touristique::create([
             'categorie_id' => $request->categorie_id,
             'nom' => $request->nom,
@@ -57,12 +66,45 @@ class Site_touristiqueController extends Controller
         return redirect()->route('index')->with('success', 'Site touristique créé avec succès.');
     }
 
-    public function Site_touristiques()
-    {
-        $datas = Site_touristique::all();
-        return view('Admin.Site_touristique.index', compact('datas'));
+    /**
+     * Affiche la liste de tous les sites touristiques dans le tableau de bord admin.
+     */
+  public function Site_touristiques(Request $request)
+{
+    $query = $request->input('query');      // valeur du champ recherche
+    $categorie = $request->input('categorie'); // valeur du select catégorie
+
+    $datas = Site_touristique::with('categorie');
+
+    // Filtre par recherche globale
+    if ($query) {
+        $datas->where(function($q) use ($query) {
+            $q->where('nom', 'like', "%{$query}%")
+              ->orWhere('commune', 'like', "%{$query}%")
+              ->orWhere('pays', 'like', "%{$query}%")
+              ->orWhere('departement', 'like', "%{$query}%")
+              ->orWhere('email', 'like', "%{$query}%")
+              ->orWhere('contact', 'like', "%{$query}%")
+              ->orWhere('description', 'like', "%{$query}%");
+        });
     }
 
+    // Filtre par catégorie si sélectionnée
+    if ($categorie && $categorie !== 'all') {
+        $datas->where('categorie_id', $categorie);
+    }
+
+    $datas = $datas->get(); // récupère les résultats filtrés
+    $categories = Categorie::all();
+
+    return view('Admin.Site_touristique.index', compact('datas', 'categories', 'query', 'categorie'));
+}
+
+
+
+    /**
+     * Affiche le formulaire d’édition d’un site touristique existant.
+     */
     public function modifiersites($id)
     {
         $data = Site_touristique::findOrFail($id);
@@ -70,6 +112,9 @@ class Site_touristiqueController extends Controller
         return view('editsite', compact('data', 'categories'));
     }
 
+    /**
+     * Met à jour les informations d’un site touristique existant.
+     */
     public function modificationsites(Request $request, $id)
     {
         $data = Site_touristique::findOrFail($id);
@@ -88,6 +133,7 @@ class Site_touristiqueController extends Controller
             'longitude' => 'required|numeric|between:-180,180',
         ]);
 
+        // Mise à jour de la photo si un nouveau fichier est envoyé
         if ($request->hasFile('photo')) {
             if ($data->photo) {
                 Storage::disk('public')->delete(str_replace('storage/', '', $data->photo));
@@ -96,6 +142,7 @@ class Site_touristiqueController extends Controller
             $data->photo = 'storage/' . $photoPath;
         }
 
+        // Mise à jour des autres champs
         $data->categorie_id = $request->categorie_id;
         $data->nom = $request->nom;
         $data->pays = $request->pays;
@@ -112,6 +159,9 @@ class Site_touristiqueController extends Controller
         return redirect()->route('index')->with('success', 'Site touristique modifié avec succès.');
     }
 
+    /**
+     * Supprime un site touristique (et sa photo si elle existe).
+     */
     public function Suprimer($id)
     {
         $post = Site_touristique::findOrFail($id);
@@ -124,40 +174,58 @@ class Site_touristiqueController extends Controller
         return redirect()->route('index')->with('success', 'Site touristique supprimé avec succès.');
     }
 
-    public function site(Request $request)
-    {
-        $query = $request->input('query');
-        $categorie = $request->input('categorie');
+    /**
+     * Affiche la page publique des sites touristiques avec recherche, filtrage et pagination.
+     */
+   public function site(Request $request)
+{
+    $query = $request->input('query');
+    $categorie = $request->input('categorie');
 
-        $sites = Site_Touristique::with(['categorie', 'tousLesAvis']);
+    // Requête principale avec relations
+    $sites = Site_touristique::with(['categorie', 'tousLesAvis']);
 
-        if ($query) {
-            $sites->where(function($q) use ($query) {
-                $q->where('nom', 'like', "%{$query}%")
-                  ->orWhere('commune', 'like', "%{$query}%");
-            });
-        }
-
-        if ($categorie && $categorie !== 'all') {
-            $sites->where('categorie_id', $categorie);
-        }
-
-        $categories = Categorie::all();
-        $sites = $sites->get();
-
-        foreach ($sites as $site) {
-            $site->moyenne_note = round($site->tousLesAvis
-                ->where('statut', 'approuvé')
-                ->avg('note'), 1);
-        }
-
-        return view('Site_touristique', compact('sites', 'query', 'categorie', 'categories'));
+    // Filtre par recherche globale
+    if ($query) {
+        $sites->where(function($q) use ($query) {
+            $q->where('nom', 'like', "%{$query}%")
+              ->orWhere('commune', 'like', "%{$query}%")
+              ->orWhere('pays', 'like', "%{$query}%")
+              ->orWhere('departement', 'like', "%{$query}%")
+              ->orWhere('email', 'like', "%{$query}%")
+              ->orWhere('contact', 'like', "%{$query}%")
+              ->orWhere('description', 'like', "%{$query}%");
+        });
     }
 
+    // Filtre par catégorie si sélectionnée
+    if ($categorie && $categorie !== 'all') {
+        $sites->where('categorie_id', $categorie);
+    }
+
+    $categories = Categorie::all();
+
+    // Pagination : 10 sites par page
+    $sites = $sites->paginate(10)->withQueryString();
+
+    // Calcul de la moyenne des notes pour chaque site
+    foreach ($sites as $site) {
+        $site->moyenne_note = round($site->tousLesAvis
+            ->where('statut', 'approuvé')
+            ->avg('note'), 1);
+    }
+
+    return view('Site_touristique', compact('sites', 'query', 'categorie', 'categories'));
+}
+
+    /**
+     * Affiche les détails d’un site touristique spécifique (page admin).
+     */
     public function show(Site_touristique $site)
     {
         $site->load('galeries', 'categorie', 'tousLesAvis', 'details');
         $site->update(['last_viewed_at' => now()]);
+
         $site->moyenne_note = $site->tousLesAvis
             ->where('statut', 'approuvé')
             ->avg('note');

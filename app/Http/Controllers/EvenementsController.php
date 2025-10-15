@@ -15,38 +15,41 @@ class EvenementsController extends Controller
     /**
      * Affiche la page principale des événements.
      */
-    public function index(Request $request)
-    {
-        $query = $request->input('query');
-        $siteId = $request->input('site');
+   public function index(Request $request)
+{
+    $query = $request->input('query');
+    $siteId = $request->input('site');
 
-        $evenements = Evenement::with('site_touristique');
+    $evenements = Evenement::with('site_touristique');
 
-        if ($query) {
-            $evenements->where(function ($q) use ($query) {
-                $q->where('nom', 'like', "%{$query}%")
-                  ->orWhere('lieu', 'like', "%{$query}%")
-                  ->orWhere('description', 'like', "%{$query}%");
-            });
-        }
-
-        if ($siteId && $siteId !== 'all') {
-            $evenements->where('site_touristique_id', $siteId);
-        }
-
-        $evenements = $evenements->get();
-        $sites = Site_touristique::all();
-
-        // Récupérer l'événement le plus proche avec ses deux premières photos
-        $prochainEvenement = Evenement::with(['galeries' => function ($query) {
-            $query->orderBy('id')->take(2); // Prendre les 2 premières photos
-        }])
-            ->where('date', '>=', Carbon::today())
-            ->orderBy('date')
-            ->first();
-
-        return view('Evenements', compact('evenements', 'query', 'siteId', 'sites', 'prochainEvenement'));
+    if ($query) {
+        $evenements->where(function ($q) use ($query) {
+            $q->where('nom', 'like', "%{$query}%")
+              ->orWhere('lieu', 'like', "%{$query}%")
+              ->orWhere('description', 'like', "%{$query}%");
+        });
     }
+
+    if ($siteId && $siteId !== 'all') {
+        $evenements->where('site_touristique_id', $siteId);
+    }
+
+    // 👉 Ici tu pagines correctement la variable utilisée
+    $evenements = $evenements->paginate(8);
+
+    $sites = Site_touristique::all();
+
+    // Récupérer l'événement le plus proche avec ses deux premières photos
+    $prochainEvenement = Evenement::with(['galeries' => function ($query) {
+        $query->orderBy('id')->take(2);
+    }])
+        ->where('date', '>=', Carbon::today())
+        ->orderBy('date')
+        ->first();
+
+    return view('Evenements', compact('evenements', 'query', 'siteId', 'sites', 'prochainEvenement'));
+}
+
     /**
      * Affiche le formulaire de création d'un événement.
      */
@@ -68,7 +71,7 @@ class EvenementsController extends Controller
             'nom' => 'required|string|max:255',
             'lieu' => 'required|string|max:255',
             'date' => 'required|date',
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'sponsor' => 'required|string|max:255',
             'description' => 'required|string',
         ]);
@@ -98,11 +101,32 @@ class EvenementsController extends Controller
     /**
      * Affiche la liste des événements.
      */
-    public function Evenement()
-    {
-        $datas = Evenement::all();
-        return view('Admin.Evenements.index', compact('datas'));
+   public function Evenement(Request $request)
+{
+    $query = $request->input('query');
+    $siteId = $request->input('site');
+
+    $datas = Evenement::with('site_touristique');
+
+    if ($query) {
+        $datas->where(function ($q) use ($query) {
+            $q->where('nom', 'like', "%{$query}%")
+              ->orWhere('lieu', 'like', "%{$query}%")
+              ->orWhere('description', 'like', "%{$query}%");
+        });
     }
+
+    if ($siteId && $siteId !== 'all') {
+        $datas->where('site_touristique_id', $siteId);
+    }
+
+    $datas = $datas->paginate(7); // ← ça marche maintenant
+
+    $sites = Site_touristique::all();
+
+    return view('Admin.Evenements.index', compact('datas', 'sites', 'query', 'siteId'));
+}
+
 
     /**
      * Affiche le formulaire de modification d'un événement.
@@ -129,7 +153,7 @@ class EvenementsController extends Controller
             'date' => 'required|date',
             'sponsor' => 'required|string|max:255',
             'description' => 'required|string',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
         ]);
 
         // Gestion de l'image si une nouvelle est envoyée

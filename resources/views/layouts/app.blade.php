@@ -79,11 +79,16 @@
             <div id="loader-text">Chargement...</div> <!-- Texte -->
           </div>
         </div>
-
+      
         {{-- Inclusion des parties communes : header, sidebar, footer --}}
         @include('layouts.header')
         @include('layouts.sidebar')
-
+        
+        @if(session('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+                {{ session('error') }}
+            </div>
+        @endif
         <!-- Contenu principal de la page -->
         <main class="app-main">
             @yield('content')
