@@ -15,6 +15,8 @@ class Reservation extends Model
         'date',
     ];
 
+    
+
     public function evenement()
     {
         return $this->belongsTo(Evenement::class);

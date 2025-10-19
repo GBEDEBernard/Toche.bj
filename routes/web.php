@@ -177,15 +177,17 @@ Route::prefix('admin')->middleware(['auth' , 'check.session'])->group(function (
         Route::get('/{apropos}/edit', [AproposController::class, 'edit'])->name('edit')->middleware('can:apropos.edit');
     });
 
-    // Newsletter
     Route::prefix('newsletters')->name('admin.newsletters.')->middleware('can:newsletters.index')->group(function () {
-        Route::get('/index', [NewsletterController::class, 'index'])->name('index');
-        Route::get('/create', [NewsletterController::class, 'create'])->name('create')->middleware('can:newsletters.create');
-        Route::post('/newsletter', [NewsletterController::class, 'store'])->name('store')->middleware('can:newsletters.create');
-        Route::get('/{id}/edit', [NewsletterController::class, 'edit'])->name('edit')->middleware('can:newsletters.edit');
-        Route::put('/{id}', [NewsletterController::class, 'update'])->name('update')->middleware('can:newsletters.edit');
-        Route::delete('/{id}', [NewsletterController::class, 'destroy'])->name('destroy')->middleware('can:newsletters.delete');
-    });
+    Route::get('/index', [NewsletterController::class, 'index'])->name('index');
+    Route::get('/create', [NewsletterController::class, 'create'])->name('create')->middleware('can:newsletters.create');
+    Route::post('/', [NewsletterController::class, 'store'])->name('store')->middleware('can:newsletters.create');
+    Route::get('/{id}/edit', [NewsletterController::class, 'edit'])->name('edit')->middleware('can:newsletters.edit');
+    Route::put('/{id}', [NewsletterController::class, 'update'])->name('update')->middleware('can:newsletters.edit');
+    Route::delete('/{id}', [NewsletterController::class, 'destroy'])->name('destroy')->middleware('can:newsletters.delete');
+});
+
+// Route publique
+Route::post('/newsletter', [NewsletterController::class, 'subscribe'])->name('newsletter.store');
 
     // FAQ
     Route::resource('faqs', FaqController::class)->names('admin.faqs')->middleware('can:faqs.index');

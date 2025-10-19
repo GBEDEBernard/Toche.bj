@@ -11,6 +11,8 @@ use App\Models\PieceIdentite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Mail\ReservationMail;
+use Illuminate\Support\Facades\Mail;
 
 
 class ReservationsController extends Controller
@@ -196,6 +198,9 @@ public function store(Request $request)
         'type_paiement' => $validated['type_paiement'],
         'date' => $validated['date'],
     ]);
+
+  // 🔔 Envoi du mail de confirmation
+    Mail::to($user->email)->send(new ReservationMail($reservation));
 
     // Création du paiement associé
     $paiement = Paiement::create([

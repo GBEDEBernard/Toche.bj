@@ -6,7 +6,8 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
-
+use App\Mail\BienvenueUserMail;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -30,13 +31,16 @@ public function traitement_create_users(Request $request)
         $photoPath = $request->file('photo')->store('photos', 'public');
     }
 
-    User::create([
+    $user = User::create([
         'name' => $request->name,
         'email' => $request->email,
         'photo' => $photoPath ? 'storage/' . $photoPath : null,
         'password' => Hash::make($request->password),
         'status' => $request->status,
     ]);
+
+    // 🔔 Envoi du mail de bienvenue
+    Mail::to($user->email)->send(new BienvenueUserMail($user));
 
     return redirect()->route('indexusers')->with('success', 'Utilisateur créé avec succès.');
 }
