@@ -73,26 +73,6 @@ class Controller extends BaseController
             ->take(3)
             ->get();
 
-        // je veux un dd complet
-           dd([
-    'totalSites' => $totalSites,
-    'upcomingEvents' => $upcomingEvents,
-    'totalEvents' => $totalEvents,
-    'latestSites' => $latestSites,
-    'latestEvents' => $latestEvents,
-    'sitesByCategory' => $sitesByCategory,
-    'chartLabels' => $chartLabels,
-    'chartData' => $chartData,
-    'itineraireSitesMap' => $itineraireSitesMap,
-    'totalItineraires' => $totalItineraires,
-    'totalAssociations' => $totalAssociations,
-    'sitesParItineraire' => $sitesParItineraire,
-    'itineraireLabels' => $itineraireLabels,
-    'itineraireData' => $itineraireData,
-    'totalVisitors' => $totalVisitors,
-    'latestAvis' => $latestAvis,
-]);
-
 
         return view('welcome', compact(
             'totalSites',
