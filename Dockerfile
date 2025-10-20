@@ -1,29 +1,27 @@
-# Utiliser l’image officielle PHP avec les extensions nécessaires à Laravel
-FROM php:8.3-fpm
+FROM php:8.2-cli
 
-# Installer les dépendances système
+# Installer les extensions nécessaires
 RUN apt-get update && apt-get install -y \
-    git unzip libpng-dev libonig-dev libxml2-dev zip curl \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+    git unzip curl libzip-dev zip libpng-dev libonig-dev libxml2-dev \
+    && docker-php-ext-install pdo pdo_mysql zip
 
-# Installer Composer (gestionnaire de dépendances PHP)
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# Installer Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Créer le dossier de l’app
-WORKDIR /var/www
+# Définir le dossier de travail
+WORKDIR /app
 
-# Copier les fichiers du projet dans le conteneur
+# Copier les fichiers Laravel
 COPY . .
 
-# Installer les dépendances Laravel
-RUN composer install --optimize-autoloader --no-dev
+# Installer les dépendances
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# Donner les bonnes permissions à Laravel
-RUN chown -R www-data:www-data /var/www \
-    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+# Générer une clé d'app si elle n'existe pas
+RUN php artisan config:clear && php artisan key:generate
 
-# Exposer le port sur lequel Laravel va tourner
+# Exposer le port que Railway attend
 EXPOSE 8080
 
-# Démarrer le serveur Laravel
+# Lancer Laravel
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
