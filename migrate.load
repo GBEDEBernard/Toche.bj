@@ -1,0 +1,8 @@
+LOAD DATABASE
+     FROM mysql://Bernard:password@127.0.0.1:3306/toche
+     INTO postgresql://tocheuser:EdCDhFsznpKYiO4h4ih0ELEMNT3WiYsA@dpg-d3qf4qk9c44c73cnepc0-a.frankfurt-postgres.render.com:5432/toche_db?sslmode=require
+
+ WITH include no drop, create tables, create indexes, reset sequences, data only
+
+  SET work_mem to '16MB',
+      maintenance_work_mem to '512 MB';
