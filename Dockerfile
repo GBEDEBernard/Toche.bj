@@ -20,6 +20,9 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 # Générer une clé d'app si elle n'existe pas
 #RUN php artisan config:clear && php artisan key:generate
 
+# Exécuter migrations + seeders automatiquement sur Railway
+RUN php artisan migrate --seed --force
+
 # Exposer le port que Railway attend
 EXPOSE 8080
 
