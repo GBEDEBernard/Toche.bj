@@ -24,7 +24,6 @@ use App\Http\Controllers\DemandeParticipationController;
 |--------------------------------------------------------------------------
 */
 // Routes publiques
-Route::get('/', fn() => view('welcome'))->name('welcome');
 Route::get('/contact', [ContactController::class, 'contact'])->name('contact.liste');
 
 
