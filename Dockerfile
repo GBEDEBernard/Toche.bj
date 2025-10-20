@@ -22,7 +22,7 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 RUN chown -R www-data:www-data storage bootstrap/cache
 
 # (Optionnel) Copier .env si non présent
-RUN cp .env.example .env || true
+COPY .env .env
 
 # Générer la clé si non présente
 RUN php artisan key:generate || true
