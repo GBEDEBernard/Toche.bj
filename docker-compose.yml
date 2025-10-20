@@ -1,43 +1,26 @@
-version: "3.9"
+version: '3.8'
 
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: toche-app
-    container_name: toche-app
+    build: .
     ports:
-      - "8080:8080"
+      - "8000:8000"
     environment:
-      APP_NAME: "Toché"
-      APP_ENV: local
-      APP_KEY: base64:FJDDr31Yejc4Zwktl+GA5U6ed5yY25g4lrCsGw4hyBQ=
-      APP_DEBUG: "true"
-      APP_URL: http://localhost:8080
-      DB_CONNECTION: pgsql
+      DB_CONNECTION: mysql
       DB_HOST: db
-      DB_PORT: 5432
-      DB_DATABASE: toche_db
-      DB_USERNAME: tocheuser
-      DB_PASSWORD: secretpass
-    volumes:
-      - ./:/var/www
+      DB_PORT: 3306
+      DB_DATABASE: toche
+      DB_USERNAME: Bernard
+      DB_PASSWORD: password
     depends_on:
       - db
 
   db:
-    image: postgres:17
-    container_name: toche-db
+    image: mysql:8.0
     environment:
-      POSTGRES_DB: toche_db
-      POSTGRES_USER: tocheuser
-      POSTGRES_PASSWORD: secretpass
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: toche
+      MYSQL_USER: Bernard
+      MYSQL_PASSWORD: password
     ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
-volumes:
-  pgdata:
-
+      - "3306:3306"
