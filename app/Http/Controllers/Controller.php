@@ -17,7 +17,6 @@ class Controller extends BaseController
     public function welcome()
     {
         $totalSites = Site_touristique::count();
-            dd($totalSites);
         $upcomingEvents = Evenement::where('date', '>=', Carbon::today())->count();
         $totalEvents = Evenement::count();
         $latestSites = Site_touristique::latest()->take(5)->get();
@@ -74,6 +73,27 @@ class Controller extends BaseController
             ->take(3)
             ->get();
 
+        // je veux un dd complet
+           dd([
+    'totalSites' => $totalSites,
+    'upcomingEvents' => $upcomingEvents,
+    'totalEvents' => $totalEvents,
+    'latestSites' => $latestSites,
+    'latestEvents' => $latestEvents,
+    'sitesByCategory' => $sitesByCategory,
+    'chartLabels' => $chartLabels,
+    'chartData' => $chartData,
+    'itineraireSitesMap' => $itineraireSitesMap,
+    'totalItineraires' => $totalItineraires,
+    'totalAssociations' => $totalAssociations,
+    'sitesParItineraire' => $sitesParItineraire,
+    'itineraireLabels' => $itineraireLabels,
+    'itineraireData' => $itineraireData,
+    'totalVisitors' => $totalVisitors,
+    'latestAvis' => $latestAvis,
+]);
+
+
         return view('welcome', compact(
             'totalSites',
             'upcomingEvents',
@@ -91,5 +111,6 @@ class Controller extends BaseController
             'itineraireLabels',
             'itineraireData'
         ));
+        
     }
 }
