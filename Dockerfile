@@ -1,9 +1,10 @@
 FROM php:8.2-cli
 
-# Installer les extensions nécessaires
+# Installer dépendances système
 RUN apt-get update && apt-get install -y \
     git unzip curl libzip-dev zip libpng-dev libonig-dev libxml2-dev \
-    && docker-php-ext-install pdo pdo_mysql zip
+    && docker-php-ext-install pdo pdo_mysql zip \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Installer Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -11,20 +12,23 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Définir le dossier de travail
 WORKDIR /app
 
-# Copier les fichiers Laravel
+# Copier le code Laravel
 COPY . .
 
-# Installer les dépendances
+# Installer les dépendances PHP
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# Générer une clé d'app si elle n'existe pas
-#RUN php artisan config:clear && php artisan key:generate
+# Préparer permissions Laravel
+RUN chown -R www-data:www-data storage bootstrap/cache
 
-# Exécuter migrations + seeders automatiquement sur Railway
-RUN php artisan migrate --seed --force
+# (Optionnel) Copier .env si non présent
+RUN cp .env.example .env || true
 
-# Exposer le port que Railway attend
+# Générer la clé si non présente
+RUN php artisan key:generate || true
+
+# Exposer le port attendu par Railway
 EXPOSE 8080
 
-# Lancer Laravel
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
+# Lancer Laravel (avec migration automatique si souhaité)
+CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8080
