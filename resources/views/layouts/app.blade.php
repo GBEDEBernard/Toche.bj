@@ -13,8 +13,7 @@
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.css') }}" />
 
     <!-- mes vites e, production -->
-    <link rel="stylesheet" href="{{ Vite::asset('resources/sass/app.scss') }}">
-    
+   @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <!-- Bibliothèque SweetAlert2 pour les alertes stylées -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -189,12 +188,9 @@
             });
         });
     </script>
-<!-- mon vite js -->
- <script type="module" src="{{ Vite::asset('resources/js/app.js') }}"></script>
 
     @stack('scripts')
-    <!-- compilation de mes vite js -->
-    <script type="module" src="{{ Vite::asset('resources/js/app.js') }}"></script>
+
 
 </body>
 </html>
