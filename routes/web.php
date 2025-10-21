@@ -95,11 +95,11 @@ Route::get('Public/Reservations/merci', function () {
 /*
 |--------------------------------------------------------------------------
 | Routes d'Authentification
-| Gérées par Laravel Auth
+| Gérées par Laravel Auth     'can:access.welcome'
 |--------------------------------------------------------------------------
 */
 Auth::routes();
-Route::get('/welcome', [Controller::class, 'welcome'])->middleware(['auth', 'can:access.welcome'])->name('welcome');
+Route::get('/welcome', [Controller::class, 'welcome'])->middleware(['auth'])->name('welcome');
 
 /*
 |--------------------------------------------------------------------------
