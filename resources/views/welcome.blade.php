@@ -2,8 +2,12 @@
 
 @section('content')
 
-   @php
-    dd(auth()->user());
-@endphp
+ 
+    @php
+        dd([
+            'user' => auth()->user(),
+            'roles' => auth()->user()?->getRoleNames(),
+        ]);
+    @endphp
 
 @endsection
