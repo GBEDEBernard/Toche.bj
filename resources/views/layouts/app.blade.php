@@ -11,14 +11,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" crossorigin="anonymous" />
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.css') }}" />
 
-  <!-- mes vites en production -->
-     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-
     <!-- Bibliothèque SweetAlert2 pour les alertes stylées -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- Inclusion des assets générés par Vite (CSS & JS de Laravel Mix ou Vite) -->
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
