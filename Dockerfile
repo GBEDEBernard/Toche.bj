@@ -24,6 +24,7 @@ RUN chown -R www-data:www-data storage bootstrap/cache
 # Générer une clé d'application si elle n'existe pas
 RUN php artisan key:generate || true
 
+RUN php artisan storage:link ||true 
 # Exposer le port attendu par Railway
 EXPOSE 8080
 

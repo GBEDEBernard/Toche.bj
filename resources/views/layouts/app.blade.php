@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.css') }}" />
 
   <!-- mes vites en production -->
-@vite(['resources/css/app.css', 'resources/js/app.js'])
+     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 
     <!-- Bibliothèque SweetAlert2 pour les alertes stylées -->
