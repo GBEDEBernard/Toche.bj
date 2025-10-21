@@ -20,7 +20,10 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Inclusion des assets générés par Vite (CSS & JS de Laravel Mix ou Vite) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Inclusion des assets générés par Vite (CSS & JS de Laravel Mix ou Vite) -->
+<link rel="stylesheet" href="{{ Vite::asset('resources/sass/app.scss') }}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
       /* Style de l'overlay du loader : fond noir transparent, bloque toute la page */
@@ -186,6 +189,8 @@
             });
         });
     </script>
+<!-- mon vite js -->
+ <script type="module" src="{{ Vite::asset('resources/js/app.js') }}"></script>
 
     @stack('scripts')
     <!-- compilation de mes vite js -->

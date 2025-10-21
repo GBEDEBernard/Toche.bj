@@ -22,7 +22,9 @@ Homestead.json
 /.vagrant
 .phpunit.result.cache
 
-/public/build
+# ⚠️ Ne pas ignorer le dossier build de Vite en production !
+# /public/build ← supprimé pour que les assets Vite soient push sur Git
+
 /storage/pail
 .env.backup
 .env.production
