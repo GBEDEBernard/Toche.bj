@@ -2,9 +2,7 @@
 
 @section('content')
 
-@php
-    dd('La vue Welcome est bien chargée');
-@endphp
+
 <div class="container mx-auto px-4 py-8 font-serif">
     <!-- Header -->
     <div class="mb-8">
