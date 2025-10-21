@@ -16,6 +16,14 @@ class Controller extends BaseController
 {
     public function welcome()
     {
+ 
+    dd([
+        'user' => auth()->user(),
+        'roles' => auth()->user()?->getRoleNames(),
+        'can_access_welcome' => auth()->user()?->can('access.welcome')
+    ]);
+
+
         $totalSites = Site_touristique::count();
         $upcomingEvents = Evenement::where('date', '>=', Carbon::today())->count();
         $totalEvents = Evenement::count();
