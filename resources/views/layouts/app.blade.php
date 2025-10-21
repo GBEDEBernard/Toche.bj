@@ -6,23 +6,20 @@
     <!-- Token CSRF pour sécuriser les requêtes POST -->
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>@yield('title', 'Toché.bj')</title>
-
     <!-- Polices et icônes -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" crossorigin="anonymous" />
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.css') }}" />
 
-    <!-- mes vites e, production -->
-   @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+  <!-- mes vites en production -->
+@vite(['resources/css/app.css', 'resources/js/app.js'])
+
+
     <!-- Bibliothèque SweetAlert2 pour les alertes stylées -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <!-- Inclusion des assets générés par Vite (CSS & JS de Laravel Mix ou Vite) -->
-<!-- Inclusion des assets générés par Vite (CSS & JS de Laravel Mix ou Vite) -->
-<link rel="stylesheet" href="{{ Vite::asset('resources/sass/app.scss') }}">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
       /* Style de l'overlay du loader : fond noir transparent, bloque toute la page */
@@ -191,6 +188,6 @@
 
     @stack('scripts')
 
-
+    
 </body>
 </html>
