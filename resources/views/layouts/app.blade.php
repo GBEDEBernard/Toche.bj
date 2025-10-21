@@ -17,7 +17,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Inclusion des assets générés par Vite (CSS & JS de Laravel Mix ou Vite) -->
-    <!-- @vite(['resources/css/app.css', 'resources/js/app.js']) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
