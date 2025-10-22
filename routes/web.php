@@ -31,7 +31,7 @@ Route::get('/contact', [ContactController::class, 'contact'])->name('contact.lis
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
     // Mot de passe
     Route::get('/profile/password/edit', [ProfileController::class, 'editPassword'])->name('profile.password.edit');

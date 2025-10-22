@@ -192,6 +192,45 @@
         });
     </script>
 
+<!-- 🖼️ Modal image réduit -->
+<div id="imageModal" class="fixed inset-0 z-50 bg-black bg-opacity-60 hidden items-center justify-center">
+    <div class="relative bg-white rounded-lg p-4 shadow-lg max-w-[90vw] max-h-[90vh] w-[600px]">
+        <img id="modalImage" src="" alt="Aperçu image" class="w-full h-auto max-h-[400px] object-contain rounded">
+        <button onclick="closeImageModal()" 
+                class="absolute -top-3 -right-3 text-white bg-red-600 hover:bg-red-700 rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold shadow-lg">
+            &times;
+        </button>
+    </div>
+</div>
+
+<!-- 📜 Script JS global -->
+<script>
+    function openImageModal(src) {
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        modalImage.src = src;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function closeImageModal() {
+        const modal = document.getElementById('imageModal');
+        modal.classList.remove('flex');
+        modal.classList.add('hidden');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('img').forEach(img => {
+            if (!img.closest('a') && !img.classList.contains('no-modal')) {
+                img.classList.add('cursor-zoom-in');
+                img.addEventListener('click', () => {
+                    openImageModal(img.src);
+                });
+            }
+        });
+    });
+</script>
+
     @stack('scripts')
 
     

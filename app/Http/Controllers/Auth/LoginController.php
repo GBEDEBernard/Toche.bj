@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
 
 class LoginController extends Controller
 {
@@ -21,6 +22,9 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
+        $user->update([
+            'last_login_at'=>Carbon ::now(),
+        ]);
         // Si l'utilisateur est admin (user_id = 1 ou rôle admin)
         if ($user->id === 1 || $user->hasRole('admin')) {
             return redirect()->intended('/welcome'); // Redirige vers /admin ou page demandée

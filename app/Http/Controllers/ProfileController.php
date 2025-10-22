@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Hash;
 class ProfileController extends Controller
 {
     // Affiche le profil
-    public function show()
-    {
-        $user = Auth::user();
-        return view('profile.show', compact('user'));
-    }
+  public function show()
+{
+    $user = Auth::user()->load(['reservations', 'roles']);
+    return view('profile.show', compact('user'));
+}
+
+
 
     // Formulaire pour modifier les infos
     public function edit()
@@ -23,22 +25,44 @@ class ProfileController extends Controller
     }
 
     // Enregistre les nouvelles infos
-    public function update(Request $request)
-    {
-        $user = Auth::user();
+  public function update(Request $request)
+{
+    $user = Auth::user();
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-        ]);
+    $request->validate([
+        'name'   => 'required|string|max:255',
+        'email'  => 'required|email|unique:users,email,' . $user->id,
+        'photo'  => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
+    ]);
 
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-        ]);
+    // Photo de profil
+    if ($request->hasFile('photo')) {
+        if ($user->photo) {
+            \Storage::disk('public')->delete(str_replace('storage/', '', $user->photo));
+        }
 
-        return redirect()->route('profile.show')->with('success', 'Profil mis à jour avec succès !');
+        $photoPath = $request->file('photo')->store('photos', 'public');
+        $user->photo = 'storage/' . $photoPath;
     }
+
+    // Bannière
+    if ($request->hasFile('banner')) {
+        if ($user->banner) {
+            \Storage::disk('public')->delete(str_replace('storage/', '', $user->banner));
+        }
+
+        $bannerPath = $request->file('banner')->store('banners', 'public');
+        $user->banner = 'storage/' . $bannerPath;
+    }
+
+    $user->name  = $request->name;
+    $user->email = $request->email;
+    $user->save();
+
+    return redirect()->route('profile')->with('success', 'Profil mis à jour avec succès !');
+}
+
 
     // Formulaire changement mot de passe
     public function editPassword()

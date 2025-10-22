@@ -63,22 +63,7 @@ class RoleController extends Controller
         return view('Admin.Roles.edit', compact('role', 'permissions'));
     }
 
-    /**
-     * Update the specified role in storage.
-     */
-    // public function update(Request $request, $id)
-    // {
-    //     $request->validate([
-    //         'name' => 'required|string|unique:roles,name,' . $id,
-    //         'permissions' => 'array',
-    //     ]);
-
-    //     $role = Role::findOrFail($id);
-    //     $role->update(['name' => $request->name]);
-    //     $role->syncPermissions($request->permissions ?? []);
-
-    //     return redirect()->route('admin.roles.index')->with('success', 'Rôle mis à jour avec succès.');
-    // }
+  
     public function update(Request $request, $id)
 {
     $request->validate([

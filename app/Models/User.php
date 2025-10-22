@@ -28,6 +28,7 @@ class User extends Authenticatable
         'telephone',
         'email',
         'password',
+        'banner',
     ];
 
    
@@ -58,6 +59,10 @@ class User extends Authenticatable
         ];
     }
     
+public function roleHistories(): HasMany
+{
+    return $this->hasMany(RoleHistory::class);
+}
 
 public function pieces_identites(): HasMany
 {

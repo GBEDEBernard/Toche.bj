@@ -38,22 +38,22 @@
     </div>
 
     <!-- Sections Loop -->
-    @foreach ($sections as $section)
-        <div class="flex flex-col md:flex-row items-center bg-white rounded-xl shadow-md my-6 p-5 hover:shadow-lg transition-shadow duration-300">
-            @if ($section->image)
-                <img class="w-full md:w-44 h-54 md:h-44  rounded-lg mb-4 md:mb-0 md:mr-5 transition-opacity duration-300 hover:opacity-90"
-                     src="{{ asset('storage/' . $section->image) }}"
-                     alt="{{ $section->title }}"
-                     onerror="this.src='{{ asset('image/placeholder.jpg') }}';">
-            @endif
-            <div class="flex-1">
-                <h3 class="text-lg md:text-xl font-serif font-semibold text-blue-600 text-center md:text-left mb-3">
-                    {{ $section->title }}
-                </h3>
-                <p class="text-gray-600 font-serif text-sm md:text-base leading-relaxed">{!! $section->content !!}</p>
-            </div>
+   @foreach ($sections as $section)
+    <div class="flex flex-col md:flex-row {{ $loop->iteration % 2 == 0 ? 'md:flex-row-reverse' : '' }} items-center bg-white rounded-xl shadow-md my-6 p-5 hover:shadow-lg transition-shadow duration-300">
+        @if ($section->image)
+            <img class="w-full md:w-44 h-54 md:h-44 rounded-lg mb-4 md:mb-0 {{ $loop->iteration % 2 == 0 ? 'md:ml-5' : 'md:mr-5' }} transition-opacity duration-300 hover:opacity-90"
+                 src="{{ asset('storage/' . $section->image) }}"
+                 alt="{{ $section->title }}"
+                 onerror="this.src='{{ asset('image/placeholder.jpg') }}';">
+        @endif
+        <div class="flex-1">
+            <h3 class="text-lg md:text-xl font-serif font-semibold text-blue-600 text-center md:text-left mb-3">
+                {{ $section->title }}
+            </h3>
+            <p class="text-gray-600 font-serif text-sm md:text-base leading-relaxed">{!! $section->content !!}</p>
         </div>
-    @endforeach
+    </div>
+@endforeach
 
     <!-- Team Section -->
     <div class="my-8">

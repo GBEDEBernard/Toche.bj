@@ -125,7 +125,7 @@
         </div>
         <img src="{{ asset('/image/evenement3.jpg') }}" 
              alt="Événement touristique au Bénin" 
-             class="w-full mt-4 md:mt-0 md:w-1/2 h-48 md:h-72 rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+             class="w-full mt-4 md:mt-0 md:w-1/2 h-48 md:h-72 rounded-lg shadow-md hover:scale-105 transition-transform duration-300" >
     </div>
 
     <!-- Section des événements -->
