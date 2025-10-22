@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
 <div class="container mx-auto max-w-4xl mt-10 bg-white rounded-lg shadow-lg overflow-hidden" 
      x-data="{ showModal: false, showPhotoModal: false }">
@@ -79,18 +78,6 @@
                class="text-red-600 font-semibold hover:underline">
                 Supprimer mon compte
             </a>
-        </div>
-    </div>
-
-    <!-- 🖼️ Modal image -->
-    <div x-show="showPhotoModal" x-cloak x-transition 
-         class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-        <div class="relative p-4">
-            <img src="{{ $user->photo ? asset($user->photo) : asset('images/default-avatar.jpg') }}" 
-                 alt="Photo agrandie" 
-                 class="max-w-full max-h-[80vh] rounded shadow-xl">
-            <button @click="showPhotoModal = false" 
-                    class="absolute top-2 right-2 text-white bg-red-600 hover:bg-red-700 rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold">&times;</button>
         </div>
     </div>
 
