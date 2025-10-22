@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
 <div class="container mx-auto max-w-4xl mt-10 bg-white rounded-lg shadow-lg overflow-hidden" 
-     x-data="{ showModal: false, showPhotoModal: false }">
+     x-data="{ showModal: false }">
 
     <!-- 📸 Bannière -->
     <div class="h-52 md:h-64 relative bg-cover bg-center" 
          style="background-image: url('{{ $user->banner ? asset($user->banner) : asset('images/default-banner.jpg') }}');">
-        <!-- Avatar cliquable -->
-        <div class="absolute -bottom-16 left-1/2 transform -translate-x-1/2 cursor-pointer" 
-             @click="showPhotoModal = true">
+        <!-- Avatar (plus de clic pour ouvrir modal ici) -->
+        <div class="absolute -bottom-16 left-1/2 transform -translate-x-1/2 cursor-pointer">
             <img src="{{ $user->photo ? asset($user->photo) : asset('images/default-avatar.jpg') }}" 
                  alt="Photo de profil" 
                  class="w-32 h-32 rounded-full border-4 border-white object-cover shadow-md hover:scale-105 transition">
@@ -40,8 +40,6 @@
               @endif
             </p>
         </div>
-
-       
 
         <!-- 🕓 Dates importantes -->
         <div class="mt-6 text-left text-gray-700 text-sm max-w-md mx-auto space-y-1">
@@ -86,7 +84,7 @@
          class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-2xl relative">
             <button @click="showModal = false" 
-                    class="absolute top-2 right-2 text-gray-500 hover:text-red-600 text-xl">&times;</button>
+                    class="absolute top-2 right-2 text-gray-500 hover:text-red-600 text-xl w-16">&times;</button>
 
             <h2 class="text-xl font-semibold mb-4 text-center">Modifier le profil</h2>
 
@@ -125,12 +123,13 @@
                     </div>
                 </div>
 
-                <div class="text-center mt-6">
-                    <button type="submit"
-                            class="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
-                        Enregistrer
-                    </button>
-                </div>
+               <div class="text-center mt-6 flex justify-center gap-4">
+                  <button type="submit"
+                          class="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
+                      Enregistrer
+                  </button>
+              </div>
+
             </form>
         </div>
     </div>
