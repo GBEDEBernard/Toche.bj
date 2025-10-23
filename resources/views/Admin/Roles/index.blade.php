@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+
+@php
+    $isOwner = Auth::user()->email === 'gbedebernard60@gmail.com';
+@endphp
+
 <div class="container mx-auto px-4 py-8">
     <!-- Header -->
     <header class="mb-8">
@@ -21,6 +26,7 @@
     @endif
 
     <!-- Boutons -->
+  @if ($isOwner)
     <div class="mb-8 flex justify-end gap-3 items-center">
         <a href="{{ route('welcome') }}" class="inline-flex items-center px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition">
             ← Retour
@@ -29,7 +35,7 @@
             ➕ Créer un rôle
         </a>
     </div>
-
+   @endif
     <!-- Table des Rôles -->
     <div class="bg-white rounded-2xl shadow-lg mb-10">
         <div class="p-6 border-b border-gray-200">

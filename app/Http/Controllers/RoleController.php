@@ -56,32 +56,43 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified role.
      */
-    public function edit($id)
-    {
-        $role = Role::findOrFail($id);
-        $permissions = Permission::all();
-        return view('Admin.Roles.edit', compact('role', 'permissions'));
+  public function edit($id)
+{
+    if (Auth::user()->email !== 'gbedebernard60@gmail.com') {
+        return redirect()->route('admin.roles.index')->with('error', 'Accès refusé.');
     }
 
+    $role = Role::findOrFail($id);
+    $permissions = Permission::all();
+    return view('Admin.Roles.edit', compact('role', 'permissions'));
+}
+
+
   
-    public function update(Request $request, $id)
+  public function update(Request $request, $id)
 {
+    if (Auth::user()->email !== 'gbedebernard60@gmail.com') {
+        return redirect()->route('admin.roles.index')->with('error', 'Accès refusé.');
+    }
+
     $request->validate([
         'name' => 'required|string|max:255',
         'permissions' => 'array|exists:permissions,name',
     ]);
 
     $role = Role::findOrFail($id);
+    
     if ($role->name === 'admin') {
         return redirect()->route('admin.roles.index')->with('error', 'Le rôle admin ne peut pas être modifié.');
     }
-    $protectedPermissions = ['roles.index', 'roles.create', 'roles.edit', 'roles.delete', 'roles.show', 'access_admin'];
 
-    // Vérifiez que les permissions protégées ne sont pas supprimées
+    // Protéger les permissions sensibles
+    $protectedPermissions = ['roles.index', 'roles.create', 'roles.edit', 'roles.delete', 'roles.show', 'access_admin'];
     $submittedPermissions = $request->permissions ?? [];
+
     foreach ($protectedPermissions as $protected) {
         if ($role->hasPermissionTo($protected) && !in_array($protected, $submittedPermissions)) {
-            $submittedPermissions[] = $protected; // Conservez la permission protégée
+            $submittedPermissions[] = $protected;
         }
     }
 
@@ -90,6 +101,7 @@ class RoleController extends Controller
 
     return redirect()->route('admin.roles.index')->with('success', 'Rôle mis à jour avec succès.');
 }
+
 
     /**
      * Remove the specified role from storage.
@@ -107,15 +119,21 @@ class RoleController extends Controller
     /**
      * Assign roles to a user.
      */
-    public function assignRoles(Request $request, $userId)
-    {
-        $request->validate([
-            'roles' => 'array',
-        ]);
+        public function assignRoles(Request $request, $userId)
+        {
+            // 👇 Autoriser uniquement l’utilisateur spécifique
+            if (Auth::user()->email !== 'gbedebernard60@gmail.com') {
+                return redirect()->route('admin.roles.index')->with('error', 'Vous n\'êtes pas autorisé à assigner des rôles.');
+            }
 
-        $user = User::findOrFail($userId);
-        $user->syncRoles($request->roles ?? []);
+            $request->validate([
+                'roles' => 'array',
+            ]);
 
-        return redirect()->route('admin.roles.index')->with('success', 'Rôles assignés à l\'utilisateur avec succès.');
-    }
+            $user = User::findOrFail($userId);
+            $user->syncRoles($request->roles ?? []);
+
+            return redirect()->route('admin.roles.index')->with('success', 'Rôles assignés à l\'utilisateur avec succès.');
+        }
+
 }

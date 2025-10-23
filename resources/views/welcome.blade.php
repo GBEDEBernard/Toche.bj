@@ -3,11 +3,20 @@
 @section('content')
   <div class="container mx-auto px-4 py-8 font-serif">
     <!-- Header -->
+
+        <!-- créé une variable pour empecher l'assignation des role  -->
+@php
+
+ $isSuperAdmin = Auth::check() && (
+        Auth::user()->id === 1 ||
+        Auth::user()->email === 'gbedebernard60@gmail.com'
+    );
+@endphp
     <div class="mb-8">
         <h1 class="text-3xl font-bold text-gray-800 uppercase tracking-tight">Tableau de Bord Admin</h1>
         <nav class="flex items-center gap-2 mt-3">
             <a href="{{ route('welcome') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors duration-300">Maison</a>
-            @hasrole('admin')
+            @hasrole('isSuperAdmin')
                 <span class="text-sm text-gray-500">/</span>
                 <a href="{{ route('admin.roles.index') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors duration-300">Gestion des Rôles</a>
             @endhasrole

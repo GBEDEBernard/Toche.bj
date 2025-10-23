@@ -68,12 +68,13 @@
             <a href="{{ route('participer') }}" class="{{ request()->routeIs('participer') ? 'text-blue-200 underline' : 'text-white' }} font-serif font-semibold text-sm md:text-base uppercase tracking-tight hover:text-blue-400 transition-colors duration-300">Participer</a>
         </div>
 
-        @if (Route::has('login'))
+            @if (Route::has('login'))
             <div class="flex flex-col md:flex-row gap-3 mt-4 md:mt-0 px-4 md:px-0">
                 @auth
-                    @if(Auth::user()->id === 1)
+                    @hasrole('admin')
                         <a href="{{ url('/welcome') }}" class="px-5 py-1.5 rounded-xl bg-blue-600 text-white font-serif font-semibold text-sm md:text-base hover:bg-blue-700 transition-all transform hover:scale-105">Admin</a>
-                    @endif
+                    @endhasrole
+
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="px-5 py-1.5 rounded-xl bg-red-600 text-white font-serif font-semibold text-sm md:text-base hover:bg-red-700 transition-all transform hover:scale-105">Déconnexion</button>
@@ -86,6 +87,7 @@
                 @endauth
             </div>
         @endif
+
     </nav>
 
     <!-- MAIN -->
