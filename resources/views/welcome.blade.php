@@ -16,10 +16,10 @@
         <h1 class="text-3xl font-bold text-gray-800 uppercase tracking-tight">Tableau de Bord Admin</h1>
         <nav class="flex items-center gap-2 mt-3">
             <a href="{{ route('welcome') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors duration-300">Maison</a>
-            @hasrole('isSuperAdmin')
-                <span class="text-sm text-gray-500">/</span>
+         <!-- sécurisé ceci pour les super admin -->
+            @if ($isSuperAdmin)                <span class="text-sm text-gray-500">/</span>
                 <a href="{{ route('admin.roles.index') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors duration-300">Gestion des Rôles</a>
-            @endhasrole
+            @endif
         </nav>
     </div>
 

@@ -45,13 +45,11 @@
                     </a>
                     <ul class="nav nav-treeview ps-4" style="{{ $openRoles ? 'display: block;' : 'display: none;' }}">
                      
-                    @hasrole('isSuperAdmin')
                         <li class="nav-item">
                             <a href="{{ route('admin.roles.index') }}" class="nav-link {{ request()->routeIs('admin.roles.index') ? 'text-blue-400' : 'text-gray-300' }}">
                                 <i class="nav-icon bi bi-circle text-yellow-400"></i> Roles et permissions
                             </a>
                         </li>
-                        @endhasrole
                     </ul>
                 </li>
              @endif
