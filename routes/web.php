@@ -25,9 +25,6 @@ use App\Http\Controllers\DemandeParticipationController;
 */
 // Routes publiques
 Route::get('/contact', [ContactController::class, 'contact'])->name('contact.liste');
-
-
-
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -45,8 +42,6 @@ Route::middleware(['auth'])->group(function () {
 
 // Route pour recherche
 Route::get('/admin/search', [SearchController::class, 'search'])->name('admin.search');
-
-
 // Page d'accueil
 Route::get('/', [AcceuilController::class, 'index'])->name('accueil');
 
@@ -59,25 +54,26 @@ Route::middleware(['auth'])->group(function () {
 
 // Tourisme
 Route::get('/tourisme', [TourismeController::class, 'index'])->name('tourisme.index')->middleware('auth');
-
 // Formulaire
-Route::get('/formulaire', [FormulaireController::class, 'show'])->name('formulaire')->middleware('auth');
 
-// Sites touristiques
 Route::middleware(['auth'])->group(function () {
+Route::get('/formulaire', [FormulaireController::class, 'show'])->name('formulaire')->middleware('auth');
+});
+// Sites touristiques
     Route::get('Site_touristique', [Site_touristiqueController::class, 'site'])->name('site_touristique');
     Route::get('/sites/{site}', [Site_touristiqueController::class, 'show'])->name('sites.show');
-});
 
 // Événements
-Route::middleware(['auth'])->group(function () {
-    Route::get('Evenements', [EvenementsController::class, 'index'])->name('evenements');
+ Route::get('Evenements', [EvenementsController::class, 'index'])->name('evenements');
+ 
+ Route::middleware(['auth'])->group(function () {
     Route::get('participer', fn() => redirect()->route('evenements'))->name('participer');
 });
 
 // À Propos
-Route::middleware(['auth'])->group(function () {
     Route::get('/apropos', [AproposController::class, 'index'])->name('apropos');
+
+   Route::middleware(['auth'])->group(function () {
     Route::get('/editapropos/{apropos}/edit', [AproposController::class, 'edit'])->name('apropos.edit')->middleware('can:apropos.edit');
 });
 
