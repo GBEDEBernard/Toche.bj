@@ -92,23 +92,22 @@
         <div class="w-24 h-1 bg-blue-600 mx-auto mt-2 md:mt-4 rounded"></div>
     </div>
     
-<!-- 🌍 Section des sites touristiques -->
 <div class="container mx-auto py-4 sm:px-6 lg:px-8 mb-4 md:mb-12">
-    <div class="mx-4 grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8 justify-items-center">
+    <div class="mx-4 grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-6 lg:gap-8 justify-items-center">
         @forelse ($topSites as $index => $site)
             <article class="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 
-                w-[160px] xs:w-[160px] sm:w-full max-w-[20rem] sm:max-w-[22rem] lg:max-w-[18rem]
+                w-[130px] xs:w-[130px] sm:w-full max-w-[25rem] sm:max-w-[25rem] lg:max-w-[22rem] 
                 {{ $loop->last ? 'hidden sm:block lg:block' : '' }}">
-                <a href="{{ route('sites.show', $site->id) }}" class="block" aria-label="Voir le site {{ $site->nom }}">
-                    <img class="w-full h-32 sm:h-44 md:h-52 lg:h-48 object-cover rounded-t-lg" 
+                <a href="{{ route('sites.show', $site->id) }}" class="block sm:h-52 h-52 md:h-80" aria-label="Voir le site {{ $site->nom }}">
+                    <img class="w-full h-1/2 sm:h-1/2 md:h-1/2 lg:h-48 object-cover rounded-t-lg" 
                          src="{{ asset($site->photo) }}" 
                          alt="{{ $site->nom }}"
                          loading="lazy">
-                    <div class="p-2 sm:p-4 text-center">
-                        <h3 class="text-[11px] sm:text-base md:text-lg lg:text-xl font-serif font-bold text-blue-600 truncate">
+                    <div class="p-1 h-1/2 sm:h-1/2 md:h-1/2 sm:p-4 text-center">
+                        <h3 class="text-[10px] sm:text-base md:text-lg lg:text-xl font-serif font-bold text-blue-600 truncate">
                             {{ $site->nom }}
                         </h3>
-                        <h4 class="text-[9px] sm:text-sm md:text-base font-serif font-semibold text-blue-600 mt-1">
+                        <h4 class="text-[8px] sm:text-sm md:text-base font-serif font-semibold text-blue-600 mt-1">
                             {{ $site->commune }}
                         </h4>
                         <div class="flex justify-center items-center space-x-[1px] sm:space-x-1 mt-1">
@@ -119,13 +118,13 @@
                                 $etoilesVide = 5 - $etoilesPleine - ($demiEtoile ? 1 : 0);
                             @endphp
                             @for ($i = 0; $i < $etoilesPleine; $i++)
-                                <span class="text-yellow-400 text-[11px] sm:text-base">★</span>
+                                <span class="text-yellow-400 text-[10px] sm:text-base">★</span>
                             @endfor
                             @if($demiEtoile)
-                                <span class="text-yellow-400 text-[11px] sm:text-base">☆</span>
+                                <span class="text-yellow-400 text-[10px] sm:text-base">☆</span>
                             @endif
                             @for ($i = 0; $i < $etoilesVide; $i++)
-                                <span class="text-gray-300 text-[11px] sm:text-base">★</span>
+                                <span class="text-gray-300 text-[10px] sm:text-base">★</span>
                             @endfor
                         </div>
                     </div>
@@ -139,13 +138,15 @@
     </div>
 </div>
 
-<div class="text-center mb-4 mt-4 md:mb-10">
-    <a href="{{ route('site_touristique') }}" class="text-blue-500 font-serif font-semibold hover:underline transition-colors duration-300">
-        Voir plus
-    </a>
-</div>
 
-<!-- 🖤 Bannière promotionnelle -->
+
+    <div class="text-center mb-4 mt-4 md:mb-10">
+        <a href="{{ route('site_touristique') }}" class="text-blue-500 font-serif font-semibold hover:underline transition-colors duration-300">
+            Voir plus
+        </a>
+    </div>
+
+   <!-- Bannière promotionnelle -->
 <div class="bg-black p-2 md:p-6 mt-2 sm:w-1/2 md:w-full md:mt-6 rounded-lg shadow-lg text-center md:flex md:items-center md:justify-between">
     <div class="max-w-4xl mx-auto text-white">
         <p class="text-sm sm:text-base md:text-lg font-serif text-justify leading-relaxed md:mr-6 px-2 sm:px-4">
@@ -156,10 +157,10 @@
     </div>
     <img src="{{ asset('/image/evenement3.jpg') }}" 
          alt="Événement touristique au Bénin" 
-         class="w-full mt-2 md:mt-0 md:w-1/2 h-32 sm:h-36 md:h-72 rounded-lg shadow-md hover:scale-105 transition-transform duration-300 object-cover">
+         class="w-full mt-2 md:mt-0 md:w-1/2 h-28 sm:h-36 md:h-72 rounded-lg shadow-md hover:scale-105 transition-transform duration-300 object-cover" >
 </div>
 
-<!-- 🎉 Section des événements -->
+   <!-- Section des événements -->
 <div class="text-center my-2 md:my-12">
     <h1 class="text-sm md:text-4xl lg:text-5xl font-serif font-bold text-gray-800 hover:text-blue-600 transition-colors duration-300 tracking-tight uppercase">
         Nos Événements
@@ -168,25 +169,26 @@
 </div>
 
 <div class="container mx-auto py-2 md:py-4 sm:px-4 lg:px-8 mb-4 md:mb-12">
-    <div class="mx-4 grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8 justify-items-center">
+    <!-- Grille responsive -->
+    <div class="mx-4 grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-6 lg:gap-8 justify-items-center">
         @forelse ($topEvenements as $index => $evenement)
             <article class="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 
-                w-[160px] xs:w-[160px] sm:w-full max-w-[20rem] sm:max-w-[22rem] lg:max-w-[18rem]
+                w-[140px] xs:w-[10px] sm:w-full max-w-[20rem] sm:max-w-[22rem] lg:max-w-[18rem]
                 {{ $loop->last ? 'hidden sm:block lg:block' : '' }}">
-                <a href="{{ route('admin.evenements.show', $evenement->id) }}" class="block" aria-label="Voir l'événement {{ $evenement->nom }}">
-                    <img class="w-full h-32 sm:h-44 md:h-52 lg:h-48 object-cover rounded-t-lg" 
+                <a href="{{ route('admin.evenements.show', $evenement->id) }}" class="block sm:h-52 h-52 md:h-80" aria-label="Voir l'événement {{ $evenement->nom }}">
+                    <img class="w-full h-1/2 sm:h-1/2 md:h-1/2 lg:h-1/2 object-cover rounded-t-lg" 
                          src="{{ asset($evenement->photo) }}" 
                          alt="{{ $evenement->nom }}"
                          loading="lazy">
-                    <div class="p-2 sm:p-4 text-center">
-                        <h3 class="text-[11px] sm:text-base md:text-lg lg:text-xl font-serif font-bold text-blue-600 truncate">
+                    <div class="p-1 sm:p-4 text-center h-1/2 sm:h-1/2 md:h-1/2">
+                        <h3 class="text-[10px] sm:text-base md:text-lg lg:text-xl font-serif font-bold text-blue-600 truncate">
                             {{ $evenement->nom }}
                         </h3>
-                        <h4 class="text-[9px] sm:text-sm md:text-base font-serif font-semibold text-blue-600 mt-1">
+                        <h4 class="text-[8px] sm:text-sm md:text-base font-serif font-semibold text-blue-600 mt-1">
                             {{ $evenement->lieu ?? 'Lieu non précisé' }}
                         </h4>
                         @if ($evenement->date)
-                            <p class="text-[9px] sm:text-sm font-serif text-gray-500 mt-1">
+                            <p class="text-[8px] sm:text-sm font-serif text-gray-500 mt-1">
                                 {{ $evenement->date }}
                             </p>
                         @endif
@@ -198,13 +200,13 @@
                                 $etoilesVide = 5 - $etoilesPleine - ($demiEtoile ? 1 : 0);
                             @endphp
                             @for ($i = 0; $i < $etoilesPleine; $i++)
-                                <span class="text-yellow-400 text-[11px] sm:text-base">★</span>
+                                <span class="text-yellow-400 text-[10px] sm:text-base">★</span>
                             @endfor
                             @if($demiEtoile)
-                                <span class="text-yellow-400 text-[11px] sm:text-base">☆</span>
+                                <span class="text-yellow-400 text-[10px] sm:text-base">☆</span>
                             @endif
                             @for ($i = 0; $i < $etoilesVide; $i++)
-                                <span class="text-gray-300 text-[11px] sm:text-base">★</span>
+                                <span class="text-gray-300 text-[10px] sm:text-base">★</span>
                             @endfor
                             <span class="text-gray-600 ml-1 sm:ml-2 text-[9px] sm:text-sm">({{ $moyenne }})</span>
                         </div>
@@ -225,7 +227,6 @@
     </a>
 </div>
 
-<!-- 🏨 Section des hôtels -->
 <div class="bg-gray-100 py-2 md:py-8 sm:py-2 sm:mx-4">
     <div class="text-center my-4 md:my-4 sm:my-4 px-6">
         <h1 class="text-xl sm:text-xl md:text-4xl lg:text-5xl font-serif font-bold text-gray-800 hover:text-blue-600 transition-colors duration-300 tracking-tight uppercase">
@@ -237,23 +238,23 @@
     <div class="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8 justify-items-center px-3 sm:px-4">
         @forelse ($hotels as $index => $hotel)
             <div class="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1
-                w-[160px] xs:w-[160px] sm:w-full max-w-[28rem] sm:max-w-[22rem] lg:max-w-[20rem]
+                w-[140px] xs:w-[140px] sm:w-full max-w-[28rem] sm:max-w-[22rem] lg:max-w-[20rem]
                 {{ $loop->last && $index >= 2 ? 'hidden sm:block lg:block' : '' }}">
-                <a href="#" class="block" aria-label="Voir l'hôtel {{ $hotel->nom }}">
+                <a href="#" class="block sm:h-52 h-52 md:h-80" aria-label="Voir l'hôtel {{ $hotel->nom }}">
                     @if($hotel->image)
                         <img src="{{ asset('storage/' . $hotel->image) }}" 
                              alt="{{ $hotel->nom }}" 
-                             class="w-full h-32 sm:h-40 md:h-48 object-cover rounded-t-lg">
+                             class="w-full h-1/2 sm:h-1/2 md:h-1/2 object-cover rounded-t-lg">
                     @else
-                        <div class="w-full h-32 sm:h-40 md:h-48 bg-gray-200 flex items-center justify-center text-gray-500 italic">
+                        <div class="w-full h-1/2 sm:h-1/2 md:h-1/2 bg-gray-200 flex items-center justify-center text-gray-500 italic">
                             Aucune image
                         </div>
                     @endif
                     <div class="p-2 sm:p-4 text-center">
-                        <h3 class="text-[11px] sm:text-base md:text-lg lg:text-xl font-serif font-semibold text-gray-800 truncate">
+                        <h3 class="text-[10px] sm:text-base md:text-lg lg:text-xl font-serif font-semibold text-gray-800 truncate">
                             {{ $hotel->nom }}
                         </h3>
-                        <h4 class="text-[9px] sm:text-sm md:text-base font-serif font-semibold text-red-500 mt-1 sm:mt-2">
+                        <h4 class="text-[8px] sm:text-sm md:text-base font-serif font-semibold text-red-500 mt-1 sm:mt-2">
                             {{ $hotel->ville }}
                         </h4>
                     </div>
@@ -266,7 +267,6 @@
         @endforelse
     </div>
 </div>
-
 
    <!-- Image d'objet d'art -->
 <div class="flex justify-center my-8 sm:my-12 px-4">
