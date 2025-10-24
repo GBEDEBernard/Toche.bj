@@ -167,7 +167,7 @@
     <div class="w-24 h-1 bg-blue-600 mx-auto mt-2 md:mt-4 rounded"></div>
 </div>
 
-<div class="container mx-auto py-2 md:py-4 sm:px-6 lg:px-8 mb-4 md:mb-12">
+<div class="container mx-auto py-2 md:py-4 sm:px-4 sm:gap-3 lg:px-8 mb-4 md:mb-12">
     <!-- Mobile: 4 colonnes compactes / Desktop: affichage normal -->
     <div class="mx-4 grid grid-cols-4 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-6 lg:gap-8 justify-items-center">
         @forelse ($topEvenements as $evenement)
@@ -234,9 +234,10 @@
         <div class="w-16 sm:w-24 h-1 bg-blue-600 mx-auto mt-2 sm:mt-2 rounded"></div>
     </div>
 
-    <div class="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 gap-6  sm:gap-6 max-w-6xl mx-auto px-3 sm:px-4">
+    <div class="grid grid-cols-4 ml-4 sm:grid-cols-4 md:grid-cols-4 gap-3  sm:gap-3 max-w-2xl mx-auto px-3 sm:px-4">
         @foreach ($hotels as $hotel)
-            <div class="bg-white shadow-md sm:shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+            <div class="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 
+                w-[100px] xs:w-[100px] sm:w-full max-w-[30rem] sm:max-w-[22rem] lg:max-w-[18rem]">
                 @if($hotel->image)
                     <img src="{{ asset('storage/' . $hotel->image) }}" 
                          alt="{{ $hotel->nom }}" 
