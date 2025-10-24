@@ -70,7 +70,7 @@
       <!-- Sous-menu Événements -->
       <div class="relative" @mouseenter="itineraireOpen = true" @mouseleave="itineraireOpen = false">
         <button @click="itineraireOpen = !itineraireOpen" 
-                class="flex items-center gap-1 transition-colors 
+                class="flex uppercase  items-center gap-1 transition-colors 
                        {{ request()->routeIs('evenements') || request()->routeIs('itineraire.offres') ? 'text-red-500' : 'hover:text-blue-400' }}">
           Événements
           <svg class="w-4 h-4 transition-transform duration-200" 
@@ -108,7 +108,7 @@
     </div>
 
     <!-- Partie droite (profil + menu hamburger) -->
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-1">
       
       <!-- Icône de profil : visible tant que le menu mobile n’est pas ouvert -->
       <div x-show="!mobileOpen" class="relative" x-data="{ profilOpen: false }">

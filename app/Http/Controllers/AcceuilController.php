@@ -25,7 +25,7 @@ class AcceuilController extends Controller
                 ->avg('note') ?? 0;
         }
 
-
+    // On prend les 4 meilleurs, on gérera l'affichage côté Blade
         $topSites = $sitesTouristiques->sortByDesc('moyenne_note')->take(4);
     
         // Récupérer les top événements
