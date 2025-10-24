@@ -45,7 +45,7 @@
 </head>
 <body class="bg-gray-50">
 <!-- NAVBAR -->
-<nav class="bg-gray-800 text-white p-4 shadow-lg"
+<nav class="bg-gray-800 text-white p-4 shadow-lg w-max-auto"
      x-data="{ itineraireOpen: false, mobileOpen: false, profilOpen: false }">
 
   <!-- Ligne principale -->
