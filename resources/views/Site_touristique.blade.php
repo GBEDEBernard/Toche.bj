@@ -3,18 +3,24 @@
 @section('contenu')
 
 {{-- Titre principal --}}
-<div class="text-center my-8 px-4">
-    <h1 class="text-3xl md:text-5xl font-extrabold text-gray-800 hover:opacity-80 transition duration-300">🌍 Sites touristiques</h1>
+<div class="text-center md:my-4 my-2 px-4">
+    <h1 class="text-xm sm:text-bade md:text-2xl font-extrabold text-gray-800 hover:opacity-80 transition duration-300">🌍 Sites touristiques</h1>
 </div>
 
 {{-- Barre de recherche --}}
-<div class="flex justify-center mb-10 px-4">
-    <div class="bg-gray-100 shadow-md p-4 rounded-lg w-full md:w-2/3 lg:w-1/2">
-        <form method="GET" action="{{ route('site_touristique') }}" class="flex flex-row gap-2 md:gap-4">
+<div class="flex justify-center mb-4 md:mb-6 px-2">
+    <div class="bg-white shadow-md rounded-lg p-1 w-full max-w-xl border border-gray-100">
+        <form method="GET" action="{{ route('site_touristique') }}" class="flex flex-row gap-2">
+            <!-- Input -->
             <input type="text" name="query" value="{{ request('query') }}" placeholder="🔍 Rechercher un site..."
-                class="border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-gray-700" />
+                   class="flex-1 border border-gray-300 px-2 py-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 font-serif text-sm placeholder-gray-400"
+                   aria-label="Rechercher un site" />
+            <!-- Bouton -->
             <button type="submit"
-                class="bg-blue-600 hover:bg-blue-700 transition-all duration-300 text-white px-4 py-2 rounded-md shadow-md hover:scale-105 flex-shrink-0">
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded-lg font-serif text-sm uppercase tracking-wide transition-colors duration-300 flex items-center justify-center">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
                 Rechercher
             </button>
         </form>
@@ -23,7 +29,7 @@
 
 {{-- Paragraphe d'introduction --}}
 <div class="text-center max-w-3xl mx-auto mb-10 px-4">
-    <p class="text-lg text-gray-600 font-serif leading-relaxed">
+    <p class="sm:text-sm text-sm md:text-2xl text-justify  font-serif  text-gray-600 font-serif leading-relaxed">
         Découvrez les trésors du Bénin à travers ses sites touristiques uniques, mêlant histoire, culture et beauté naturelle. Que vous soyez passionné par les traditions, les plages tropicales ou les monuments historiques, il y a un site pour chaque voyageur.
     </p>
 </div>
