@@ -15,8 +15,8 @@
              Programmez vos vacances en 1 clic
         </h1>
         <div class="w-24 h-1 bg-blue-600 mx-auto mt-2 md:mt-4 rounded"></div>
-          <div class="">
-               <h3 class="text-sm  w-2/3 ml-10  p-2 lg:text-lg md:text-2xl font-serif font-semibold text-red-700 mt-2 lg:mt-6 hover:text-red-500 transition-colors duration-300">
+          <div class="flex justify-center">
+               <h3 class="text-sm justify-center  w-2/3 ml-10  p-2 lg:text-lg md:text-2xl font-serif font-semibold text-red-700 mt-2 lg:mt-6 hover:text-red-500 transition-colors duration-300">
                    Faites vos réservations depuis votre canapé et évitez les foules dans les billetteries.
               </h3>
          </div>
