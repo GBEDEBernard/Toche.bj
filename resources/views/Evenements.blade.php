@@ -27,9 +27,9 @@
             <form action="{{ route('evenements') }}" method="GET" class="flex flex-row gap-2">
                 <input type="text" name="query" value="{{ request('query') }}"
                        placeholder="🔍 Rechercher un événement..."
-                       class="flex-1 border border-gray-300 px-2 py-[6px] rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-700 font-serif text-sm placeholder-gray-400" />
+                       class="flex-1 border border-gray-300 px-2 py-[2px] rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-700 font-serif text-sm placeholder-gray-400" />
                 <button type="submit"
-                        class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-[6px] rounded-lg font-serif text-sm uppercase tracking-wide transition-colors duration-300 flex items-center justify-center">
+                        class="bg-indigo-600 hover:bg-indigo-700 text-white px-1 py-[2px] rounded-lg font-serif text-sm uppercase tracking-wide transition-colors duration-300 flex items-center justify-center">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
