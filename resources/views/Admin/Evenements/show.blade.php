@@ -182,14 +182,14 @@
 
 {{-- Événements à venir proches --}}
 @if($relatedEvenements && $relatedEvenements->count() > 0)
-<section class="px-2 md:px-4 py-2 bg-gray-50 rounded-lg shadow-inner">
+<section class="px-4  md:px-4 py-2 bg-gray-50 rounded-lg shadow-inner">
     <h2 class="text-sm md:text-2xl font-serif font-bold text-indigo-800 mb-6 text-center uppercase tracking-wide">
         Événements à venir proches
     </h2>
 
     <!-- Grille principale -->
     <div
-        class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth pb-2"
+        class="grid grid-cols-2 mx-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth pb-2"
         style="scrollbar-width: none; -ms-overflow-style: none;"
     >
         @foreach($relatedEvenements as $related)
@@ -236,7 +236,7 @@
     @if($evenement->galeries && $evenement->galeries->count() > 0)
         <section class="px-4 md:px-20 py-5 bg-gray-50">
             <h2 class="text-sm md:text-3xl font-bold mb-6">Galeries</h2>
-            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-col-4 gap-4 sm:gap-6">
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
                 @foreach($evenement->galeries as $galerie)
                     <div>
                         <img 
