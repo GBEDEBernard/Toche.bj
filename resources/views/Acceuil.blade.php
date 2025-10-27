@@ -25,7 +25,7 @@
     <!-- Section des cartes de navigation -->
     <div class="flex justify-center gap-4 flex-row md:flex-row md:gap-4 mb-2 md:mb-12 mx-auto max-w-6xl px-2">
                     <!-- Carte Site Touristique -->
-            <div class="flex flex-col md:flex-row w-[120px] md:w-1/3 h-36 border-2 rounded-lg shadow-lg overflow-hidden hover:scale-105 transition-transform duration-300 bg-white">
+            <div class="flex flex-col md:flex-row w-[120px] md:w-1/3 h-36 border-2 rounded-lg md:shadow-lg overflow-hidden hover:scale-105 transition-transform duration-300 bg-white">
                 <a href="{{ route('site_touristique') }}" class="flex flex-col md:flex-row w-full h-full" aria-label="Voir les sites touristiques">
                     
                     <!-- Image -->
@@ -44,7 +44,7 @@
                 </a>
             </div>
                 <!-- Carte Événements -->
-            <div class="flex flex-col md:flex-row w-[120px] md:w-1/3 h-36 border-2 rounded-lg shadow-lg bg-black text-white overflow-hidden hover:scale-105 transition-transform duration-300">
+            <div class="flex flex-col md:flex-row w-[120px] md:w-1/3 h-36 border-2 rounded-lg md:shadow-lg bg-black text-white overflow-hidden hover:scale-105 transition-transform duration-300">
                 <a href="{{ route('evenements') }}" class="flex flex-col md:flex-row w-full h-full" aria-label="Voir les événements">
 
                     <!-- Image -->
@@ -63,7 +63,7 @@
                 </a>
             </div>
           <!-- Carte Hôtels & Restaurants -->
-            <div class="flex flex-col md:flex-row w-[120px] md:w-1/3 h-36 border-2 rounded-lg shadow-lg overflow-hidden hover:scale-105 transition-transform duration-300 bg-white">
+            <div class="flex flex-col md:flex-row w-[120px] md:w-1/3 h-36 border-2 rounded-lg md:shadow-lg overflow-hidden hover:scale-105 transition-transform duration-300 bg-white">
                 <a href="#" class="flex flex-col md:flex-row w-full h-full" aria-label="Voir les hôtels et restaurants">
 
                     <!-- Image -->
@@ -96,7 +96,7 @@
     <div class="mx-3 flex overflow-x-auto md:grid md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 justify-items-center scrollbar-hide snap-x snap-mandatory scroll-smooth">
         @forelse ($topSites as $index => $site)
             <article 
-                class="flex-none snap-center bg-white border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1
+                class="flex-none snap-center bg-white border border-gray-200 rounded-2xl md:shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1
                        w-[170px] sm:w-[190px] md:w-full max-w-[25rem] sm:max-w-[25rem] lg:max-w-[22rem]">
                 
                 <a href="{{ route('sites.show', $site->id) }}" class="block h-[230px] sm:h-[260px] md:h-[300px]">
@@ -112,7 +112,7 @@
                         <h4 class="text-[9px] sm:text-sm md:text-base font-serif font-semibold text-blue-600 mt-1">
                             {{ $site->commune }}
                         </h4>
-
+                        
                         <div class="flex justify-center items-center space-x-[2px] sm:space-x-1 mt-2">
                             @php
                                 $moyenne = round($site->moyenne_note ?? 0, 1);
@@ -141,14 +141,6 @@
     </div>
 </div>
 
-<!-- Masquer la barre de scroll sur mobile -->
-<style>
-    .scrollbar-hide::-webkit-scrollbar { display: none; }
-    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-</style>
-
-
-
 
     <div class="text-center mb-4 mt-4 md:mb-10">
         <a href="{{ route('site_touristique') }}" class="text-blue-500 font-serif font-semibold hover:underline transition-colors duration-300">
@@ -157,7 +149,7 @@
     </div>
 
    <!-- Bannière promotionnelle -->
-<div class="bg-black p-2 md:p-6 mt-2 sm:w-1/2 md:w-full md:mt-6 rounded-lg shadow-lg text-center md:flex md:items-center md:justify-between">
+<div class="bg-black p-2 md:p-6 mt-2 sm:w-full md:w-full md:mt-6 rounded-lg md:shadow-lg text-center md:flex md:items-center md:justify-between">
     <div class="max-w-4xl mx-auto text-white">
         <p class="text-sm sm:text-base md:text-lg font-serif text-justify leading-relaxed md:mr-6 px-2 sm:px-4">
             Chers amis de <strong class="text-yellow-500 font-serif">Toché, le miroir du pays (Bénin)</strong>, 
@@ -167,7 +159,7 @@
     </div>
     <img src="{{ asset('/image/evenement3.jpg') }}" 
          alt="Événement touristique au Bénin" 
-         class="w-full mt-2 md:mt-0 md:w-1/2 h-28 sm:h-36 md:h-72 rounded-lg shadow-md hover:scale-105 transition-transform duration-300 object-cover" >
+         class="w-full mt-2 md:mt-0 md:w-1/2 h-28 sm:h-36 md:h-72 rounded-lg md:shadow-md hover:scale-105 transition-transform duration-300 object-cover" >
 </div>
 
    <!-- Section des événements -->
@@ -178,31 +170,38 @@
     <div class="w-24 h-1 bg-blue-600 mx-auto mt-2 md:mt-4 rounded"></div>
 </div>
 
-<div class="container mx-auto py-2 md:py-4 sm:px-4 lg:px-8 mb-4 md:mb-12">
-    <!-- Grille responsive -->
-    <div class="mx-4 grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-6 lg:gap-8 justify-items-center">
+<div class="container mx-auto py-4 md:py-6 sm:px-6 lg:px-8 mb-8">
+    <!-- Wrapper scrollable sur mobile -->
+    <div class="mx-3 flex overflow-x-auto md:grid md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 justify-items-center scrollbar-hide snap-x snap-mandatory scroll-smooth">
         @forelse ($topEvenements as $index => $evenement)
-            <article class="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 
-                w-[140px] xs:w-[10px] sm:w-full max-w-[20rem] sm:max-w-[22rem] lg:max-w-[18rem]
-                {{ $loop->last ? 'hidden sm:block lg:block' : '' }}">
-                <a href="{{ route('admin.evenements.show', $evenement->id) }}" class="block sm:h-52 h-52 md:h-80" aria-label="Voir l'événement {{ $evenement->nom }}">
-                    <img class="w-full h-1/2 sm:h-1/2 md:h-1/2 lg:h-1/2 object-cover rounded-t-lg" 
+            <article 
+                class="flex-none snap-center bg-white border border-gray-200 rounded-2xl md:shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1
+                       w-[170px] sm:w-[190px] md:w-full max-w-[25rem] sm:max-w-[25rem] lg:max-w-[22rem]">
+
+                <a href="{{ route('admin.evenements.show', $evenement->id) }}" 
+                   class="block h-[230px] sm:h-[260px] md:h-[300px]" 
+                   aria-label="Voir l'événement {{ $evenement->nom }}">
+                    
+                    <img class="w-full h-[120px] sm:h-[140px] md:h-[160px] object-cover rounded-t-2xl" 
                          src="{{ asset($evenement->photo) }}" 
                          alt="{{ $evenement->nom }}"
                          loading="lazy">
-                    <div class="p-1 sm:p-4 text-center h-1/2 sm:h-1/2 md:h-1/2">
-                        <h3 class="text-[10px] sm:text-base md:text-lg lg:text-xl font-serif font-bold text-blue-600 truncate">
+
+                    <div class="p-2 sm:p-4 text-center flex flex-col justify-center h-[110px] sm:h-[120px] md:h-[140px]">
+                        <h3 class="text-[11px] sm:text-base md:text-lg lg:text-xl font-serif font-bold text-blue-600 truncate">
                             {{ $evenement->nom }}
                         </h3>
-                        <h4 class="text-[8px] sm:text-sm md:text-base font-serif font-semibold text-blue-600 mt-1">
+                        <h4 class="text-[9px] sm:text-sm md:text-base font-serif font-semibold text-blue-600 mt-1">
                             {{ $evenement->lieu ?? 'Lieu non précisé' }}
                         </h4>
+
                         @if ($evenement->date)
-                            <p class="text-[8px] sm:text-sm font-serif text-gray-500 mt-1">
-                                {{ $evenement->date }}
+                            <p class="text-[9px] sm:text-sm font-serif text-gray-500 mt-1">
+                                {{ \Carbon\Carbon::parse($evenement->date)->translatedFormat('d M Y') }}
                             </p>
                         @endif
-                        <div class="flex justify-center items-center space-x-[1px] sm:space-x-1 mt-1">
+
+                        <div class="flex justify-center items-center space-x-[2px] sm:space-x-1 mt-2">
                             @php
                                 $moyenne = round($evenement->moyenne_note ?? 0, 1);
                                 $etoilesPleine = floor($moyenne);
@@ -210,13 +209,13 @@
                                 $etoilesVide = 5 - $etoilesPleine - ($demiEtoile ? 1 : 0);
                             @endphp
                             @for ($i = 0; $i < $etoilesPleine; $i++)
-                                <span class="text-yellow-400 text-[10px] sm:text-base">★</span>
+                                <span class="text-yellow-400 text-[12px] sm:text-base">★</span>
                             @endfor
                             @if($demiEtoile)
-                                <span class="text-yellow-400 text-[10px] sm:text-base">☆</span>
+                                <span class="text-yellow-400 text-[12px] sm:text-base">☆</span>
                             @endif
                             @for ($i = 0; $i < $etoilesVide; $i++)
-                                <span class="text-gray-300 text-[10px] sm:text-base">★</span>
+                                <span class="text-gray-300 text-[12px] sm:text-base">★</span>
                             @endfor
                             <span class="text-gray-600 ml-1 sm:ml-2 text-[9px] sm:text-sm">({{ $moyenne }})</span>
                         </div>
@@ -224,7 +223,7 @@
                 </a>
             </article>
         @empty
-            <div class="col-span-4 text-center text-gray-500 text-sm sm:text-lg py-8">
+            <div class="text-center text-gray-500 text-sm sm:text-lg py-8 w-full">
                 Aucun événement à venir pour le moment.
             </div>
         @endforelse
@@ -237,47 +236,50 @@
     </a>
 </div>
 
-<div class="bg-gray-100 py-2 md:py-8 sm:py-2 sm:mx-4">
-    <div class="text-center my-4 md:my-4 sm:my-4 px-6">
-        <h1 class="text-xl sm:text-xl md:text-4xl lg:text-5xl font-serif font-bold text-gray-800 hover:text-blue-600 transition-colors duration-300 tracking-tight uppercase">
+<div class="bg-gray-100 py-4 md:py-8 sm:px-6">
+    <!-- Titre -->
+    <div class="text-center my-4 px-6">
+        <h1 class="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-serif font-bold text-gray-800 hover:text-blue-600 transition-colors duration-300 tracking-tight uppercase">
             Hôtels & Restaurants
         </h1>
-        <div class="w-16 sm:w-24 h-1 bg-blue-600 mx-auto mt-2 sm:mt-2 rounded"></div>
+        <div class="w-16 sm:w-24 h-1 bg-blue-600 mx-auto mt-2 rounded"></div>
     </div>
 
-    <div class="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8 justify-items-center px-3 sm:px-4">
+    <!-- Section cartes scrollable sur mobile -->
+    <div class="mx-3 flex overflow-x-auto md:grid md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 justify-items-center scrollbar-hide snap-x snap-mandatory scroll-smooth px-2 sm:px-4">
         @forelse ($hotels as $index => $hotel)
-            <div class="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1
-                w-[140px] xs:w-[140px] sm:w-full max-w-[28rem] sm:max-w-[22rem] lg:max-w-[20rem]
-                {{ $loop->last && $index >= 2 ? 'hidden sm:block lg:block' : '' }}">
-                <a href="#" class="block sm:h-52 h-52 md:h-80" aria-label="Voir l'hôtel {{ $hotel->nom }}">
+            <article 
+                class="flex-none snap-center bg-white border border-gray-200 rounded-2xl md:shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1
+                       w-[175px] sm:w-[190px] md:w-full max-w-[25rem] sm:max-w-[25rem] lg:max-w-[22rem]">
+                
+                <a href="#" class="block h-[230px] sm:h-[260px] md:h-[300px]" aria-label="Voir l'hôtel {{ $hotel->nom }}">
                     @if($hotel->image)
                         <img src="{{ asset('storage/' . $hotel->image) }}" 
                              alt="{{ $hotel->nom }}" 
-                             class="w-full h-1/2 sm:h-1/2 md:h-1/2 object-cover rounded-t-lg">
+                             class="w-full h-[120px] sm:h-[140px] md:h-[160px] object-cover rounded-t-2xl">
                     @else
-                        <div class="w-full h-1/2 sm:h-1/2 md:h-1/2 bg-gray-200 flex items-center justify-center text-gray-500 italic">
+                        <div class="w-full h-[120px] sm:h-[140px] md:h-[160px] bg-gray-200 flex items-center justify-center text-gray-500 italic rounded-t-2xl">
                             Aucune image
                         </div>
                     @endif
-                    <div class="p-2 sm:p-4 text-center">
-                        <h3 class="text-[10px] sm:text-base md:text-lg lg:text-xl font-serif font-semibold text-gray-800 truncate">
+
+                    <div class="p-2 sm:p-4 text-center flex flex-col justify-center h-[110px] sm:h-[120px] md:h-[140px]">
+                        <h3 class="text-[11px] sm:text-base md:text-lg lg:text-xl font-serif font-bold text-gray-800 truncate">
                             {{ $hotel->nom }}
                         </h3>
-                        <h4 class="text-[8px] sm:text-sm md:text-base font-serif font-semibold text-red-500 mt-1 sm:mt-2">
+                        <h4 class="text-[9px] sm:text-sm md:text-base font-serif font-semibold text-red-500 mt-1">
                             {{ $hotel->ville }}
                         </h4>
                     </div>
                 </a>
-            </div>
+            </article>
         @empty
-            <div class="col-span-4 text-center text-gray-500 text-sm sm:text-lg py-8">
+            <div class="text-center text-gray-500 text-sm sm:text-lg py-8 w-full">
                 Aucun hôtel ou restaurant disponible pour le moment.
             </div>
         @endforelse
     </div>
 </div>
-
    <!-- Image d'objet d'art -->
 <div class="flex justify-center my-8 sm:my-12 px-4">
     <img 
@@ -296,7 +298,7 @@
         <img 
             src="{{ asset('storage/' . ($prochainEvenement->galeries[0]->photo ?? $prochainEvenement->photo)) }}"
             alt="{{ $prochainEvenement->nom }}" 
-            class="w-20 h-20 sm:w-24 sm:h-24 md:w-1/3 md:h-64 lg:w-1/3 lg:h-64 object-cover rounded-xl shadow-md transition-transform duration-500 ease-in-out hover:scale-105 hover:opacity-90"
+            class="w-20 h-20 sm:w-24 sm:h-24 md:w-1/3 md:h-64 lg:w-1/3 lg:h-64 object-cover rounded-xl md:shadow-md transition-transform duration-500 ease-in-out hover:scale-105 hover:opacity-90"
         />
 
         <!-- Bloc texte centré verticalement -->
@@ -319,7 +321,7 @@
         <img 
             src="{{ asset('storage/' . ($prochainEvenement->galeries[1]->photo ?? $prochainEvenement->photo)) }}"
             alt="{{ $prochainEvenement->nom }}" 
-            class="w-20 h-20 sm:w-24 sm:h-24 md:w-1/3 md:h-64 lg:w-1/3 lg:h-64 object-cover rounded-xl shadow-md transition-transform duration-500 ease-in-out hover:scale-105 hover:opacity-90"
+            class="w-20 h-20 sm:w-24 sm:h-24 md:w-1/3 md:h-64 lg:w-1/3 lg:h-64 object-cover rounded-xl md:shadow-md transition-transform duration-500 ease-in-out hover:scale-105 hover:opacity-90"
         />
 
     @else
@@ -451,14 +453,14 @@
 
 <!-- Section FAQ -->
 <div class="w-full  md:w-4/5 mx-auto my-2 md:my-12 p-2 md:p-6 bg-gray-50 rounded-2xl shadow-lg">
-    <h1 class="text-sm md:text-3xl lg:text-4xl font-serif font-bold text-red-600 mb-2 md:mb-6 tracking-tight uppercase text-center">
+    <h1 class="text-sm md:text-3xl lg:text-4xl font-serif font-bold font-bold mb-2 md:mb-6 tracking-tight uppercase text-center">
         FAQ
     </h1>
 
     @foreach ($faqs as $faq)
     <div class="mb-3 md:mb-4">
         <div class="group">
-            <button class="w-full text-left text-sm md:text-base lg:text-lg font-serif font-semibold bg-white p-3 md:p-4 rounded-xl shadow-md hover:bg-gray-100 flex justify-between items-center transition"
+            <button class="w-full text-left text-sm md:text-base lg:text-lg font-serif  bg-white p-3 md:p-4 rounded-xl md:shadow-md hover:bg-gray-100 flex justify-between items-center transition"
                     aria-expanded="false" onclick="toggleFaq(this)">
                 <span>{{ $faq->question }}</span>
                 <svg class="w-5 h-5 md:w-6 md:h-6 transform transition-transform duration-300 group-aria-expanded:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -466,8 +468,8 @@
                 </svg>
             </button>
             
-            <div class="hidden p-3 md:p-4 bg-white shadow-md rounded-xl mt-2 faq-answer transition">
-                <p class="font-serif text-xs md:text-sm lg:text-base text-gray-700 leading-relaxed">
+            <div class="hidden p-3 md:p-4 bg-white md:shadow-md rounded-xl mt-2 faq-answer transition">
+                <p class="font-serif text-xs md:text-sm lg:text-base text-gray-800 leading-relaxed">
                     {{ $faq->answer }}
                 </p>
             </div>
@@ -510,16 +512,16 @@ function toggleFaq(button) {
 
     <!-- Formulaire -->
     <form action="{{ route('newsletter.store') }}" method="POST"
-          class="flex  md:flex-row items-center justify-center md:gap-4 pb-0">
+          class="flex  md:flex-row items-center justify-center pb-0">
         @csrf
         <input type="email" name="email"
-               class="w-2/3 sm:w-2/3 md:w-2/3 lg:w-2/3 p-2 md:p-4 border border-gray-300 rounded-xl
+               class="w-2/3 sm:w-2/3 md:w-2/3 lg:w-2/3 p-2 md:p-4 border border-gray-300 rounded-l-xl
                       focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 text-xs sm:text-sm md:text-base"
                placeholder="Votre adresse email" required aria-label="Adresse email pour la newsletter">
 
         <button type="submit"
                 class="w-1/3 sm:w-1/3 md:w-auto bg-blue-600 text-white px-4 md:px-6 py-2 md:py-3
-                       rounded-xl hover:bg-blue-700 transition duration-300 text-xs sm:text-sm md:text-base font-semibold">
+                       rounded-r-xl hover:bg-blue-700 transition duration-300 text-xs sm:text-sm md:text-base font-semibold">
             S'abonner
         </button>
     </form>
@@ -534,5 +536,8 @@ function toggleFaq(button) { const answer = button.parentElement.querySelector("
 <style>
     .scrollbar-hide::-webkit-scrollbar { display: none; }
     .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
 </style>
+
+
 @endsection
