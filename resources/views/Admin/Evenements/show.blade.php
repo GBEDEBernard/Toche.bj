@@ -189,7 +189,7 @@
 
     <!-- Grille principale -->
     <div
-        class="grid grid-cols-2 mx-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth pb-2"
+        class="grid grid-cols-2 mx-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth pb-2"
         style="scrollbar-width: none; -ms-overflow-style: none;"
     >
         @foreach($relatedEvenements as $related)
