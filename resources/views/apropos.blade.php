@@ -8,7 +8,7 @@
              src="{{ asset('image/Cotonou.jpeg') }}"
              alt="Vodou Days">
         <div class="absolute inset-0 flex flex-col items-center justify-center text-center text-white bg-blue-900 bg-opacity-60">
-            <div class="mb-4">
+            <div class="mb-4 mt-4">
                 <a href="{{ route('accueil') }}">
                     <img class="w-20 h-20 md:w-24 md:h-24 rounded-full shadow-md hover:opacity-90 transition-opacity duration-300"
                          src="{{ asset('image/logo3.jpg') }}"
@@ -39,7 +39,7 @@
 
     <!-- Sections Loop -->
    @foreach ($sections as $section)
-    <div class="flex flex-col md:flex-row {{ $loop->iteration % 2 == 0 ? 'md:flex-row-reverse' : '' }} items-center bg-white rounded-xl shadow-md my-6 p-5 hover:shadow-lg transition-shadow duration-300">
+    <div class="flex flex-col md:flex-row {{ $loop->iteration % 2 == 0 ? 'md:flex-row-reverse' : '' }} items-center bg-white rounded-xl smd:hadow-md my-6 p-5 hover:shadow-lg transition-shadow duration-300">
         @if ($section->image)
             <img class="w-full md:w-44 h-54 md:h-44 rounded-lg mb-4 md:mb-0 {{ $loop->iteration % 2 == 0 ? 'md:ml-5' : 'md:mr-5' }} transition-opacity duration-300 hover:opacity-90"
                  src="{{ asset('storage/' . $section->image) }}"
