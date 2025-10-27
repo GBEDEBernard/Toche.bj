@@ -23,7 +23,7 @@
     </div>
 
     <!-- Section des cartes de navigation -->
-    <div class="flex justify-center flex-row md:flex-row gap-4 mb-2 md:mb-12 mx-auto max-w-6xl px-2">
+    <div class="flex justify-center gap-4 flex-row md:flex-row md:gap-4 mb-2 md:mb-12 mx-auto max-w-6xl px-2">
                     <!-- Carte Site Touristique -->
             <div class="flex flex-col md:flex-row w-[120px] md:w-1/3 h-36 border-2 rounded-lg shadow-lg overflow-hidden hover:scale-105 transition-transform duration-300 bg-white">
                 <a href="{{ route('site_touristique') }}" class="flex flex-col md:flex-row w-full h-full" aria-label="Voir les sites touristiques">
@@ -91,26 +91,29 @@
         </h1>
         <div class="w-24 h-1 bg-blue-600 mx-auto mt-2 md:mt-4 rounded"></div>
     </div>
-    
-<div class="container mx-auto py-4 sm:px-6 lg:px-8 mb-4 md:mb-12">
-    <div class="mx-4 grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-6 lg:gap-8 justify-items-center">
+   <div class="container mx-auto py-6 sm:px-6 lg:px-8 mb-8">
+    <!-- Wrapper scrollable sur mobile -->
+    <div class="mx-3 flex overflow-x-auto md:grid md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 justify-items-center scrollbar-hide snap-x snap-mandatory scroll-smooth">
         @forelse ($topSites as $index => $site)
-            <article class="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 
-                w-[130px] xs:w-[130px] sm:w-full max-w-[25rem] sm:max-w-[25rem] lg:max-w-[22rem] 
-                {{ $loop->last ? 'hidden sm:block lg:block' : '' }}">
-                <a href="{{ route('sites.show', $site->id) }}" class="block sm:h-52 h-52 md:h-80" aria-label="Voir le site {{ $site->nom }}">
-                    <img class="w-full h-1/2 sm:h-1/2 md:h-1/2 lg:h-48 object-cover rounded-t-lg" 
+            <article 
+                class="flex-none snap-center bg-white border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1
+                       w-[170px] sm:w-[190px] md:w-full max-w-[25rem] sm:max-w-[25rem] lg:max-w-[22rem]">
+                
+                <a href="{{ route('sites.show', $site->id) }}" class="block h-[230px] sm:h-[260px] md:h-[300px]">
+                    <img class="w-full h-[120px] sm:h-[140px] md:h-[160px] object-cover rounded-t-2xl"
                          src="{{ asset($site->photo) }}" 
                          alt="{{ $site->nom }}"
                          loading="lazy">
-                    <div class="p-1 h-1/2 sm:h-1/2 md:h-1/2 sm:p-4 text-center">
-                        <h3 class="text-[10px] sm:text-base md:text-lg lg:text-xl font-serif font-bold text-blue-600 truncate">
+
+                    <div class="p-2 sm:p-4 text-center flex flex-col justify-center h-[110px] sm:h-[120px] md:h-[140px]">
+                        <h3 class="text-[11px] sm:text-base md:text-lg lg:text-xl font-serif font-bold text-blue-600 truncate">
                             {{ $site->nom }}
                         </h3>
-                        <h4 class="text-[8px] sm:text-sm md:text-base font-serif font-semibold text-blue-600 mt-1">
+                        <h4 class="text-[9px] sm:text-sm md:text-base font-serif font-semibold text-blue-600 mt-1">
                             {{ $site->commune }}
                         </h4>
-                        <div class="flex justify-center items-center space-x-[1px] sm:space-x-1 mt-1">
+
+                        <div class="flex justify-center items-center space-x-[2px] sm:space-x-1 mt-2">
                             @php
                                 $moyenne = round($site->moyenne_note ?? 0, 1);
                                 $etoilesPleine = floor($moyenne);
@@ -118,25 +121,32 @@
                                 $etoilesVide = 5 - $etoilesPleine - ($demiEtoile ? 1 : 0);
                             @endphp
                             @for ($i = 0; $i < $etoilesPleine; $i++)
-                                <span class="text-yellow-400 text-[10px] sm:text-base">★</span>
+                                <span class="text-yellow-400 text-[12px] sm:text-base">★</span>
                             @endfor
                             @if($demiEtoile)
-                                <span class="text-yellow-400 text-[10px] sm:text-base">☆</span>
+                                <span class="text-yellow-400 text-[12px] sm:text-base">☆</span>
                             @endif
                             @for ($i = 0; $i < $etoilesVide; $i++)
-                                <span class="text-gray-300 text-[10px] sm:text-base">★</span>
+                                <span class="text-gray-300 text-[12px] sm:text-base">★</span>
                             @endfor
                         </div>
                     </div>
                 </a>
             </article>
         @empty
-            <div class="col-span-4 text-center text-gray-500 text-sm sm:text-lg py-8">
+            <div class="text-center text-gray-500 text-sm sm:text-lg py-8 w-full">
                 Aucun site touristique trouvé pour le moment.
             </div>
         @endforelse
     </div>
 </div>
+
+<!-- Masquer la barre de scroll sur mobile -->
+<style>
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+
 
 
 
@@ -476,7 +486,6 @@ function toggleFaq(button) {
 </script>
 
 
-    <!-- Section Newsletter -->
   <!-- Section Newsletter Responsive -->
 @if (session('contenu'))
 <div class="mb-3 md:mb-4 p-2 md:p-4 bg-blue-100 text-blue-800 rounded-xl font-serif text-xs md:text-sm lg:text-base">
@@ -521,4 +530,9 @@ function toggleFaq(button) { const answer = button.parentElement.querySelector("
  answer.classList.toggle("hidden"); icon.classList.toggle("rotate-180"); }
  </script>
 
+<!-- Masquer la barre de scroll sur mobile -->
+<style>
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
 @endsection
