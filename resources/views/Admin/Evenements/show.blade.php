@@ -180,47 +180,63 @@
 </section>
 
 
-    {{-- Related Events --}}
-    @if($relatedEvenements && $relatedEvenements->count() > 0)
-        <section class="px-4 md:px-20 py-10 bg-white">
-            <h2 class="text-2xl md:text-3xl font-bold mb-6">Événements à venir proches</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 justify-items-center">
-                @foreach($relatedEvenements as $related)
-                    <div class="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full max-w-[20rem] sm:max-w-[22rem] lg:max-w-[18rem]">
-                        <a href="{{ route('admin.evenements.show', $related->id) }}" class="block">
-                            <img 
-                                class="w-full h-36 sm:h-44 md:h-52 lg:h-48 object-cover rounded-t-lg" 
-                                src="{{ asset($related->photo) }}" 
-                                alt="{{ $related->nom }}"
-                                loading="lazy"
-                            >
-                            <div class="p-4 text-center">
-                                <h3 class="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-blue-600 sm:text-red-600 truncate">
-                                    {{ $related->nom }}
-                                </h3>
-                                <h4 class="text-xs sm:text-sm md:text-base font-semibold text-blue-600 sm:text-red-600 mt-2">
-                                    {{ $related->lieu }}
-                                </h4>
-                                <p class="text-xs sm:text-sm text-gray-500 mt-1">
-                                    {{ $related->date}}
-                                </p>
-                            </div>
-                        </a>
+{{-- Événements à venir proches --}}
+@if($relatedEvenements && $relatedEvenements->count() > 0)
+<section class="px-2 md:px-4 py-2 bg-gray-50 rounded-lg shadow-inner">
+    <h2 class="text-sm md:text-2xl font-serif font-bold text-indigo-800 mb-6 text-center uppercase tracking-wide">
+        Événements à venir proches
+    </h2>
+
+    <!-- Grille principale -->
+    <div
+        class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth pb-2"
+        style="scrollbar-width: none; -ms-overflow-style: none;"
+    >
+        @foreach($relatedEvenements as $related)
+            <div
+                class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col snap-center
+                       w-[90%] sm:w-[95%] md:w-auto h-[250px] sm:h-[250px] md:h-[360px]"
+            >
+                <!-- Image -->
+                <a href="{{ route('admin.evenements.show', $related->id) }}" class="block h-1/2">
+                    @if($related->photo)
+                        <img src="{{ asset($related->photo) }}" alt="{{ $related->nom }}"
+                             class="w-full h-full object-cover">
+                    @else
+                        <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500 italic">
+                            Aucune image
+                        </div>
+                    @endif
+                </a>
+
+                <!-- Contenu -->
+                <div class="flex flex-col justify-between h-1/2 p-3 md:p-4">
+                    <div>
+                        <h3 class="text-sm md:text-lg font-bold text-gray-800 truncate">{{ $related->nom }}</h3>
+                        <p class="text-xs md:text-sm text-indigo-600 mt-1">{{ $related->lieu ?? 'Lieu non précisé' }}</p>
+                        <p class="text-xs md:text-sm text-gray-500 mt-1">{{ \Carbon\Carbon::parse($related->date)->format('d M Y') }}</p>
                     </div>
-                @endforeach
+
+                    <a href="{{ route('admin.evenements.show', $related->id) }}"
+                       class="mt-2 text-xs md:text-sm bg-indigo-600 text-white px-3 py-2 rounded-full hover:bg-indigo-700 transition self-start">
+                        Voir détails
+                    </a>
+                </div>
             </div>
-        </section>
-    @else
-        <section class="px-4 md:px-20 py-10 bg-white text-center text-gray-500">
-            <p>Aucun événement proche trouvé.</p>
-        </section>
-    @endif
+        @endforeach
+    </div>
+</section>
+@else
+<section class="px-4 md:px-10 py-10 bg-white text-center text-gray-500">
+    <p>Aucun événement proche trouvé.</p>
+</section>
+@endif
 
     {{-- Galerie --}}
     @if($evenement->galeries && $evenement->galeries->count() > 0)
-        <section class="px-4 md:px-20 py-10 bg-gray-50">
-            <h2 class="text-2xl md:text-3xl font-bold mb-6">Galeries</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+        <section class="px-4 md:px-20 py-5 bg-gray-50">
+            <h2 class="text-sm md:text-3xl font-bold mb-6">Galeries</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-col-4 gap-4 sm:gap-6">
                 @foreach($evenement->galeries as $galerie)
                     <div>
                         <img 
@@ -300,65 +316,7 @@
     </div>
 </section>
 
-<script>
-    const openBtn = document.getElementById('openModalBtn');
-    const modal = document.getElementById('ratingModal');
-    const closeBtn = document.getElementById('closeModalBtn');
-    const starButtons = document.querySelectorAll('#starButtons button');
-    const noteInput = document.getElementById('noteInput');
-    const submitBtn = document.getElementById('submitBtn');
 
-    openBtn.addEventListener('click', () => {
-        modal.classList.remove('hidden');
-    });
-
-    closeBtn.addEventListener('click', () => {
-        modal.classList.add('hidden');
-        clearSelection();
-    });
-
-    // Gérer la sélection des étoiles
-    starButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const selectedStar = parseInt(btn.getAttribute('data-star'));
-            noteInput.value = selectedStar;
-            updateStars(selectedStar);
-            submitBtn.disabled = false;
-        });
-    });
-
-    function updateStars(selected) {
-        starButtons.forEach(btn => {
-            const star = parseInt(btn.getAttribute('data-star'));
-            if (star <= selected) {
-                btn.classList.remove('text-gray-400');
-                btn.classList.add('text-yellow-400');
-            } else {
-                btn.classList.remove('text-yellow-400');
-                btn.classList.add('text-gray-400');
-            }
-        });
-    }
-
-    function clearSelection() {
-        noteInput.value = '';
-        updateStars(0);
-        submitBtn.disabled = true;
-    }
-
-    // les script de modification
-    function toggleEditForm(avisId) {
-    const form = document.getElementById('editForm-' + avisId);
-    if (!form) return;
-
-    if (form.classList.contains('hidden')) {
-        form.classList.remove('hidden');
-    } else {
-        form.classList.add('hidden');
-    }
-}
-
-</script>
 @endif
 
     
@@ -467,4 +425,71 @@
             width: 100%;
         }
     </style>
+<!-- script pour les commentaire  -->
+ <script>
+    const openBtn = document.getElementById('openModalBtn');
+    const modal = document.getElementById('ratingModal');
+    const closeBtn = document.getElementById('closeModalBtn');
+    const starButtons = document.querySelectorAll('#starButtons button');
+    const noteInput = document.getElementById('noteInput');
+    const submitBtn = document.getElementById('submitBtn');
+
+    openBtn.addEventListener('click', () => {
+        modal.classList.remove('hidden');
+    });
+
+    closeBtn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+        clearSelection();
+    });
+
+    // Gérer la sélection des étoiles
+    starButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const selectedStar = parseInt(btn.getAttribute('data-star'));
+            noteInput.value = selectedStar;
+            updateStars(selectedStar);
+            submitBtn.disabled = false;
+        });
+    });
+
+    function updateStars(selected) {
+        starButtons.forEach(btn => {
+            const star = parseInt(btn.getAttribute('data-star'));
+            if (star <= selected) {
+                btn.classList.remove('text-gray-400');
+                btn.classList.add('text-yellow-400');
+            } else {
+                btn.classList.remove('text-yellow-400');
+                btn.classList.add('text-gray-400');
+            }
+        });
+    }
+
+    function clearSelection() {
+        noteInput.value = '';
+        updateStars(0);
+        submitBtn.disabled = true;
+    }
+
+    // les script de modification
+    function toggleEditForm(avisId) {
+    const form = document.getElementById('editForm-' + avisId);
+    if (!form) return;
+
+    if (form.classList.contains('hidden')) {
+        form.classList.remove('hidden');
+    } else {
+        form.classList.add('hidden');
+    }
+}
+
+</script>
+<!-- Masquer la barre de scroll sur mobile -->
+<style>
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+</style>
+
 @endpush
