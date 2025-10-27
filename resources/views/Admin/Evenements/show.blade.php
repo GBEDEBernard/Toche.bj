@@ -195,7 +195,7 @@
         @foreach($relatedEvenements as $related)
             <div
                 class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col snap-center
-                       w-[90%] sm:w-[95%] md:w-auto h-[250px] sm:h-[250px] md:h-[360px]"
+                       w-full sm:w-full md:w-auto h-[250px] sm:h-[250px] md:h-[360px]"
             >
                 <!-- Image -->
                 <a href="{{ route('admin.evenements.show', $related->id) }}" class="block h-1/2">
