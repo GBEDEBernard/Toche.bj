@@ -159,7 +159,7 @@
  <!-- Carte interactive avec Leaflet -->
  <div class="bg-white max-w-5xl mx-auto rounded-xl shadow-lg overflow-hidden my-6">
     <div class="p-4 border-b border-gray-200">
-        <h3 class="text-xl font-bold text-gray-800">🗺️ Carte des sites</h3>
+        <h3 class="text-xl font-bold text-gray-800">Carte des sites</h3>
     </div>
     <div class="p-4">
         <div id="map" class="w-full h-[250px] sm:h-[300px] md:h-[400px] rounded-md shadow-md"></div>

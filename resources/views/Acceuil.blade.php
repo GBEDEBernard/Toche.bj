@@ -310,7 +310,7 @@
                 {{ Str::limit($prochainEvenement->description, 100, '...') }}
             </p>
             <p class="text-xs md:text-sm lg:text-base text-gray-600 mt-1 leading-tight">
-                📅 {{ \Carbon\Carbon::parse($prochainEvenement->date)->format('d-m-Y') }} | 📍 {{ $prochainEvenement->lieu }}
+                {{ \Carbon\Carbon::parse($prochainEvenement->date)->format('d-m-Y') }} | 📍 {{ $prochainEvenement->lieu }}
             </p>
             <p class="text-xs md:text-sm lg:text-base text-blue-600 mt-1 leading-tight">
                 Sponsorisé par {{ $prochainEvenement->sponsor }}
@@ -348,7 +348,7 @@
 >
     <!-- Titre principal -->
     <h2 class="text-center text-sm md:text-3xl lg:text-4xl font-extrabold font-serif text-gray-800 mb-2 md:mb-10 uppercase tracking-wider">
-        🌍 Itinéraires en vedette
+                Les ittineraires que vous pouvez participer 
     </h2>
 
     <!-- SLIDER PRINCIPAL -->
@@ -499,7 +499,7 @@ function toggleFaq(button) {
             h-40 sm:h-36 md:h-auto">
     <!-- Titre -->
     <h1 class="text-sm md:text-3xl lg:text-4xl font-serif font-bold text-gray-800 mb-2 md:mb-4 tracking-tight uppercase">
-        Abonnez-vous à notre Newsletter 📩
+        Abonnez-vous à notre Newsletter 
     </h1>
 
     <!-- Ligne -->

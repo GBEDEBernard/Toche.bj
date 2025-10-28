@@ -5,7 +5,7 @@
 <!-- Titre principal -->
 <div class="text-center my-4 md:my-6 px-4">
     <h1 class="text-2xl sm:text-3xl md:text-4xl font-serif font-extrabold text-gray-800 uppercase tracking-tight hover:text-blue-600 transition duration-300">
-        🌍 Sites touristiques
+        Sites touristiques
     </h1>
     <div class="w-20 h-1 bg-blue-600 mx-auto mt-2 rounded"></div>
 </div>

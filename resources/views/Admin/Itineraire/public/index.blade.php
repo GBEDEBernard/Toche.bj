@@ -4,7 +4,7 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 font-serif">
     <!-- Titre -->
     <h1 class="text-center text-4xl font-bold font-serif text-indigo-800 mb-12 uppercase tracking-wider">
-        🧭 Nos Itinéraires Touristiques
+        Nos Itinéraires Touristiques
     </h1>
 
     <!-- Grille responsive -->
