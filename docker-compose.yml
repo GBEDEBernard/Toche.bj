@@ -1,8 +1,9 @@
+
 services:
   app:
     build: .
     ports:
-      - "8080:8080"
+      - "8081:8080"  # 8081 sur l'hôte, 8080 dans le container
     environment:
       DB_CONNECTION: mysql
       DB_HOST: db
@@ -10,6 +11,9 @@ services:
       DB_DATABASE: toche
       DB_USERNAME: Bernard
       DB_PASSWORD: password
+    volumes:
+      - app_storage:/app/storage
+      - app_cache:/app/bootstrap/cache
     depends_on:
       - db
 
@@ -21,5 +25,11 @@ services:
       MYSQL_USER: Bernard
       MYSQL_PASSWORD: password
     ports:
-      - "33061:3306"  # exposer MySQL sur le port 33061 de la machine hôte
+      - "33061:3306"  # exposer MySQL sur le port 33061 de l'hôte
+    volumes:
+      - db_data:/var/lib/mysql
 
+volumes:
+  app_storage:
+  app_cache:
+  db_data:
