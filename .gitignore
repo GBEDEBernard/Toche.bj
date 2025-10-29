@@ -30,3 +30,14 @@ Homestead.json
 .env.production
 .phpactor.json
 auth.json
+# Ajoute ces lignes pour éviter de pousser tes volumes locaux :
+docker-compose.override.yml
+app_storage/
+app_cache/
+db_data/
+
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/logs/*
+bootstrap/cache/*
