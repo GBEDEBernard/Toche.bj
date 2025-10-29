@@ -34,12 +34,12 @@ RUN php artisan key:generate || true
 # Lier le storage public
 RUN php artisan storage:link || true
 
-# Nettoyer les caches pour éviter les erreurs de "cache path"
-RUN php artisan config:clear \
-    && php artisan cache:clear \
-    && php artisan view:clear \
-    && php artisan route:clear \
-    && php artisan config:cache
+# # Nettoyer les caches pour éviter les erreurs de "cache path"
+# RUN php artisan config:clear \
+#     && php artisan cache:clear \
+#     && php artisan view:clear \
+#     && php artisan route:clear \
+#     && php artisan config:cache
 
 # Exposer le port attendu par Railway
 EXPOSE 8080
