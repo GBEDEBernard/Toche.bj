@@ -325,7 +325,7 @@
         />
 
     @else
-        <div class="text-center w-full text-gray-500 text-sm py-4">
+        <div class="flex lg:justify-centr text-center w-full text-gray-500 text-sm py-4">
             Aucun événement à venir pour le moment.
         </div>
     @endif

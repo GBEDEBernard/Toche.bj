@@ -33,7 +33,7 @@ class Site_touristiqueController extends Controller
             'email' => 'required|email',
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2200',
             'contact' => 'required|numeric',
-            'description' => 'required|string',
+             'description' => 'required|string|max:65535',
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
         ]);
@@ -128,7 +128,7 @@ class Site_touristiqueController extends Controller
             'email' => 'required|email',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'contact' => 'required|numeric',
-            'description' => 'required|string',
+            'description' => 'required|string|max:65535',
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
         ]);

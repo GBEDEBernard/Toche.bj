@@ -24,7 +24,7 @@ return new class extends Migration
            $table->string('email')->unique();
            $table->string('photo');
            $table->string('contact');
-           $table->string('description');
+           $table->text('description');
            $table->timestamps();
               });
     }
