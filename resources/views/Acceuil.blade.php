@@ -99,7 +99,7 @@
                 class="flex-none snap-center bg-white border border-gray-200 rounded-2xl md:shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1
                        w-[170px] sm:w-[190px] md:w-full max-w-[25rem] sm:max-w-[25rem] lg:max-w-[22rem]">
                 
-                <a href="{{ route('sites.show', $site->id) }}" class="block h-[230px] sm:h-[260px] md:h-[300px]">
+                <a href="{{ route('sites.show', $site->id) }}" class="block h-[230px] sm:h-[260px] md:h-[400px]">
                     <img class="w-full h-[120px] sm:h-[140px] md:h-[160px] object-cover rounded-t-2xl"
                          src="{{ asset($site->photo) }}" 
                          alt="{{ $site->nom }}"
@@ -179,7 +179,7 @@
                        w-[170px] sm:w-[190px] md:w-full max-w-[25rem] sm:max-w-[25rem] lg:max-w-[22rem]">
 
                 <a href="{{ route('admin.evenements.show', $evenement->id) }}" 
-                   class="block h-[230px] sm:h-[260px] md:h-[300px]" 
+                   class="block h-[230px] sm:h-[260px] md:h-[400px]" 
                    aria-label="Voir l'événement {{ $evenement->nom }}">
                     
                     <img class="w-full h-[120px] sm:h-[140px] md:h-[160px] object-cover rounded-t-2xl" 
@@ -252,7 +252,7 @@
                 class="flex-none snap-center bg-white border border-gray-200 rounded-2xl md:shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1
                        w-[175px] sm:w-[190px] md:w-full max-w-[25rem] sm:max-w-[25rem] lg:max-w-[22rem]">
                 
-                <a href="#" class="block h-[230px] sm:h-[260px] md:h-[300px]" aria-label="Voir l'hôtel {{ $hotel->nom }}">
+                <a href="#" class="block h-[230px] sm:h-[260px] md:h-[400px]" aria-label="Voir l'hôtel {{ $hotel->nom }}">
                     @if($hotel->image)
                         <img src="{{ asset('storage/' . $hotel->image) }}" 
                              alt="{{ $hotel->nom }}" 

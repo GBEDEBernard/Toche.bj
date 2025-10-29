@@ -18,13 +18,29 @@ COPY . .
 # Installer les dépendances PHP de Laravel
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
+# Créer les dossiers nécessaires pour Laravel si jamais ils n'existent pas
+RUN mkdir -p storage/framework/views \
+    storage/framework/cache/data \
+    storage/logs \
+    bootstrap/cache
+
 # Préparer les permissions pour Laravel
-RUN chown -R www-data:www-data storage bootstrap/cache
+RUN chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
 
 # Générer une clé d'application si elle n'existe pas
 RUN php artisan key:generate || true
 
-RUN php artisan storage:link ||true 
+# Lier le storage public
+RUN php artisan storage:link || true
+
+# Nettoyer les caches pour éviter les erreurs de "cache path"
+RUN php artisan config:clear \
+    && php artisan cache:clear \
+    && php artisan view:clear \
+    && php artisan route:clear \
+    && php artisan config:cache
+
 # Exposer le port attendu par Railway
 EXPOSE 8080
 
