@@ -100,7 +100,7 @@
                        w-[170px] sm:w-[190px] md:w-full max-w-[25rem] sm:max-w-[25rem] lg:max-w-[22rem]">
                 
                 <a href="{{ route('sites.show', $site->id) }}" class="block h-[230px] sm:h-[260px] md:h-[400px]">
-                    <img class="w-full h-[120px] sm:h-[140px] md:h-[160px] object-cover rounded-t-2xl"
+                    <img class="w-full h-1/2 sm:h-[140px] md:h-1/2 object-cover rounded-t-2xl"
                          src="{{ asset($site->photo) }}" 
                          alt="{{ $site->nom }}"
                          loading="lazy">
@@ -182,12 +182,12 @@
                    class="block h-[230px] sm:h-[260px] md:h-[400px]" 
                    aria-label="Voir l'événement {{ $evenement->nom }}">
                     
-                    <img class="w-full h-[120px] sm:h-[140px] md:h-[160px] object-cover rounded-t-2xl" 
+                    <img class="w-full h-1/2 sm:h-[140px] md:h-1/2 object-cover rounded-t-2xl" 
                          src="{{ asset($evenement->photo) }}" 
                          alt="{{ $evenement->nom }}"
                          loading="lazy">
 
-                    <div class="p-2 sm:p-4 text-center flex flex-col justify-center h-[110px] sm:h-[120px] md:h-[140px]">
+                    <div class="p-2 sm:p-4 text-center flex flex-col justify-center h-1/2 sm:h-[120px] md:h-1/2">
                         <h3 class="text-[11px] sm:text-base md:text-lg lg:text-xl font-serif font-bold text-blue-600 truncate">
                             {{ $evenement->nom }}
                         </h3>
@@ -256,14 +256,14 @@
                     @if($hotel->image)
                         <img src="{{ asset('storage/' . $hotel->image) }}" 
                              alt="{{ $hotel->nom }}" 
-                             class="w-full h-[120px] sm:h-[140px] md:h-[160px] object-cover rounded-t-2xl">
+                             class="w-full h-1/2 sm:h-[140px] md:h-1/2 object-cover rounded-t-2xl">
                     @else
                         <div class="w-full h-[120px] sm:h-[140px] md:h-[160px] bg-gray-200 flex items-center justify-center text-gray-500 italic rounded-t-2xl">
                             Aucune image
                         </div>
                     @endif
 
-                    <div class="p-2 sm:p-4 text-center flex flex-col justify-center h-[110px] sm:h-[120px] md:h-[140px]">
+                    <div class="p-2 sm:p-4 text-center flex flex-col justify-center h-1/2 sm:h-[120px] md:h-1/2">
                         <h3 class="text-[11px] sm:text-base md:text-lg lg:text-xl font-serif font-bold text-gray-800 truncate">
                             {{ $hotel->nom }}
                         </h3>
