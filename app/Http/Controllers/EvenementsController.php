@@ -73,7 +73,7 @@ class EvenementsController extends Controller
             'date' => 'required|date',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'sponsor' => 'required|string|max:255',
-            'description' => 'required|string',
+             'description' => 'required|string|max:65535',
         ]);
 
         // Gestion du téléchargement de l'image
@@ -152,7 +152,7 @@ class EvenementsController extends Controller
             'lieu' => 'required|string|max:255',
             'date' => 'required|date',
             'sponsor' => 'required|string|max:255',
-            'description' => 'required|string',
+             'description' => 'required|string|max:65535',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
         ]);
 

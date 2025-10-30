@@ -16,10 +16,6 @@ class Controller extends BaseController
 {
     public function welcome()
     {
- 
-   
-
-
         $totalSites = Site_touristique::count();
         $upcomingEvents = Evenement::where('date', '>=', Carbon::today())->count();
         $totalEvents = Evenement::count();

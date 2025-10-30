@@ -23,7 +23,7 @@ return new class extends Migration
           $table->string('date');
           $table->string('photo');
           $table->string('sponsor');
-          $table->string('description');
+          $table->text('description');
          $table->timestamps();
     });
     

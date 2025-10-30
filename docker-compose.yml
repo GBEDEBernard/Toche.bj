@@ -7,7 +7,7 @@ services:
       DB_CONNECTION: mysql
       DB_HOST: db
       DB_PORT: 3306
-      DB_DATABASE: Toche
+      DB_DATABASE: toche
       DB_USERNAME: Bernard
       DB_PASSWORD: password
     volumes:
@@ -20,7 +20,7 @@ services:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: Toche
+      MYSQL_DATABASE: toche
       MYSQL_USER: Bernard
       MYSQL_PASSWORD: password
     ports:
