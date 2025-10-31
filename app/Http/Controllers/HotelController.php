@@ -17,28 +17,32 @@ class HotelController extends Controller
     {
         return view('Admin.Hotels.create');
     }
+// boucle et traitement des donnés
+   public function store(Request $request)
+{
+    // Validation dynamique pour tous les hôtels
+    $request->validate([
+        'hotels' => 'required|array',
+        'hotels.*.nom' => 'required|string|max:255',
+        'hotels.*.ville' => 'required|string|max:255',
+        'hotels.*.image' => 'nullable|image|max:2048',
+    ]);
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nom' => 'required',
-            'ville' => 'required',
-            'image' => 'nullable|image|max:2048',
-        ]);
-
+    foreach ($request->hotels as $hotelData) {
         $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('hotels', 'public');
+        if (isset($hotelData['image'])) {
+            $imagePath = $hotelData['image']->store('hotels', 'public');
         }
 
         Hotel::create([
-            'nom' => $request->nom,
-            'ville' => $request->ville,
+            'nom' => $hotelData['nom'],
+            'ville' => $hotelData['ville'],
             'image' => $imagePath,
         ]);
-
-        return redirect()->route('admin.hotels.index')->with('success', 'Hôtel ajouté avec succès !');
     }
+
+    return redirect()->route('admin.hotels.index')->with('success', 'Hôtels ajoutés avec succès !');
+}
 
     public function edit(Hotel $hotel)
     {

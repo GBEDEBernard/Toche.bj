@@ -14,13 +14,53 @@
                     <div class="card-header">
                         <h3 class="card-title">Liste des Tickets</h3>
                     </div>
+                    <div class="card-body">
+    <!-- FILTRE -->
+    <form method="GET" action="{{ route('indextickets') }}" class="mb-4 flex flex-wrap items-center gap-3">
+        <div>
+            <label for="evenement_id" class="font-semibold text-gray-700">Événement :</label>
+            <select name="evenement_id" id="evenement_id" class="border border-gray-300 rounded px-3 py-2">
+                <option value="">Tous</option>
+                @foreach($evenements as $event)
+                    <option value="{{ $event->id }}" {{ request('evenement_id') == $event->id ? 'selected' : '' }}>
+                        {{ $event->nom }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div>
+            <label for="type" class="font-semibold text-gray-700">Type :</label>
+            <select name="type" id="type" class="border border-gray-300 rounded px-3 py-2">
+                <option value="">Tous</option>
+                @foreach($types as $type)
+                    <option value="{{ $type }}" {{ request('type') == $type ? 'selected' : '' }}>
+                        {{ $type }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <button type="submit"
+            class="bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700 transition">
+            🔍 Filtrer
+        </button>
+
+        @if(request()->has('evenement_id') || request()->has('type'))
+            <a href="{{ route('indextickets') }}"
+               class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500 transition">
+                Réinitialiser
+            </a>
+        @endif
+    </form>
+
                      <!-- Action Buttons -->
                      <div class="text-end mb-3 mr-4 mt-4">
                           <a href="{{ route('welcome') }}"
                             class="inline-block px-5 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition">
                                 ← Retour
                             </a>
-                        <a class="shadow  text-xl text-white  italic py-2 px-1 rounded bg-blue-600 border-2 border-solid mr-4 font-bold mb-2" style="text-decoration: none;" href="{{ route('tickets') }}">
+                        <a class="shadow  text-xl text-white  italic py-2 px-1 rounded bg-blue-600 border-2 border-solid mr-4 font-bold mb-2" style="text-decoration: none;" href="{{ route('tickets.create') }}">
                             Ajouter ticket</a>
                         </div>
                     <!-- Card Body -->

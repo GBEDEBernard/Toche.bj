@@ -273,15 +273,18 @@ Route::post('/newsletter', [NewsletterController::class, 'subscribe'])->name('ne
         Route::delete('/{id}', [ReservationsController::class, 'destroy'])->name('admin.reservations.destroy')->middleware('can:reservations.delete');
     });
 
+
+
     // Tickets
-    Route::prefix('Tickets')->middleware(['can:tickets.index'])->group(function () {
-        Route::get('/create', [TicketsController::class, 'create_ticket'])->name('tickets')->middleware('can:tickets.create');
-        Route::post('/create', [TicketsController::class, 'traitement_create_ticket'])->name('tickets.traitement');
-        Route::get('/index', [TicketsController::class, 'ticket'])->name('indextickets');
-        Route::get('/editticket/{id}', [TicketsController::class, 'modifierticket'])->name('tickets.modifier')->middleware('can:tickets.edit');
-        Route::put('/editticket/{id}', [TicketsController::class, 'modificationticket'])->name('tickets.modification')->middleware('can:tickets.edit');
-        Route::delete('/delete/{id}', [TicketsController::class, 'supressionticket'])->name('tickets.supression')->middleware('can:tickets.delete');
-    });
+Route::prefix('Tickets')->middleware(['can:tickets.index'])->group(function () {
+    Route::get('/create', [TicketsController::class, 'Create_ticket'])->name('tickets.create')->middleware('can:tickets.create');
+    Route::post('/create', [TicketsController::class, 'traitement_create_ticket'])->name('tickets.traitement');
+    Route::get('/index', [TicketsController::class, 'ticket'])->name('indextickets');
+    Route::get('/editticket/{id}', [TicketsController::class, 'modifierticket'])->name('tickets.modifier')->middleware('can:tickets.edit');
+    Route::put('/editticket/{id}', [TicketsController::class, 'modificationticket'])->name('tickets.modification')->middleware('can:tickets.edit');
+    Route::delete('/delete/{id}', [TicketsController::class, 'supressionticket'])->name('tickets.supression')->middleware('can:tickets.delete');
+    
+});
 
     // Avis
     Route::prefix('Avis')->middleware(['can:avis.index'])->group(function () {

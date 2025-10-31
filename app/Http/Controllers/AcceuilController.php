@@ -91,8 +91,8 @@ class AcceuilController extends Controller
             'sites' => $sites,
             'evenements' => $evenementsRecherche,
             'isSearch' => true,
-            'faqs' => $faqs,  // ajoute ça directement
-            'prochainEvenement' => $prochainEvenement, // 🧠 la clé manquante !
+            'faqs' => $faqs,  
+            'prochainEvenement' => $prochainEvenement,
             'hotels' => $hotels, 
             'nombre_personnes'=>$nombre_personnes,
             'topItineraires' =>$topItineraires,

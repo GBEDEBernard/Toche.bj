@@ -4,7 +4,7 @@
 <div class="w-full">
     {{-- Banner avec overlay --}}
     <div class="relative h-72 md:h-96">
-        <img src="{{ asset($site->photo) }}" alt="{{ $site->nom }}" class="object-cover w-full h-full">
+        <img src="{{ asset($site->photo) }}" alt="{{ $site->nom }}" class="w-full h-full object-cover hover:opacity-80 transition-all duration-300">
         
         {{-- Overlay sombre pour lisibilité --}}
         <div class="absolute inset-0 bg-black bg-opacity-50"></div>

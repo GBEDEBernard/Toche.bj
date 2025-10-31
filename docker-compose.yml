@@ -11,8 +11,7 @@ services:
       DB_USERNAME: Bernard
       DB_PASSWORD: password
     volumes:
-      - app_storage:/app/storage
-      - app_cache:/app/bootstrap/cache
+      - ./storage:/app/storage
     depends_on:
       - db
 
@@ -29,6 +28,4 @@ services:
       - db_data:/var/lib/mysql
 
 volumes:
-  app_storage:
-  app_cache:
   db_data:

@@ -1,73 +1,76 @@
 @extends('layouts.app')
 
-@section('title', 'Tickets')
+@section('title', 'Création de Tickets')
 
 @section('content')
-<!-- Page Content -->
 <div class="content-wrapper">
     <div class="annonce mb-4 ml-4">
-        <h1>Tickets</h1>
+        <h1 class="text-2xl font-bold text-blue-700">Création de Tickets</h1>
     </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Formulaire de Ticket</h3>
+    <div class="card mx-4 shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title font-semibold">Créer les tickets pour un événement</h3>
+        </div>
+
+        <div class="card-body p-4">
+            <form action="{{ route('tickets.traitement') }}" method="POST">
+                @csrf
+
+                <!-- Choix de l'événement -->
+                <div class="form-group mb-4">
+                    <label for="evenement_id" class="font-semibold">Événement <span class="text-danger">*</span></label>
+                    <select name="evenement_id" id="evenement_id" class="form-control" required>
+                        <option value="">-- Sélectionnez un événement --</option>
+                        @foreach($evenements as $evenement)
+                            <option value="{{ $evenement->id }}">{{ $evenement->nom }}</option>
+                        @endforeach
+                    </select>
                 </div>
-                <div class="card-body p-4">
-                    <p>
-                        Le siège de la plateforme de gestion des tourisriques & évènements du Bénin est situé en face de l'église des
-                        Assemblées de Dieu d'Alègléta, en quittant le Carrefour TOGOUDO(GODOMEY), juste après l'école primaire EPP TOGOUDO.
-                    </p>
 
-                    <p><strong>NB:</strong> Toutes les cages comportant les étoiles <strong class="text-danger">*</strong> sont obligatoires.</p>
+                <!-- Section Tickets -->
+                <div class="grid md:grid-cols-3 gap-4">
+                    <!-- Ticket Standard -->
+                    <div class="border p-4 rounded-lg shadow-sm">
+                        <h4 class="text-blue-600 font-bold text-lg mb-2">Ticket Standard</h4>
 
-                    <form action="{{ route('tickets.traitement') }}" method="post" class="forma">
-                        @csrf
+                        <label class="block font-semibold mt-2">Nombre</label>
+                        <input type="number" name="tickets[standard][nombres]" class="form-control" placeholder="ex: 100" min="0">
 
-                        <div class="form-group mt-3">
-                            <label for="evenement_id" class="font-bold">Choisissez l'événement</label>
-                            <select name="evenement_id" id="evenement_id" class="form-control">
-                                @foreach($evenements as $evenement)
-                                    <option value="{{ $evenement->id }}">{{ $evenement->nom }}</option>
-                                @endforeach
-                            </select>
-                            @error('evenement_id')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
+                        <label class="block font-semibold mt-3">Prix (FCFA)</label>
+                        <input type="number" name="tickets[standard][prix]" class="form-control" placeholder="ex: 2000" min="0">
+                    </div>
 
-                        <div class="form-group mt-3">
-                            <label for="type" class="font-bold">Types <strong class="text-danger">*</strong></label>
-                            <input type="text" name="type" id="type" class="form-control" value="{{ old('type') }}">
-                            @error('type')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
+                    <!-- Ticket Premium -->
+                    <div class="border p-4 rounded-lg shadow-sm">
+                        <h4 class="text-yellow-600 font-bold text-lg mb-2">Ticket Premium</h4>
 
-                        <div class="form-group mt-3">
-                            <label for="nombres" class="font-bold">Nombres <strong class="text-danger">*</strong></label>
-                            <input type="number" name="nombres" id="nombres" class="form-control" value="{{ old('nombres') }}">
-                            @error('nombres')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
+                        <label class="block font-semibold mt-2">Nombre</label>
+                        <input type="number" name="tickets[premium][nombres]" class="form-control" placeholder="ex: 50" min="0">
 
-                        <div class="form-group mt-3">
-                            <label for="prix" class="font-bold">Prix <strong class="text-danger">*</strong></label>
-                            <input type="number" name="prix" id="prix" class="form-control" value="{{ old('prix') }}">
-                            @error('prix')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
+                        <label class="block font-semibold mt-3">Prix (FCFA)</label>
+                        <input type="number" name="tickets[premium][prix]" class="form-control" placeholder="ex: 5000" min="0">
+                    </div>
 
-                        <div class="form-group mt-4">
-                            <button type="submit" class="btn btn-primary">Envoyer</button>
-                        </div>
-                    </form>
+                    <!-- Ticket VIP -->
+                    <div class="border p-4 rounded-lg shadow-sm">
+                        <h4 class="text-red-600 font-bold text-lg mb-2">Ticket VIP</h4>
+
+                        <label class="block font-semibold mt-2">Nombre</label>
+                        <input type="number" name="tickets[vip][nombres]" class="form-control" placeholder="ex: 20" min="0">
+
+                        <label class="block font-semibold mt-3">Prix (FCFA)</label>
+                        <input type="number" name="tickets[vip][prix]" class="form-control" placeholder="ex: 10000" min="0">
+                    </div>
                 </div>
-            </div>
+
+                <!-- Bouton d'envoi -->
+                <div class="text-end mt-5">
+                    <button type="submit" class="btn btn-success px-4 py-2 font-bold">
+                        Enregistrer tous les tickets
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

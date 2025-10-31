@@ -132,12 +132,15 @@ class EvenementsController extends Controller
      * Affiche le formulaire de modification d'un événement.
      */
     public function modifierevenements($id)
+   
     {
-        $data = Evenement::findOrFail($id);
-        $sites = Site_Touristique::all(); // récupère tous les sites
-        return view('editevenement', compact('data', 'sites'));
-    }
-    
+    $data = Evenement::findOrFail($id);
+    $siteActuel = $data->site_touristique; // Site lié à l'événement
+    $tousLesSites = Site_Touristique::all(); // Tous les sites disponibles
+
+    return view('editevenement', compact('data', 'siteActuel', 'tousLesSites'));
+}
+
 
     /**
      * Traite la modification d'un événement existant.
@@ -152,7 +155,7 @@ class EvenementsController extends Controller
             'lieu' => 'required|string|max:255',
             'date' => 'required|date',
             'sponsor' => 'required|string|max:255',
-             'description' => 'required|string|max:65535',
+            'description' => 'required|string|max:65535',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
         ]);
 

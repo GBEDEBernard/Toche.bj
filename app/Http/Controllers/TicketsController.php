@@ -8,57 +8,82 @@ use App\Models\Evenement;
 
 class TicketsController extends Controller
 {
-    // //controller pour la page de create chaques ticket
- public function Create_ticket(){
-    //le controller du clé etranger  qui sont dans ticket
-    // ticket pour l'afficher avec sont compact
-    $evenements=Evenement::all();
-    return view('Admin.Tickets.create', compact('evenements'));
- 
- }
-  //nous allons definir la fonction de notre reservation
-  public function traitement_create_ticket(Request $request){
-   $request->validate([
-      'evenement_id' => 'required|exists:evenements,id',
-      'type' => 'required|string',
-      'nombres' => 'required|integer',
-      'prix' => 'required',
-  ]);
-  
-    
-    $ticket=Ticket::create($request->all());
-    return redirect()->route('indextickets');
-    
- }
-  //Afficher la liste des reservation 
-  public function ticket(){
-        $datas= Ticket::all();  
-    return view('Admin.Tickets.index',compact('datas'));
- }
- //controlleur pour modifier une reservation
- 
- public function modifierticket($id){
-    $data= Ticket::findOrFail($id);
-    
-    return view('editTicket',compact('data'));
- }
- //la fonction de traitement de la page modification  reservation
- public function modificationticket(Request $request ,$id ){
-    $data= Ticket::findOrFail($id);
-    $data->update($request->all());
-    return to_route('indextickets');
- }
- //fonction pour suprimer une ligne dans la liste des reservation
- public function supressionticket($id)
-{
-    $ticket = Ticket::find($id);
-    if (!$ticket) {
-        return back()->with('error', 'Ticket introuvable.');
+    // Affiche le formulaire de création groupée
+    public function Create_ticket()
+    {
+        $evenements = Evenement::all();
+        return view('Admin.Tickets.create', compact('evenements'));
     }
 
-    $ticket->delete();
+    // Traitement du formulaire groupé
+    public function traitement_create_ticket(Request $request)
+    {
+        $request->validate([
+            'evenement_id' => 'required|exists:evenements,id',
+            'tickets' => 'required|array',
+        ]);
 
-    return redirect()->route('indextickets')->with('success', 'Ticket supprimé avec succès.');
+        foreach ($request->tickets as $type => $data) {
+            if (!empty($data['nombres']) && !empty($data['prix'])) {
+                Ticket::create([
+                    'evenement_id' => $request->evenement_id,
+                    'type' => ucfirst($type), // Standard, Premium, VIP
+                    'nombres' => $data['nombres'],
+                    'prix' => $data['prix'],
+                ]);
+            }
+        }
+
+        return redirect()->route('indextickets')->with('success', 'Les tickets ont été enregistrés avec succès 🎟️');
+    }
+
+    // Liste des tickets
+ public function ticket(Request $request)
+{
+    $query = Ticket::with('evenement');
+
+    // Filtrage par événement
+    if ($request->filled('evenement_id')) {
+        $query->where('evenement_id', $request->evenement_id);
+    }
+
+    // Filtrage par type
+    if ($request->filled('type')) {
+        $query->where('type', $request->type);
+    }
+
+    $datas = $query->get();
+    $evenements = \App\Models\Evenement::all();
+    $types = ['Standard', 'Premium', 'VIP']; // tu peux ajouter d’autres types ici
+
+    return view('Admin.Tickets.index', compact('datas', 'evenements', 'types'));
 }
 
+    // Modifier un ticket
+    public function modifierticket($id)
+{
+    $data = Ticket::with('evenement')->findOrFail($id);
+    return view('editTicket', compact('data'));
+}
+
+
+    // Traitement de la modification
+    public function modificationticket(Request $request, $id)
+    {
+        $data = Ticket::findOrFail($id);
+        $data->update($request->all());
+        return redirect()->route('indextickets')->with('success', 'Ticket modifié avec succès.');
+    }
+
+    // Suppression
+    public function supressionticket($id)
+    {
+        $ticket = Ticket::find($id);
+        if (!$ticket) {
+            return back()->with('error', 'Ticket introuvable.');
+        }
+
+        $ticket->delete();
+        return redirect()->route('indextickets')->with('success', 'Ticket supprimé avec succès.');
+    }
 }
